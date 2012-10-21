@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Cake Stand: https://kuler.adobe.com/#themeID/2076092 -->
+    <color name="lightGreen">#B2CFC0</color>
+    <color name="pieRed">#BD4141</color>
+    <color name="pieGreen">#719D98</color>
+    <color name="pieText">#F2E8DF</color>
+    <color name="optimizeButtonBG">#BD4141</color>
+    <color name="optimizeButtonBGclicked">#D97570</color>
+    <color name="optimizeButtonText">#F2E8DF</color>
+
+</resources>
