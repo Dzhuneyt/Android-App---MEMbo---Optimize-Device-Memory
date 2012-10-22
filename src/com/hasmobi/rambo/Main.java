@@ -8,12 +8,12 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,15 +23,13 @@ import android.widget.Toast;
 
 public class Main extends Activity {
 
-	private static final String TAG = "com.hasmobi.rambo MAIN";
-
 	long totalRam = 0, freeRam = 0, percent = 100;
 
 	LinearLayout pieContainer;
 
 	private PieView pie;
 
-	AsyncTask<String, String, Void> freeRamUpdater = null;
+	AsyncTask<String, String, Void> memoryMonitor = null;
 	Context context;
 
 	ActivityManager am;
@@ -44,10 +42,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Remove the window title
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		fullscreen();
 
 		setContentView(R.layout.activity_main);
 
@@ -56,32 +51,54 @@ public class Main extends Activity {
 		am = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
 
-		// Setup the Pie Chart
-		pieContainer = (LinearLayout) findViewById(R.id.pie_container_id);
-		pie = new PieView(this);
-		pieContainer.addView(pie);
+		setPiechart();
 
-		setRamReaders();
+		memoryMonitor = new freeRamUpdater().execute();
 
-		initCore();
+		setStyles();
+
+		Intent i = getIntent();
+		boolean clear_now = i.getBooleanExtra("clear_now", false);
+		if (clear_now) {
+			killBgProcesses();
+			this.finish();
+		}
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onResume() {
+		super.onResume();
+		if(memoryMonitor==null){
+			memoryMonitor = new freeRamUpdater().execute();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
 		// Don't forget to cancel the Free RAM monitor
-		freeRamUpdater.cancel(false);
+		if(memoryMonitor!=null)
+			memoryMonitor.cancel(false);
+		memoryMonitor = null;
+		super.onDestroy();
 	}
 
 	private class freeRamUpdater extends AsyncTask<String, String, Void> {
 
 		TextView tvFree, tvTaken;
+		MemoryInfo mi;
+		long availableMegs;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+
 			tvFree = (TextView) findViewById(R.id.tvFree);
 			tvTaken = (TextView) findViewById(R.id.tvTaken);
+			mi = new MemoryInfo();
+
+			// Reads the total available RAM on the device.
+			// Only needed once. It's run once on the UI thread.
+			readTotalRam();
 		}
 
 		@Override
@@ -89,14 +106,13 @@ public class Main extends Activity {
 
 			while (!isCancelled()) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					break;
 				}
 
-				MemoryInfo mi = new MemoryInfo();
 				am.getMemoryInfo(mi);
-				long availableMegs = (mi.availMem / 1048576L);
+				availableMegs = (mi.availMem / 1048576L);
 				freeRam = availableMegs;
 				percent = ((freeRam * 100) / totalRam);
 
@@ -111,9 +127,33 @@ public class Main extends Activity {
 		@Override
 		protected void onProgressUpdate(String... values) {
 			super.onProgressUpdate(values);
-			redrawChart();
-			tvFree.setText("Free: " + values[0] + " MB (" + values[1] + "%)");
-			tvTaken.setText("Taken: " + (totalRam - freeRam) + " MB");
+
+			pie.setRam(totalRam, freeRam); // Also redraws the pie chart
+
+			if (values[0] != null && values[1] != null) {
+				tvFree.setText("Free: " + values[0] + " MB (" + values[1]
+						+ "%)");
+				tvTaken.setText("Taken: " + (totalRam - freeRam) + " MB");
+			}
+		}
+
+		private void readTotalRam() {
+			int tm = 0; // Total memory
+			final TextView tvTotal = (TextView) findViewById(R.id.tvTotal);
+			try {
+				RandomAccessFile r = new RandomAccessFile("/proc/meminfo", "r");
+				String load = r.readLine();
+				String[] totrm = load.split(" kB");
+				String[] trm = totrm[0].split(" ");
+				tm = Integer.parseInt(trm[trm.length - 1]);
+				tm = Math.round(tm / 1024);
+				totalRam = Long.valueOf(tm);
+				tvTotal.setText("Total RAM: " + String.valueOf(totalRam)
+						+ " MB");
+			} catch (IOException e) {
+				tvTotal.setText("Total RAM: Unable to find");
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -129,7 +169,7 @@ public class Main extends Activity {
 			for (int i = 0; i < excluded.length; i++) {
 				if (pid.processName.equalsIgnoreCase(excluded[i])) {
 					excludeThis = true;
-					Log.d(TAG, "Excluding " + excluded[i] + " from kill list");
+					log("Excluding " + excluded[i] + " from kill list");
 				}
 			}
 
@@ -156,74 +196,58 @@ public class Main extends Activity {
 										.getString(R.string.apps_killed),
 						killCount), Toast.LENGTH_LONG).show();
 
-	}
-
-	public void readTotalRam() {
-		int tm = 0;
-
-		try {
-			RandomAccessFile reader = new RandomAccessFile("/proc/meminfo", "r");
-			String load = reader.readLine();
-			String[] totrm = load.split(" kB");
-			String[] trm = totrm[0].split(" ");
-			tm = Integer.parseInt(trm[trm.length - 1]);
-			tm = Math.round(tm / 1024);
-			totalRam = Long.valueOf(tm);
-			TextView tvTotal = (TextView) findViewById(R.id.tvTotal);
-			tvTotal.setText("Total RAM: " + String.valueOf(totalRam) + " MB");
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(memoryMonitor==null){
+			memoryMonitor = new freeRamUpdater().execute();
 		}
 	}
 
-	// Redraw the Pie Chart for free/total RAM
-	public void redrawChart() {
-		pie.setRam(totalRam, freeRam);
-		// pie.setRam(100, 10);
-		pieContainer.getChildAt(0).invalidate();
+	// Optimize button clicked
+	public void optimizeHandler(final View v) {
+		killBgProcesses();
+
+		((Button) v).setText(getResources().getString(R.string.optimizing));
+		// Simulate a background color change for 300ms
+		v.setBackgroundColor(getResources().getColor(
+				R.color.optimizeButtonBGclicked));
+		v.postDelayed(new Runnable() {
+			public void run() {
+				v.setBackgroundColor(getResources().getColor(
+						R.color.optimizeButtonBG));
+				((Button) v).setText(getResources().getString(
+						R.string.quick_optimize));
+			}
+		}, 300);
 	}
 
-	private void initCore() {
-		Button bGarbage = (Button) findViewById(R.id.bOptimize);
-		bGarbage.setOnClickListener(new OnClickListener() {
-
-			public void onClick(final View v) {
-				killBgProcesses();
-
-				((Button) v).setText(getResources().getString(
-						R.string.optimizing));
-				// Simulate a background color change for 300ms
-				v.setBackgroundColor(getResources().getColor(
-						R.color.optimizeButtonBGclicked));
-				v.postDelayed(new Runnable() {
-					public void run() {
-						v.setBackgroundColor(getResources().getColor(
-								R.color.optimizeButtonBG));
-						((Button) v).setText(getResources().getString(
-								R.string.quick_optimize));
-					}
-				}, 300);
-			}
-
-		});
-
+	private void setStyles() {
 		try {
-			TextView tv = (TextView) findViewById(R.id.appTitle);
-			Typeface face = Typeface.createFromAsset(getAssets(),
+			final TextView tv = (TextView) findViewById(R.id.appTitle);
+			final Button bOptimize = (Button) findViewById(R.id.bOptimize);
+			final Typeface face = Typeface.createFromAsset(getAssets(),
 					"sttransmission_800_extrabold.otf");
 			tv.setTypeface(face);
-			bGarbage.setTypeface(face);
+			bOptimize.setTypeface(face);
 		} catch (Exception e) {
-			Log.d(TAG, "Unable to apply custom fonts");
+			log("Unable to apply custom fonts");
 		}
 	}
 
-	// Set the total and free RAM readers and updaters
-	private void setRamReaders() {
-		// Read the total RAM (only needed once)
-		readTotalRam();
-		// Start a continuous task that will update the free RAM amount
-		freeRamUpdater = new freeRamUpdater().execute();
+	private void setPiechart() {
+		// Setup the Pie Chart
+		pieContainer = (LinearLayout) findViewById(R.id.pie_container_id);
+		pie = new PieView(this);
+		pieContainer.addView(pie);
+	}
+
+	private void fullscreen() {
+		// Remove the window title
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+
+	private void log(String s) {
+		Log.d("com.hasmobi.rambo MAIN", s);
 	}
 
 }

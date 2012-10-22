@@ -79,13 +79,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="center" />
-
-        <Button
+        <Button
             android:id="@+id/bOptimize"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/optimizeButtonBG"
+            android:onClick="optimizeHandler"
             android:text="@string/quick_optimize"
             android:textColor="@color/optimizeButtonText" />
     </LinearLayout>
