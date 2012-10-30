@@ -9,5 +9,6 @@
     <string name="apps_killed">%d Apps Killed</string>
     <string name="quick_optimize">QUICK OPTIMIZE</string>
     <string name="optimizing">OPTIMIZING&#8230;</string>
+    <string name="instant_optimize">Instant Optimize</string>
 
 </resources>

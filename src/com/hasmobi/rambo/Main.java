@@ -6,9 +6,7 @@ import java.io.RandomAccessFile;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -37,6 +34,8 @@ public class Main extends Activity {
 	String[] excluded = { "system_process", "com.hasmobi.rambo",
 			"com.android.phone", "com.android.systemui",
 			"android.process.acore", "com.android.launcher" };
+	
+	RamManager ramManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,7 @@ public class Main extends Activity {
 		setContentView(R.layout.activity_main);
 
 		context = getBaseContext();
+		ramManager = new RamManager(context);
 
 		am = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
@@ -56,13 +56,6 @@ public class Main extends Activity {
 		memoryMonitor = new freeRamUpdater().execute();
 
 		setStyles();
-
-		Intent i = getIntent();
-		boolean clear_now = i.getBooleanExtra("clear_now", false);
-		if (clear_now) {
-			killBgProcesses();
-			this.finish();
-		}
 	}
 
 	@Override
@@ -82,7 +75,7 @@ public class Main extends Activity {
 		super.onDestroy();
 	}
 
-	private class freeRamUpdater extends AsyncTask<String, String, Void> {
+	public class freeRamUpdater extends AsyncTask<String, String, Void> {
 
 		TextView tvFree, tvTaken;
 		MemoryInfo mi;
@@ -158,52 +151,11 @@ public class Main extends Activity {
 
 	}
 
-	private void killBgProcesses() {
-
-		boolean excludeThis = false;
-		int killCount = 0;
-		for (RunningAppProcessInfo pid : am.getRunningAppProcesses()) {
-
-			// Iterate through the excluded list and set excludeThis to true if
-			// the currently iterated process is in that list.
-			for (int i = 0; i < excluded.length; i++) {
-				if (pid.processName.equalsIgnoreCase(excluded[i])) {
-					excludeThis = true;
-					log("Excluding " + excluded[i] + " from kill list");
-				}
-			}
-
-			if (excludeThis == false) {
-				// The running process is not in the exclude list, kill it
-				am.killBackgroundProcesses(pid.processName);
-				killCount++;
-
-			} else {
-				// Reset the exclusion to default for the next active process
-				excludeThis = false;
-			}
-		}
-
-		String toDisplay = getResources().getString(R.string.ram_cleared)
-				+ "\n" + getResources().getString(R.string.apps_killed);
-		toDisplay = String.format(toDisplay, killCount);
-		Toast.makeText(
-				getApplicationContext(),
-				String.format(
-						getResources().getString(R.string.ram_cleared)
-								+ "\n"
-								+ getResources()
-										.getString(R.string.apps_killed),
-						killCount), Toast.LENGTH_LONG).show();
-
-		if(memoryMonitor==null){
-			memoryMonitor = new freeRamUpdater().execute();
-		}
-	}
 
 	// Optimize button clicked
 	public void optimizeHandler(final View v) {
-		killBgProcesses();
+		
+		ramManager.killBgProcesses();
 
 		((Button) v).setText(getResources().getString(R.string.optimizing));
 		// Simulate a background color change for 300ms

@@ -31,7 +31,8 @@
 
         <receiver
             android:name=".Widget"
-            android:label="MyWidget" >
+            android:exported="false"
+            android:label="@string/instant_optimize" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
