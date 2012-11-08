@@ -3,37 +3,25 @@ package com.hasmobi.rambo;
 import java.util.Calendar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 public class Widget extends AppWidgetProvider {
-	
-	public static final String DEBUG_TAG = "RAMBO Widget 1x1";
 
-	// The actions that this broadcast receiver accepts
-	public static final String ACTION_CLEAR_RAM = "ClearRam";
-	public static final String ACTION_UPDATE_WIDGET = "UpdateWidget";
-
-	// This is set once when the widget is loaded for the first time
-	int totalMemory = 0;
-
-	// Helps to free up and get available memory
-	RamManager rm = null;
-
-	// How often should the widget be updated (in minutes)
-	int repeatMinutes = 10;
+	// How often should the widget be updated (in minutes, overwritten by
+	// SharedPreferences value if set below)
+	int widgetsUpdateInterval = 5;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
-		final int N = appWidgetIds.length;
 
 		// These two are populated on each loop instead of being created over
 		// and over to conserve memory.
@@ -41,15 +29,15 @@ public class Widget extends AppWidgetProvider {
 		RemoteViews views;
 
 		// Do this for each instance of this widget
-		for (int i = 0; i < N; i++) {
+		for (int i = 0; i < appWidgetIds.length; i++) {
 			appWidgetId = appWidgetIds[i];
 
 			// Setup layout
 			views = new RemoteViews(context.getPackageName(), R.layout.widget);
 
 			// Setup a PendingIntent that clears the memory when started
-			Intent intent = new Intent(context, Widget.class);
-			intent.setAction(ACTION_CLEAR_RAM);
+			Intent intent = new Intent(context, BroadcastManager.class);
+			intent.setAction(Values.CLEAR_RAM);
 			PendingIntent clearRamIntent = PendingIntent.getBroadcast(context,
 					0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -58,7 +46,7 @@ public class Widget extends AppWidgetProvider {
 
 			// Setup and repeat the update widget procedure
 			Intent updateWidget = new Intent(context, Widget.class);
-			updateWidget.setAction(ACTION_UPDATE_WIDGET);
+			updateWidget.setAction(Values.UPDATE_WIDGETS);
 			PendingIntent updateWidgetIntent = PendingIntent
 					.getBroadcast(context, 0, updateWidget,
 							PendingIntent.FLAG_CANCEL_CURRENT);
@@ -68,9 +56,18 @@ public class Widget extends AppWidgetProvider {
 			TIME.set(Calendar.MINUTE, 0);
 			TIME.set(Calendar.SECOND, 0);
 			TIME.set(Calendar.MILLISECOND, 0);
+
+			try {
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(context);
+				widgetsUpdateInterval = prefs.getInt("widget_update_interval",
+						5);
+			} catch (Exception e) {
+			}
+
 			// The actual repeating task
 			am.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(),
-					1000 * repeatMinutes, updateWidgetIntent);
+					1000 * widgetsUpdateInterval, updateWidgetIntent);
 
 			// Update the widget layout
 			appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -80,33 +77,11 @@ public class Widget extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		final String action = intent.getAction();
-		if (!(rm instanceof RamManager))
-			rm = new RamManager(context);
-
-		if (action.equals(ACTION_CLEAR_RAM)) {
-			// Clear RAM action
-			rm.killBgProcesses();
-
-			// Refresh the UI
-			Intent updateWidget = new Intent(context, Widget.class);
-			updateWidget.setAction(ACTION_UPDATE_WIDGET);
-			PendingIntent updateWidgetIntent = PendingIntent
-					.getBroadcast(context, 0, updateWidget,
-							PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				updateWidgetIntent.send();
-			} catch (CanceledException e) {
-				Log.d(DEBUG_TAG, e.getMessage()); 
-			}
-
-		} else if (action.equals(ACTION_UPDATE_WIDGET)) {
+		if (intent.getAction().equals(Values.UPDATE_WIDGETS)) {
 			// Manual or automatic widget update started
 
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(context);
+			RamManager rm = new RamManager(context);
 
-			// Get the view
 			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
 					R.layout.widget);
 
@@ -115,9 +90,10 @@ public class Widget extends AppWidgetProvider {
 					String.valueOf(rm.getFreeRam() + "/" + rm.getTotalRam()));
 
 			// Trigger widget layout update
-			appWidgetManager.updateAppWidget(new ComponentName(context,
-					Widget.class), remoteViews);
+			AppWidgetManager.getInstance(context).updateAppWidget(
+					new ComponentName(context, Widget.class), remoteViews);
 		}
+
 		super.onReceive(context, intent);
 	}
 

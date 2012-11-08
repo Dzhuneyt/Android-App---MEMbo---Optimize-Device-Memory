@@ -3,11 +3,15 @@ package com.hasmobi.rambo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Map;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Toast;
 
 public class RamManager {
@@ -27,22 +31,31 @@ public class RamManager {
 		mi = new MemoryInfo();
 	}
 
-	private void log(String s) {
-
+	public void killPackage(String packageName) {
+		am.killBackgroundProcesses(packageName);
 	}
 
 	public void killBgProcesses() {
+
+		// Get all apps to exclude from the preferences
+		final SharedPreferences excludedList = context.getSharedPreferences(
+				"excluded_list", 0);
+		final Map<String, ?> appsToExclude = excludedList.getAll();
 
 		boolean excludeThis = false;
 		int killCount = 0;
 		for (RunningAppProcessInfo pid : am.getRunningAppProcesses()) {
 
-			// Iterate through the excluded list and set excludeThis to true if
-			// the currently iterated process is in that list.
-			for (int i = 0; i < excluded.length; i++) {
-				if (pid.processName.equalsIgnoreCase(excluded[i])) {
+			for (Map.Entry<String, ?> entry : appsToExclude.entrySet()) {
+				Log.d("mine", entry.getKey());
+				Log.d("mine", pid.processName);
+				// If process exists in SharedPreferences and it is to be
+				// excluded (value=true)
+				if (pid.processName.equalsIgnoreCase(entry.getKey())
+						&& excludedList.getBoolean(entry.getKey(), false) == true) {
 					excludeThis = true;
-					log("Excluding " + excluded[i] + " from kill list");
+					Log.d(Values.DEBUG_TAG, "Excluding " + entry.getKey()
+							+ " from kill list");
 				}
 			}
 
@@ -50,6 +63,7 @@ public class RamManager {
 				// The running process is not in the exclude list, kill it
 				am.killBackgroundProcesses(pid.processName);
 				killCount++;
+				Log.d(Values.DEBUG_TAG, "Killing " + pid.processName);
 
 			} else {
 				// Reset the exclusion to default for the next active process
@@ -69,6 +83,10 @@ public class RamManager {
 								+ context.getResources().getString(
 										R.string.apps_killed), killCount),
 				Toast.LENGTH_LONG).show();
+
+		Vibrator v = (Vibrator) context
+				.getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(100);
 	}
 
 	public int getFreeRam() {

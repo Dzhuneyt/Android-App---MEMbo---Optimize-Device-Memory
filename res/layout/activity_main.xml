@@ -13,7 +13,8 @@
         ads:adSize="SMART_BANNER"
         ads:adUnitId="a1507c306fdcc36"
         ads:loadAdOnCreate="true"
-        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID" android:visibility="visible"/>
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/appTitle"
@@ -34,7 +35,7 @@
         android:gravity="center_horizontal"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:text="@string/total_ram_0"
+        android:text="@string/loading"
         android:textColor="#666" />
 
     <LinearLayout
@@ -51,7 +52,7 @@
             android:layout_weight="50"
             android:background="@color/pieRed"
             android:gravity="center"
-            android:text="@string/taken_ram_0"
+            android:text="@string/loading"
             android:textColor="@color/pieText" />
 
         <TextView
@@ -62,7 +63,7 @@
             android:layout_weight="50"
             android:background="@color/pieGreen"
             android:gravity="center"
-            android:text="@string/free_ram_0"
+            android:text="@string/loading"
             android:textColor="@color/pieText" />
     </LinearLayout>
 
@@ -76,10 +77,12 @@
             android:id="@+id/pie_container_id"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center" />
-        <Button
+            android:gravity="center" >
+        </LinearLayout>
+
+        <Button
             android:id="@+id/bOptimize"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
