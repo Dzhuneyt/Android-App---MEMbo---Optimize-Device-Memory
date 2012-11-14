@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Loading..."
+        android:text="@string/loading"
         android:background="@color/pieRed"
         android:clickable="true"
         android:textColor="#fff" />
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/pieGreen"
-        android:text="Boost!"
+        android:text="@string/boost"
         android:textColor="#fff"
         android:textSize="15dp" />
 

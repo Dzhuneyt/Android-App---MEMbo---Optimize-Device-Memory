@@ -73,14 +73,22 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/pie_container_id"
+        <FrameLayout
+            android:id="@+id/tmpFrame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center" >
-        </LinearLayout>
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/pie_container_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+            </LinearLayout>
+
+            <TextView android:id="@+id/tvUpdateIntervals" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="20dp" android:background="@color/lightGreen" android:padding="5dp" android:text="Figures updated every 1 second" android:textColor="#666" android:textSize="10dp"/>
+        </FrameLayout>
 
         <Button
             android:id="@+id/bOptimize"

@@ -7,10 +7,9 @@ import android.support.v4.app.NavUtils;
 
 public class AppSettings extends PreferenceActivity {
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onCreate(Bundle b) {
+		super.onCreate(b);
 		addPreferencesFromResource(R.xml.fragmented_preferences);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}

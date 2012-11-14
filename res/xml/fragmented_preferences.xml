@@ -2,25 +2,31 @@
 
     <CheckBoxPreference
         android:key="notification_icon"
-        android:summary="Notification icon to quickly optimize memory"
-        android:title="Show notification bar icon" />
+        android:summary="@string/notification_icon_summary"
+        android:title="@string/notification_icon_title" />
 
     <ListPreference
-        android:dialogTitle="How often should the free memory be updated (seconds)"
+        android:dialogTitle="@string/pie_update_interval_summary"
         android:entries="@array/updateIntervalValues"
         android:entryValues="@array/updateIntervalValues"
         android:key="pie_update_interval"
-        android:summary="How often should the free memory be updated (seconds)"
-        android:title="Piechart Update Interval" >
+        android:summary="@string/pie_update_interval_summary"
+        android:title="@string/pie_update_interval_title" >
     </ListPreference>
     <ListPreference
-        android:dialogTitle="How often should the widgets be updated (minutes)"
+        android:dialogTitle="@string/widget_update_interval_summary"
         android:entries="@array/widgetUpdateIntervals"
         android:entryValues="@array/widgetUpdateIntervals"
         android:key="widget_update_interval"
-        android:summary="How often should the widgets be updated (minutes)"
-        android:title="Widgets Update Interval" >
+        android:summary="@string/widget_update_interval_summary"
+        android:title="@string/widget_update_interval_title" >
     </ListPreference>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="vibrate_after_optimize"
+        android:summary="@string/vibrate_after_optimize_summary"
+        android:title="@string/vibrate_after_optimize_title" />
 
     <!--
     <PreferenceCategory android:title="Another category" >
@@ -40,7 +46,7 @@
         android:key="child_checkbox_preference"
         android:layout="?android:attr/preferenceLayoutChild"
         android:summary="sum"
-        android:title="t" />
+        android:title="t" />
     -->
 
 </PreferenceScreen>

@@ -6,6 +6,6 @@
         android:title="@string/title_activity_settings"/>
       <item
         android:id="@+id/menuRunningProcesses"
-        android:title="@string/title_activity_running_processes"/>
+        android:title="@string/running_processes"/>
 
 </menu>

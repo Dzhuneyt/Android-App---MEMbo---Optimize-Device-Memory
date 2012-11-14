@@ -11,6 +11,7 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,9 +19,6 @@ public class RamManager {
 
 	MemoryInfo mi = null;
 
-	String[] excluded = { "system_process", "com.hasmobi.rambo",
-			"com.android.phone", "com.android.systemui",
-			"android.process.acore", "com.android.launcher" };
 	Context context;
 	ActivityManager am;
 
@@ -33,6 +31,15 @@ public class RamManager {
 
 	public void killPackage(String packageName) {
 		am.killBackgroundProcesses(packageName);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
+		// Vibrate after killing?
+		if (prefs.getBoolean("vibrate_after_optimize", true)) {
+			Vibrator v = (Vibrator) context
+					.getSystemService(Context.VIBRATOR_SERVICE);
+			v.vibrate(100);
+		}
 	}
 
 	public void killBgProcesses() {
@@ -42,13 +49,22 @@ public class RamManager {
 				"excluded_list", 0);
 		final Map<String, ?> appsToExclude = excludedList.getAll();
 
-		boolean excludeThis = false;
 		int killCount = 0;
 		for (RunningAppProcessInfo pid : am.getRunningAppProcesses()) {
+			boolean excludeThis = false;
 
+			if (excludedList.getBoolean(pid.processName, false)) {
+				// App is excluded
+				Log.d(Values.DEBUG_TAG, "Excluding " + pid.processName
+						+ " from kill list");
+			} else {
+				// App not excluded, kill it
+				am.killBackgroundProcesses(pid.processName);
+				killCount++;
+				Log.d(Values.DEBUG_TAG, "Killing " + pid.processName);
+			}
+			/*
 			for (Map.Entry<String, ?> entry : appsToExclude.entrySet()) {
-				Log.d("mine", entry.getKey());
-				Log.d("mine", pid.processName);
 				// If process exists in SharedPreferences and it is to be
 				// excluded (value=true)
 				if (pid.processName.equalsIgnoreCase(entry.getKey())
@@ -69,14 +85,12 @@ public class RamManager {
 				// Reset the exclusion to default for the next active process
 				excludeThis = false;
 			}
+			*/
 		}
 
-		String toDisplay = context.getResources().getString(
-				R.string.ram_cleared)
-				+ "\n" + context.getResources().getString(R.string.apps_killed);
-		toDisplay = String.format(toDisplay, killCount);
+		// Notify user that optimization is completed
 		Toast.makeText(
-				context.getApplicationContext(),
+				context,
 				String.format(
 						context.getResources().getString(R.string.ram_cleared)
 								+ "\n"
@@ -84,9 +98,14 @@ public class RamManager {
 										R.string.apps_killed), killCount),
 				Toast.LENGTH_LONG).show();
 
-		Vibrator v = (Vibrator) context
-				.getSystemService(Context.VIBRATOR_SERVICE);
-		v.vibrate(100);
+		// Should the device vibrate after killing?
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (prefs.getBoolean("vibrate_after_optimize", true)) {
+			Vibrator v = (Vibrator) context
+					.getSystemService(Context.VIBRATOR_SERVICE);
+			v.vibrate(100);
+		}
 	}
 
 	public int getFreeRam() {

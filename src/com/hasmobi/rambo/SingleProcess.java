@@ -1,5 +1,6 @@
 package com.hasmobi.rambo;
 
+import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 
 public class SingleProcess {
@@ -7,11 +8,30 @@ public class SingleProcess {
 	public String name;
 	public boolean whitelisted = false;
 	public Drawable icon;
+	public int memoryUsage;
+	public ApplicationInfo appInfo;
 
 	public SingleProcess(String name, boolean whitelisted, Drawable icon) {
 		this.name = name;
 		this.whitelisted = whitelisted;
 		this.icon = icon;
+	}
+
+	public SingleProcess(String appName, boolean isWhitelisted,
+			Drawable appIcon, int totalMemoryUsage) {
+		this.name = appName;
+		this.whitelisted = isWhitelisted;
+		this.icon = appIcon;
+		this.memoryUsage = totalMemoryUsage;
+	}
+
+	public SingleProcess(ApplicationInfo ai, String appName,
+			boolean isWhitelisted, Drawable appIcon, int totalMemoryUsage) {
+		this.appInfo = ai;
+		this.name = appName;
+		this.whitelisted = isWhitelisted;
+		this.icon = appIcon;
+		this.memoryUsage = totalMemoryUsage;
 	}
 
 	public String getName() {

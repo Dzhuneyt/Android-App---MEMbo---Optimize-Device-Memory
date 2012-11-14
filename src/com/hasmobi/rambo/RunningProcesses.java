@@ -2,10 +2,10 @@ package com.hasmobi.rambo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug.MemoryInfo;
 import android.os.Handler;
 import android.app.ActivityManager;
 import android.app.Dialog;
@@ -18,16 +18,18 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,48 +37,74 @@ import android.widget.Toast;
 public class RunningProcesses extends ListActivity {
 
 	List<ApplicationInfo> packages = null;
+	List<SingleProcess> listOfProcesses;
 
-	// Active process update interval in seconds
-	private int listUpdateInterval = 3;
-
-	PackageManager pm;
+	Context c;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_running_processes_new);
 
+		setContentView(R.layout.activity_running_processes);
+
+		init();
+	}
+
+	protected void init() {
+		// Hide the actionbar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().hide();
 
-		pm = getApplicationContext().getPackageManager();
+		// Get the Activity context
+		c = getBaseContext();
 
-		// Refresh the active process list every N seconds
-		final Handler handler = new Handler();
-		Runnable runnable = new Runnable() {
-			public void run() {
-				setupListView();
-				handler.postDelayed(this, listUpdateInterval * 3000);
-			}
-		};
-		runnable.run();
+		// When nothing to display in the list, just show "Loading..." at first
+		ArrayAdapter<String> loadingAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1,
+				new String[] { "Loading.." });
+		setListAdapter(loadingAdapter);
 
+		setupListView();
+
+		setupFonts();
+
+		setupRefreshButtonListener();
+	}
+
+	protected void setupFonts() {
 		final TextView appTitle = (TextView) findViewById(R.id.appTitle);
 		final Typeface face = Typeface.createFromAsset(getAssets(),
 				"sttransmission_800_extrabold.otf");
 		appTitle.setTypeface(face);
+	}
 
+	private void setupRefreshButtonListener() {
+		// An image/button that will refresh the running processes list
+		ImageView img = (ImageView) findViewById(R.id.bRefreshProcesses);
+		img.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				setupListView();
+			}
+		});
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		if (packages != null) {
+		if (Values.DEBUG_MODE) {
+			Log.d(Values.DEBUG_TAG, "Packages size: " + listOfProcesses.size());
+			Log.d(Values.DEBUG_TAG, "Clicked position: " + (position + 1));
+		}
+
+		if (packages.isEmpty() == false && listOfProcesses.size() > 0
+				&& listOfProcesses.size() >= (position + 1)) {
+			final PackageManager pm = getApplicationContext()
+					.getPackageManager();
+			SingleProcess sp = listOfProcesses.get(position);
+			// final ApplicationInfo fullPackageInfo = packages.get(position);
 			// All the info the system has on the clicked application
-			final ApplicationInfo fullPackageInfo = packages.get(position);
-			final String selectedAppName = (String) pm
-					.getApplicationLabel(fullPackageInfo);
-			final String selectedPackageName = fullPackageInfo.packageName;
+
+			final String selectedAppName = sp.name;
+			final String selectedPackageName = sp.appInfo.packageName;
 
 			// Setup the dialog
 			final Dialog dialog = new Dialog(this);
@@ -86,12 +114,11 @@ public class RunningProcesses extends ListActivity {
 			// Get all whitelisted apps from preferences
 			final SharedPreferences excludedPrefs = getSharedPreferences(
 					Values.EXCLUDED_LIST_FILE, 0);
-			final Map<String, ?> excludedAppsList = excludedPrefs.getAll();
 
 			// Listener when dialog action is picked
-			ListView listProcessActions = (ListView) dialog
+			ListView singleProcessDialogActions = (ListView) dialog
 					.findViewById(R.id.listProcessActions);
-			listProcessActions
+			singleProcessDialogActions
 					.setOnItemClickListener(new OnItemClickListener() {
 
 						public void onItemClick(AdapterView<?> adapter, View v,
@@ -110,15 +137,21 @@ public class RunningProcesses extends ListActivity {
 								break;
 							case 1:
 								// Kill app selected
-								RamManager ramManager = new RamManager(
-										getBaseContext());
-								ramManager.killPackage(selectedPackageName);
+								if (excludedPrefs.getBoolean(
+										selectedPackageName, false)) {
+									// App not in whitelist, kill it
+									RamManager ramManager = new RamManager(c);
+									ramManager.killPackage(selectedPackageName);
 
-								// Notify user that the app is killed
-								toast(getResources().getString(
-										R.string.app_killed));
+									// Notify user that the app is killed
+									toast(getResources().getString(
+											R.string.app_killed));
+								} else {
+									// App in whitelist, do nothing
+									toast(getResources().getString(
+											R.string.cant_kill_whitelisted_app));
+								}
 
-								// Force reload of the list immediately
 								setupListView();
 								break;
 							case 2:
@@ -126,18 +159,23 @@ public class RunningProcesses extends ListActivity {
 								// whitelisted, we remove it from whitelist. If
 								// it is not in whitelist, we add it there.
 								Editor excludedEditor = excludedPrefs.edit();
-								if (excludedAppsList
-										.containsKey(selectedPackageName)) {
+								if (excludedPrefs.getBoolean(
+										selectedPackageName, false)) {
+									// Remove app from Whitelist
 									excludedEditor.remove(selectedPackageName);
 									toast(getResources().getString(
 											R.string.app_whitelist_removed));
 								} else {
+									// Add app to Whitelist
 									excludedEditor.putBoolean(
 											selectedPackageName, true);
 									toast(getResources().getString(
 											R.string.app_whitelisted));
 								}
 								excludedEditor.commit();
+
+								// Force reload of the list immediately
+								setupListView();
 								break;
 							case 3:
 								// Open the AppInfo screen, if supported
@@ -160,97 +198,181 @@ public class RunningProcesses extends ListActivity {
 			// Make to list the dialog options before showing them
 			ArrayList<String> dialogOptions = new ArrayList<String>();
 
-			dialogOptions.add(getResources().getString(R.string.switch_to));
-			dialogOptions.add(getResources().getString(R.string.kill_app));
+			Resources res = getResources();
 
-			if (excludedAppsList.containsKey(selectedPackageName)) {
-				dialogOptions.add(getResources().getString(
-						R.string.remove_from_whitelist));
+			dialogOptions.add(res.getString(R.string.switch_to));
+			dialogOptions.add(res.getString(R.string.kill_app));
+
+			if (excludedPrefs.getBoolean(selectedPackageName, false)) {
+				// App is whitelisted
+				dialogOptions
+						.add(res.getString(R.string.remove_from_whitelist));
 			} else {
-				dialogOptions.add(getResources().getString(
-						R.string.add_to_whitelist));
+				// App is not in whitelist
+				dialogOptions.add(res.getString(R.string.add_to_whitelist));
 			}
 
 			// Add option "Open AppInfo screen"
-			dialogOptions.add(getResources().getString(R.string.app_info));
+			dialogOptions.add(res.getString(R.string.app_info));
 
 			// Show the actions in the dialog
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_list_item_1, android.R.id.text1,
 					dialogOptions);
-			listProcessActions.setAdapter(adapter);
+			singleProcessDialogActions.setAdapter(adapter);
 
 			// Finally, show the dialog
 			dialog.show();
 		} else {
 			// Something went wrong, fail safe
-			toast("Process not found");
+			toast(getResources().getString(R.string.process_not_found));
 		}
 
 		super.onListItemClick(l, v, position, id);
 	}
 
 	private void toast(String message) {
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
 	}
 
-	private void setupListView() {
+	class listUpdater extends AsyncTask<Void, Void, Void> {
 
-		// Remember scroll position and restore to it later
-		ListView thisList = getListView();
-		int index = thisList.getFirstVisiblePosition();
-		View v = thisList.getChildAt(0);
-		int top = (v == null) ? 0 : v.getTop();
+		@Override
+		protected void onPreExecute() {
+			toast(getResources().getString(R.string.updating));
+			if (Values.DEBUG_MODE) {
+				Log.d(Values.DEBUG_TAG, "List updating");
+			}
+			super.onPreExecute();
+		}
 
-		ActivityManager am = (ActivityManager) getBaseContext()
-				.getSystemService(Context.ACTIVITY_SERVICE);
+		@Override
+		protected Void doInBackground(Void... v) {
+			if (isCancelled()) {
+				return null;
+			}
 
-		packages = new ArrayList<ApplicationInfo>();
+			// Get the excluded apps list
+			final SharedPreferences excluded_list = getSharedPreferences(
+					"excluded_list", 0);
+			ActivityManager am = (ActivityManager) c
+					.getSystemService(Context.ACTIVITY_SERVICE);
+			PackageManager pm = c.getPackageManager();
 
-		ApplicationInfo ai = null;
+			// This will hold all processes and their infos
+			packages = new ArrayList<ApplicationInfo>();
+			listOfProcesses = new ArrayList<SingleProcess>();
 
-		SharedPreferences excluded_list = getSharedPreferences("excluded_list",
-				0);
+			ApplicationInfo ai = null;
 
-		List<SingleProcess> listOfProcesses = new ArrayList<SingleProcess>();
+			if (Values.DEBUG_MODE) {
+				Log.d(Values.DEBUG_TAG,
+						"Going through all running processes...");
+			}
 
-		for (RunningAppProcessInfo pid : am.getRunningAppProcesses()) {
-			try {
-				ai = pm.getApplicationInfo(pid.processName, 0);
-			} catch (final NameNotFoundException e) {
-				e.printStackTrace();
-				ai = null;
-			} finally {
-				if (ai != null) {
-					String appName = (String) pm.getApplicationLabel(ai);
-					Drawable appIcon = pm.getApplicationIcon(ai);
-					boolean isWhitelisted = excluded_list.getBoolean(
-							pid.processName, false);
-					listOfProcesses.add(new SingleProcess(appName,
-							isWhitelisted, appIcon));
-
-					packages.add(ai);
-					ai = null;
+			List<RunningAppProcessInfo> runningProcesses = am
+					.getRunningAppProcesses();
+			if (runningProcesses.size() == 0) {
+				// Something went wrong, start a new AsyncTask
+				if (Values.DEBUG_MODE) {
+					Log.d(Values.DEBUG_TAG,
+							"No running processes found. Restarting AsyncTask.");
 				}
+				new listUpdater().execute();
+				this.cancel(true);
+				return null;
+			} else {
+				// There are some running processes
+				for (RunningAppProcessInfo pid : runningProcesses) {
+					if (Values.DEBUG_MODE) {
+						Log.d(Values.DEBUG_TAG, "PID: " + pid.pid
+								+ " - Process: " + pid.processName);
+					}
+					ai = null; // Fail safe
+					try {
+						// Get all the information the system has on this app
+						ai = pm.getApplicationInfo(pid.processName, 0);
+					} catch (NameNotFoundException e) {
+						// Can't get app details
+						Log.d(Values.DEBUG_TAG, e.getMessage());
+						ai = null;
+					}
+
+					if (ai != null) {
+						int totalMemoryUsage = 0;
+						try {
+							MemoryInfo memoryInfoArray = am
+									.getProcessMemoryInfo(new int[] { pid.pid })[0];
+							// Calculate total memory used by the app
+							totalMemoryUsage = memoryInfoArray.nativePss
+									+ memoryInfoArray.nativePrivateDirty
+									+ memoryInfoArray.nativeSharedDirty;
+						} catch (Exception e) {
+							e.printStackTrace();
+							Log.d(Values.DEBUG_TAG,
+									"Unable to get memory usage for "
+											+ ai.packageName);
+						}
+						// Get the localized app name
+						String appName = (String) pm.getApplicationLabel(ai);
+						// Get app icon
+						Drawable appIcon = pm.getApplicationIcon(ai);
+						// Is the app in the do-not-kill list
+						boolean isWhitelisted = excluded_list.getBoolean(
+								ai.packageName, false);
+
+						// Add the app info to the array adapter
+						listOfProcesses.add(new SingleProcess(ai, appName,
+								isWhitelisted, appIcon, totalMemoryUsage));
+						packages.add(ai);
+					}
+
+				}
+				if (Values.DEBUG_MODE) {
+					Log.d(Values.DEBUG_TAG, "End of active processes list");
+					Log.d(Values.DEBUG_TAG, "Currently active processes: "
+							+ listOfProcesses.size());
+				}
+				return null;
 			}
 		}
 
-		// Convert the list to an ArrayAdapter
-		// ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		// android.R.layout.simple_list_item_1, android.R.id.text1,
-		// packageNames);
+		@Override
+		protected void onPostExecute(Void r) {
+			// Remember scrolled position
+			ListView thisList = getListView();
+			int index = thisList.getFirstVisiblePosition();
+			View v = thisList.getChildAt(0);
+			int top = (v == null) ? 0 : v.getTop();
 
-		setListAdapter(new ActiveProcessAdapter(this, listOfProcesses));
+			if (listOfProcesses.size() == 0) {
+				toast(getResources().getString(R.string.no_running_processes));
+			} else {
+				// Populate the list
+				setListAdapter(new ActiveProcessAdapter(RunningProcesses.this,
+						listOfProcesses));
 
-		// Restore exact scroll position from memory
-		thisList.setSelectionFromTop(index, top);
+				// Restore scroll position
+				thisList.setSelectionFromTop(index, top);
+
+				if (Values.DEBUG_MODE) {
+					Log.d(Values.DEBUG_TAG, "List updated");
+				}
+				toast(getResources().getString(R.string.list_updated));
+			}
+
+		}
+
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_running_processes_list, menu);
-		return true;
+	private void setupListView() {
+		// Start an AsyncTask to update the list
+		new listUpdater().execute();
+	}
+
+	public void goHome(View v) {
+		NavUtils.navigateUpFromSameTask(this);
+		finish();
 	}
 
 	@Override
@@ -258,31 +380,10 @@ public class RunningProcesses extends ListActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	// A class that holds each active process object for easier iteration
-	public class Process {
-		public Drawable icon;
-		public String name;
-		public String packageName;
-
-		public Process() {
-			super();
-		}
-
-		public Process(String name, Drawable icon) {
-			this.icon = icon;
-			this.name = name;
-		}
-
-		public Process(String packageName, String name, Drawable icon) {
-			this.packageName = packageName;
-			this.icon = icon;
-			this.name = name;
-		}
 	}
 
 }

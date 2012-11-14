@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -82,6 +83,21 @@ public class Main extends Activity {
 			}
 		}.start();
 
+		TextView tvUpdateIntervalMessage = (TextView) findViewById(R.id.tvUpdateIntervals);
+		int updateInterval = 1;
+		try {
+			updateInterval = Integer.valueOf(prefs.getString(
+					"pie_update_interval", "1"));
+			String set = getResources().getQuantityString(
+					R.plurals.ram_update_intervals, updateInterval,
+					updateInterval);
+			tvUpdateIntervalMessage.setText(set);
+		} catch (Exception e) {
+			tvUpdateIntervalMessage.setVisibility(View.GONE);
+			log("Can't find update interval. ");
+			log("Update interval: " + updateInterval);
+		}
+
 		if (memoryMonitor == null) {
 			memoryMonitor = new freeRamUpdater().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, "");
@@ -108,48 +124,102 @@ public class Main extends Activity {
 		Button bOpenMarket = (Button) remindDialog
 				.findViewById(R.id.bOpenMarket);
 		TextView tvHidePermanently = (TextView) remindDialog
-				.findViewById(R.id.tvRemingHidePermanently);
-		bOpenMarket.setOnClickListener(new OnClickListener() {
+				.findViewById(R.id.tvRemindHidePermanently);
 
+		class ButtonListener implements OnClickListener {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				remindDialog.dismiss();
+				switch (v.getId()) {
+				case R.id.tvRemindHidePermanently:
+					// Close the dialog
+					remindDialog.dismiss();
+
+					// Remember option to never display the Rate Reminder dialog
+					SharedPreferences.Editor prefs = PreferenceManager
+							.getDefaultSharedPreferences(context).edit();
+					prefs.putBoolean("already_rated_app", true);
+					prefs.commit();
+					break;
+				case R.id.bOpenMarket:
+					// Close the dialog
+					remindDialog.dismiss();
+
+					Uri uri = Uri.parse("market://details?id="
+							+ getApplicationContext().getPackageName());
+					Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+					try {
+						// If Google Play app is installed
+						startActivity(goToMarket);
+					} catch (Exception e) {
+						try {
+							// Alternatively, open it in the browser
+							startActivity(new Intent(
+									Intent.ACTION_VIEW,
+									Uri.parse("https://play.google.com/store/apps/details?id="
+											+ getApplicationContext()
+													.getPackageName())));
+						} catch (Exception ex) {
+							// Can't even open regular URLs in browser
+							Log.d(Values.DEBUG_TAG, "Can't start browser");
+						}
+					}
+					break;
+				}
 			}
+		}
 
-		});
-		tvHidePermanently.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				remindDialog.dismiss();
-			}
-
-		});
+		bOpenMarket.setOnClickListener(new ButtonListener());
+		tvHidePermanently.setOnClickListener(new ButtonListener());
 		remindDialog.show();
+
+	}
+
+	// Show a Welcome dialog with instructions
+	private void welcomeDialog() {
+		final Dialog d = new Dialog(this);
+		d.setTitle(getResources().getString(R.string.welcome_dialog_title));
+		d.setContentView(R.layout.dialog_welcome);
+		d.show();
+
+		// Close the dialog on Close button click
+		Button bClose = (Button) d.findViewById(R.id.bClose);
+		bClose.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				d.dismiss();
+			}
+		});
 	}
 
 	private void appStartLogger() {
+		if (Values.DEBUG_MODE) {
+			welcomeDialog(); // TODO remove this
+		}
 		SharedPreferences.Editor prefsEditor = prefs.edit();
 		int appStartCount = prefs.getInt("app_start_count", 1);
 		Log.d(Values.DEBUG_TAG, "App started " + appStartCount + " times");
 		if (appStartCount == 1) {
-			// App first start, insert some default whitelist system apps
+			// Initial core apps whitelist
 			String[] defaultExcluded = { "system_process", "com.hasmobi.rambo",
 					"com.android.phone", "com.android.systemui",
 					"android.process.acore", "com.android.launcher" };
 			SharedPreferences.Editor excludedList = getSharedPreferences(
 					"excluded_list", 0).edit();
-			// Clear any previous whitelisted apps
-			excludedList.clear();
 			for (int i = 0; i + 1 < defaultExcluded.length; i++) {
-				// Iterate through the list and add each system app to the
-				// whitelist SharedPreferences file.
+				// Put them in SharedPreferences
 				excludedList.putBoolean(defaultExcluded[i], true);
 			}
 			excludedList.commit();
 			Log.d(Values.DEBUG_TAG, "Default exclude list populated");
-		} else if (appStartCount == 15 || appStartCount == 50
-				|| Values.DEBUG_MODE) {
+
+			welcomeDialog(); // First start instructions
+		}
+
+		// If the app is started 15 times (or every 50th time from there on) and
+		// the user has not choosed to permanently hide the rate reminder dialog
+		// - show it
+		if ((appStartCount == 15 || appStartCount % 50 == 0)
+				&& prefs.getBoolean("already_rated_app", false) == false) {
+			// Remind the user to give 5 stars on the 15th start and every 50th
+			// start later on
 			remindRateDialog();
 		}
 
@@ -266,14 +336,6 @@ public class Main extends Activity {
 									+ e.getMessage());
 				}
 
-				try {
-					Thread.sleep(1000 * updateInterval);
-				} catch (InterruptedException e) {
-					Log.d(Values.DEBUG_TAG,
-							"Can't sleep. Reason: " + e.getMessage());
-					return null;
-				}
-
 				ActivityManager am = (ActivityManager) context
 						.getSystemService(Context.ACTIVITY_SERVICE);
 				am.getMemoryInfo(mi);
@@ -284,6 +346,14 @@ public class Main extends Activity {
 				// Push progress to UI
 				publishProgress(String.valueOf(availableMegs),
 						String.valueOf(percent));
+
+				try {
+					Thread.sleep(1000 * updateInterval);
+				} catch (InterruptedException e) {
+					Log.d(Values.DEBUG_TAG,
+							"Can't sleep. Reason: " + e.getMessage());
+					return null;
+				}
 
 			}
 			return null;
