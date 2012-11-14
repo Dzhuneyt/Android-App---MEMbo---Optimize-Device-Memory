@@ -12,5 +12,5 @@ public abstract class Values {
 	public static final String CLEAR_RAM = "ClearRam";
 	public static final String UPDATE_WIDGETS = "UpdateWidgets";
 
-	public static final Boolean DEBUG_MODE = true;
+	public static final Boolean DEBUG_MODE = false;
 }

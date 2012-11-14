@@ -21,7 +21,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -371,7 +370,9 @@ public class RunningProcesses extends ListActivity {
 	}
 
 	public void goHome(View v) {
-		NavUtils.navigateUpFromSameTask(this);
+		Intent i = new Intent(c, Main.class);
+		startActivity(i);
+		// NavUtils.navigateUpFromSameTask(this);
 		finish();
 	}
 
@@ -379,7 +380,9 @@ public class RunningProcesses extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			// NavUtils.navigateUpFromSameTask(this);
+			Intent i = new Intent(c, Main.class);
+			startActivity(i);
 			finish();
 			return true;
 		}
