@@ -51,9 +51,7 @@
             android:layout_gravity="center"
             android:layout_weight="50"
             android:background="@color/pieRed"
-            android:gravity="center"
-            android:text="@string/loading"
-            android:textColor="@color/pieText" />
+            android:gravity="center" android:maxLines="1" android:text="@string/loading" android:textColor="@color/pieText"/>
 
         <TextView
             android:id="@+id/tvFree"
@@ -62,9 +60,7 @@
             android:layout_gravity="center"
             android:layout_weight="50"
             android:background="@color/pieGreen"
-            android:gravity="center"
-            android:text="@string/loading"
-            android:textColor="@color/pieText" />
+            android:gravity="center" android:maxLines="1" android:text="@string/loading" android:textColor="@color/pieText"/>
     </LinearLayout>
 
     <LinearLayout

@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -377,9 +378,12 @@ public class Main extends Activity {
 			pie.setRam(totalRam, freeRam); // Also redraws the pie chart
 
 			if (values[0] != null && values[1] != null) {
-				tvFree.setText("Free: " + values[0] + " MB (" + values[1]
-						+ "%)");
-				tvTaken.setText("Taken: " + (totalRam - freeRam) + " MB");
+				Resources res = getResources();
+				tvFree.setText(res.getString(R.string.free) + " " + values[0]
+						+ " MB (" + values[1] + "%)");
+				tvTaken.setText(res.getString(R.string.taken) + " "
+						+ (totalRam - freeRam) + " MB ("
+						+ (100 - Integer.valueOf(values[1])) + "%)");
 			} else {
 				Log.d(Values.DEBUG_TAG,
 						"Free or Total RAM not set at the moment");
@@ -392,8 +396,8 @@ public class Main extends Activity {
 			final TextView tvTotal = (TextView) findViewById(R.id.tvTotal);
 			try {
 				totalRam = ramManager.getTotalRam();
-				tvTotal.setText("Total RAM: " + String.valueOf(totalRam)
-						+ " MB");
+				tvTotal.setText(getResources().getString(R.string.total) + " "
+						+ String.valueOf(totalRam) + " MB");
 				Log.d(Values.DEBUG_TAG, "Total RAM found and set.");
 			} catch (Exception e) {
 				tvTotal.setText("Total RAM: Unable to find");

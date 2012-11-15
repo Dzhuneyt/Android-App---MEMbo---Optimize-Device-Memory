@@ -58,5 +58,10 @@
     <string name="widget_update_interval_summary">How often should the widgets be updated (minutes)</string>
     <string name="vibrate_after_optimize_title">Vibration Notification</string>
     <string name="vibrate_after_optimize_summary">Vibrate after memory optimization</string>
+    
+    <!-- Added in version code 6 -->
+    <string name="free">Free:</string>
+    <string name="taken">Taken:</string>
+    <string name="total">Total RAM:</string>
 
 </resources>

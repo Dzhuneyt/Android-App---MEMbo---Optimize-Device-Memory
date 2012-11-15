@@ -1,0 +1,68 @@
+<resources>
+
+    <string name="app_name">"RAM-бо"</string>
+    <string name="menu_settings">"Настройки"</string>
+    <string name="total_ram_0">"Всего RAM: 0"</string>
+    <string name="free_ram_0">"Бесплатные RAM: 0"</string>
+    <string name="taken_ram_0">"Взятые RAM: 0"</string>
+    <string name="ram_cleared">"Оптимизация памяти завершения."</string>
+    <string name="apps_killed">"%d приложения погиб"</string>
+    <string name="quick_optimize">"Быстрый OPTIMIZE"</string>
+    <string name="optimizing">"ОПТИМИЗАЦИЯ ..."</string>
+    <string name="instant_optimize">"Мгновенная оптимизация"</string>
+    <string name="title_activity_settings">"Настройки"</string>
+    <string name="loading">"загрузки..."</string>
+    <string name="boost">"Повысить!"</string>
+    <string name="switch_to">"Переключиться на..."</string>
+    <string name="kill_app">"Убить приложения"</string>
+    <string name="remove_from_whitelist">"Удалить из белого"</string>
+    <string name="add_to_whitelist">"Белый приложений"</string>
+    <string name="app_info">"Информация о приложении"</string>
+    <string name="app_killed">"Погиб приложения"</string>
+    <string name="app_whitelisted">"Приложения добавлены в белый список"</string>
+    <string name="app_whitelist_removed">"Приложение удаляется из белого"</string>
+    <string name="background_only_app">"Это только фон приложения. Он не имеет пользовательского интерфейса."</string>
+    <string name="cant_kill_whitelisted_app">"Не могу убить белого списка приложений. Удалите ее из белого в первую очередь."</string>
+    <string name="process_not_found">"Процесс не найден"</string>
+    <string name="no_running_processes">"Не удается получить запущенных процессах. Попробуйте обновить."</string>
+    <string name="updating">"Обновление…"</string>
+    <string name="list_updated">"Список обновляется"</string>
+    <string name="close">"ЗАКРЫТЬ"</string>
+
+    <plurals name="ram_update_intervals">
+        <item quantity="one">"Обновления каждый второй"</item>
+        <item quantity="other">"Обновления каждые %d секунд"</item>
+    </plurals>
+
+    <!-- First start Welcome dialog -->
+    <string name="welcome_dialog_title">"Руководство"</string>
+    <string name="welcome_dialog_text">"Добро пожаловать в Рэмбо. Вот краткое введение в особенности: \n\n1.Pie Chart - Показывает, сколько свободной памяти в устройстве. Нажмите на круговую диаграмму, чтобы увидеть список запущенных процессов. Длительное нажатие на каждый процесс для большего количества вариантов, в том числе белый вариант (который предотвращает приложения от гибели).\n\n2.Tap \"QUICK OPTIMIZE\", чтобы закрыть фон приложений и свободной памяти вверх. (ПРИМЕЧАНИЕ: белый список приложений не будет закрыт)\n\n3. Нажмите кнопку Меню, чтобы показать больше вариантов, включая экран настройки."</string>
+
+    <!-- Remind to rate dialog follows -->
+    <string name="remind_rate_dialog_title">"Оценить приложение"</string>
+    <string name="remind_rate_dialog_content">"Вы начали этим приложением %s раз. \n\nВаше поддержка очень много значит. Это побуждает нас к выпуску новые функции и обновления. \n\nЕсли Вам нравится это приложение, пожалуйста, оцените его с 5 звезд на Google Play.
+"</string>
+    <string name="open_market">"Открытое Google Play"</string>
+    <string name="already_rated">"Уже оценили. Никогда не показывать снова."</string>
+
+    <!-- Notification strings below -->
+    <string name="notification_text">"Мгновенно закрывает фон программах"</string>
+    <string name="notification_title">"Нажмите, чтобы оптимизировать оперативную память"</string>
+    <string name="running_processes">"Запущенные процессы"</string>
+
+    <!-- Settings Activity -->
+    <string name="notification_icon_title">"Показать панель уведомлений значок"</string>
+    <string name="notification_icon_summary">"Уведомление значок, чтобы быстро оптимизировать оперативную память"</string>
+    <string name="pie_update_interval_title">"PieChart Интервал обновления"</string>
+    <string name="pie_update_interval_summary">"Как часто следует освободить память обновляется (в секундах)"</string>
+    <string name="widget_update_interval_title">"Виджеты Интервал обновления"</string>
+    <string name="widget_update_interval_summary">"Как часто нужно обновлять виджеты (в минутах)"</string>
+    <string name="vibrate_after_optimize_title">"Вибрация уведомления"</string>
+    <string name="vibrate_after_optimize_summary">"Вибрация после оптимизации памяти"</string>
+
+    <!-- Added in version code 6 -->
+    <string name="free">Бесплатно:</string>
+    <string name="taken">Взятый:</string>
+    <string name="total">Всего RAM:</string>
+
+</resources>
