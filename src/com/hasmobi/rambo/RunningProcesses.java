@@ -138,6 +138,10 @@ public class RunningProcesses extends ListActivity {
 								// Kill app selected
 								if (excludedPrefs.getBoolean(
 										selectedPackageName, false)) {
+									// App in whitelist, do nothing
+									toast(getResources().getString(
+											R.string.cant_kill_whitelisted_app));
+								} else {
 									// App not in whitelist, kill it
 									RamManager ramManager = new RamManager(c);
 									ramManager.killPackage(selectedPackageName);
@@ -145,10 +149,6 @@ public class RunningProcesses extends ListActivity {
 									// Notify user that the app is killed
 									toast(getResources().getString(
 											R.string.app_killed));
-								} else {
-									// App in whitelist, do nothing
-									toast(getResources().getString(
-											R.string.cant_kill_whitelisted_app));
 								}
 
 								setupListView();

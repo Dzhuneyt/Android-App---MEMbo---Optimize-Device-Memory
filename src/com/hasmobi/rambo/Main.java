@@ -84,25 +84,33 @@ public class Main extends Activity {
 		}.start();
 
 		TextView tvUpdateIntervalMessage = (TextView) findViewById(R.id.tvUpdateIntervals);
-		int updateInterval = 1;
-		try {
-			updateInterval = Integer.valueOf(prefs.getString(
-					"pie_update_interval", "1"));
-			String set = getResources().getQuantityString(
-					R.plurals.ram_update_intervals, updateInterval,
-					updateInterval);
-			tvUpdateIntervalMessage.setText(set);
-		} catch (Exception e) {
-			tvUpdateIntervalMessage.setVisibility(View.GONE);
-			log("Can't find update interval. ");
-			log("Update interval: " + updateInterval);
+
+		if (tvUpdateIntervalMessage == null) {
+			log("Can't find view that holds the update intervals.");
+		} else {
+			int updateInterval = 1;
+			try {
+				updateInterval = Integer.valueOf(prefs.getString(
+						"pie_update_interval", "1"));
+				String set = getResources().getQuantityString(
+						R.plurals.ram_update_intervals, updateInterval,
+						updateInterval);
+				tvUpdateIntervalMessage.setText(set);
+			} catch (Exception e) {
+				log("Can't find update interval. Resolved value: "
+						+ updateInterval);
+			}
 		}
 
 		if (memoryMonitor == null) {
 			memoryMonitor = new freeRamUpdater().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, "");
 		} else {
-			memoryMonitor.cancel(true);
+			if (memoryMonitor instanceof freeRamUpdater
+					|| memoryMonitor instanceof AsyncTask) {
+				// Cancel any existsing async tasks
+				memoryMonitor.cancel(true);
+			}
 			memoryMonitor = new freeRamUpdater().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, "");
 		}
@@ -191,7 +199,7 @@ public class Main extends Activity {
 
 	private void appStartLogger() {
 		if (Values.DEBUG_MODE) {
-			welcomeDialog(); // TODO remove this
+			welcomeDialog();
 		}
 		SharedPreferences.Editor prefsEditor = prefs.edit();
 		int appStartCount = prefs.getInt("app_start_count", 1);
@@ -216,6 +224,9 @@ public class Main extends Activity {
 		// If the app is started 15 times (or every 50th time from there on) and
 		// the user has not choosed to permanently hide the rate reminder dialog
 		// - show it
+		if (Values.DEBUG_MODE) {
+			remindRateDialog();
+		}
 		if ((appStartCount == 15 || appStartCount % 50 == 0)
 				&& prefs.getBoolean("already_rated_app", false) == false) {
 			// Remind the user to give 5 stars on the 15th start and every 50th
