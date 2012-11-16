@@ -48,7 +48,12 @@ public class Main extends Activity {
 
 		setContentView(R.layout.activity_main);
 
-		getActionBar().hide();
+		try {
+			getActionBar().hide();
+		} catch (Exception e) {
+			log("Can't hide action bar");
+			log(e.getMessage());
+		}
 
 		context = getBaseContext();
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -84,23 +89,27 @@ public class Main extends Activity {
 			}
 		}.start();
 
-		TextView tvUpdateIntervalMessage = (TextView) findViewById(R.id.tvUpdateIntervals);
+		try {
+			TextView tvUpdateIntervalMessage = (TextView) findViewById(R.id.tvUpdateIntervals);
 
-		if (tvUpdateIntervalMessage == null) {
-			log("Can't find view that holds the update intervals.");
-		} else {
-			int updateInterval = 1;
-			try {
-				updateInterval = Integer.valueOf(prefs.getString(
-						"pie_update_interval", "1"));
-				String set = getResources().getQuantityString(
-						R.plurals.ram_update_intervals, updateInterval,
-						updateInterval);
-				tvUpdateIntervalMessage.setText(set);
-			} catch (Exception e) {
-				log("Can't find update interval. Resolved value: "
-						+ updateInterval);
+			if (tvUpdateIntervalMessage == null) {
+				log("Can't find view that holds the update intervals.");
+			} else {
+				int updateInterval = 1;
+				try {
+					updateInterval = Integer.valueOf(prefs.getString(
+							"pie_update_interval", "1"));
+					String set = getResources().getQuantityString(
+							R.plurals.ram_update_intervals, updateInterval,
+							updateInterval);
+					tvUpdateIntervalMessage.setText(set);
+				} catch (Exception e) {
+					log("Can't find update interval. Resolved value: "
+							+ updateInterval);
+				}
 			}
+		} catch (Exception e) {
+			log(e.getMessage());
 		}
 
 		if (memoryMonitor == null) {
@@ -117,6 +126,11 @@ public class Main extends Activity {
 		}
 
 		appStartLogger();
+	}
+
+	public void openSettings(View v) {
+		Intent i = new Intent(context, AppSettings.class);
+		startActivity(i);
 	}
 
 	private void remindRateDialog() {
@@ -441,6 +455,7 @@ public class Main extends Activity {
 			log("Custom styles applied");
 		} catch (Exception e) {
 			log("Unable to apply custom fonts");
+			log(e.getMessage());
 		}
 	}
 
@@ -451,8 +466,7 @@ public class Main extends Activity {
 		pie.setClickable(true);
 		pie.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent running = new Intent(context, RunningProcesses.class);
-				startActivity(running);
+				startActivity(new Intent(context, RunningProcesses.class));
 				log("Pie clicked");
 			}
 		});

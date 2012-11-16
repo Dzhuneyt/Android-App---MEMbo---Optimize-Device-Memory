@@ -56,7 +56,7 @@
             android:background="@color/pieText"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/mainFrame"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -66,12 +66,24 @@
 
                 <LinearLayout
                     android:id="@+id/pie_container_id"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center" >
                 </LinearLayout>
-            </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/bSettings"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|right"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/menu_settings"
+                    android:onClick="openSettings"
+                    android:src="@drawable/settings" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tvTotal"

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug.MemoryInfo;
-import android.os.Handler;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.ListActivity;

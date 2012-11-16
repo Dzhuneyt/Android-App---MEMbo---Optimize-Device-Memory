@@ -16,16 +16,32 @@
         ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/appTitle"
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:text="@string/app_name"
-        android:textSize="40dp" >
-    </TextView>
+        android:background="#fff" >
+
+        <TextView
+            android:id="@+id/appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:text="@string/app_name"
+            android:textSize="40dp" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/bSettings"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/menu_settings"
+            android:onClick="openSettings"
+            android:src="@drawable/settings" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tvTotal"
@@ -51,7 +67,13 @@
             android:layout_gravity="center"
             android:layout_weight="50"
             android:background="@color/pieRed"
-            android:gravity="center" android:maxLines="1" android:text="@string/loading" android:textColor="@color/pieText"/>
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/loading"
+            android:textColor="@color/pieText"
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/tvFree"
@@ -60,7 +82,13 @@
             android:layout_gravity="center"
             android:layout_weight="50"
             android:background="@color/pieGreen"
-            android:gravity="center" android:maxLines="1" android:text="@string/loading" android:textColor="@color/pieText"/>
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/loading"
+            android:textColor="@color/pieText"
+            android:textSize="12dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +98,6 @@
         android:orientation="vertical" >
 
         <FrameLayout
-            android:id="@+id/tmpFrame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -82,9 +109,17 @@
                 android:layout_height="match_parent"
                 android:gravity="center" >
             </LinearLayout>
-
-            <TextView android:id="@+id/tvUpdateIntervals" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="20dp" android:background="@color/lightGreen" android:padding="5dp" android:text="Figures updated every 1 second" android:textColor="#666" android:textSize="10dp"/>
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvUpdateIntervals"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightGreen"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="#666"
+            android:textSize="10dp" />
 
         <Button
             android:id="@+id/bOptimize"
