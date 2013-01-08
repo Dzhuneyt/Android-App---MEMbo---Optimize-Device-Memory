@@ -1,9 +1,11 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.utils;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Typeface;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:onClick="onClick"
             android:paddingTop="10dp"
             android:text="@string/app_name"
             android:textSize="40dp" >
@@ -33,9 +35,9 @@
 
         <ImageView
             android:id="@+id/bSettings"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right|center"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="right|center_vertical"
             android:layout_marginRight="10dp"
             android:clickable="true"
             android:contentDescription="@string/menu_settings"
@@ -49,10 +51,11 @@
         android:layout_height="wrap_content"
         android:background="@color/lightGreen"
         android:gravity="center_horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
         android:text="@string/loading"
-        android:textColor="#666" />
+        android:textColor="#666"
+        android:textSize="@dimen/ram_figures" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -69,11 +72,11 @@
             android:background="@color/pieRed"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
             android:text="@string/loading"
             android:textColor="@color/pieText"
-            android:textSize="12dp" />
+            android:textSize="@dimen/ram_figures" />
 
         <TextView
             android:id="@+id/tvFree"
@@ -84,11 +87,11 @@
             android:background="@color/pieGreen"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
             android:text="@string/loading"
             android:textColor="@color/pieText"
-            android:textSize="12dp" />
+            android:textSize="@dimen/ram_figures" />
     </LinearLayout>
 
     <LinearLayout
@@ -111,23 +114,14 @@
             </LinearLayout>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tvUpdateIntervals"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/lightGreen"
-            android:gravity="center_horizontal"
-            android:padding="5dp"
-            android:textColor="#666"
-            android:textSize="10dp" />
-
         <Button
             android:id="@+id/bOptimize"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/optimizeButtonBG"
-            android:onClick="optimizeHandler"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="@string/quick_optimize"
             android:textColor="@color/optimizeButtonText" />
     </LinearLayout>

@@ -1,6 +1,10 @@
 package com.hasmobi.rambo;
 
 import java.util.Calendar;
+
+import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.Values;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

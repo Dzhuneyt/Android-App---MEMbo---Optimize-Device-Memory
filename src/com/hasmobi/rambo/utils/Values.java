@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.utils;
 
 public abstract class Values {
 
@@ -11,6 +11,10 @@ public abstract class Values {
 	// Intent actions to used mainly by the Widgets and BroadcastReceivers
 	public static final String CLEAR_RAM = "ClearRam";
 	public static final String UPDATE_WIDGETS = "UpdateWidgets";
+	
+	public static final int notificationID = 10001;
 
 	public static final Boolean DEBUG_MODE = false;
+
+	public static final String FEEDBACK_EMAIL = "feedback@hasmobi.com";
 }

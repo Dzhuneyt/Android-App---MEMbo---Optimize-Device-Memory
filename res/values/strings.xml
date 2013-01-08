@@ -64,4 +64,13 @@
     <string name="taken">Taken:</string>
     <string name="total">Total RAM:</string>
 
+    <!-- Added in version code 7 -->
+    <string name="update_app">Update App</string>
+    <string name="feedback">Feedback</string>
+    <string name="no_email_app">No email app found</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_start">RAMbo</string>
+    <string name="tap_on_pie_for_running_processes">Tap on the pie to see all running processes</string>
+    <string name="title_activity_about">About</string>
+
 </resources>

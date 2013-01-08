@@ -4,8 +4,14 @@
     <item
         android:id="@+id/menuSettings"
         android:title="@string/title_activity_settings"/>
-      <item
+    <item
         android:id="@+id/menuRunningProcesses"
         android:title="@string/running_processes"/>
+    <item
+        android:id="@+id/menuUpdateApp"
+        android:title="@string/update_app"/>
+    <item
+        android:id="@+id/menuFeedback"
+        android:title="@string/feedback"/>
 
 </menu>

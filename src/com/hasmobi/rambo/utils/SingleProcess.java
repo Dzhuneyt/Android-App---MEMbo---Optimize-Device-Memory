@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.utils;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;

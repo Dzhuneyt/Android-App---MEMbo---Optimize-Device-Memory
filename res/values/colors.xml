@@ -9,5 +9,8 @@
     <color name="optimizeButtonBG">#BD4141</color>
     <color name="optimizeButtonBGclicked">#D97570</color>
     <color name="optimizeButtonText">#F2E8DF</color>
+    
+    <!-- Start Activity colors -->
+    <color name="startA_item_title">#BD4141</color>
 
 </resources>

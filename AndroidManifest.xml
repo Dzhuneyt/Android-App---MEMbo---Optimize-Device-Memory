@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hasmobi.rambo"
-    android:versionCode="6"
-    android:versionName="1.5" >
+    android:versionCode="7"
+    android:versionName="1.6" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -17,13 +17,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Main"
-            android:label="@string/app_name" >
+            android:name=".StartActivity"
+            android:label="@string/title_activity_start" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".PieActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.google.ads.AdActivity"
@@ -44,18 +48,25 @@
         <receiver android:name=".BroadcastManager" />
 
         <activity
-            android:name=".AppSettings"
+            android:name=".ConfigActivity"
             android:label="@string/title_activity_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hasmobi.rambo.Main" />
+                android:value="com.hasmobi.rambo.StartActivity" />
         </activity>
         <activity
-            android:name=".RunningProcesses"
+            android:name=".ProcessesActivity"
             android:label="@string/running_processes" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hasmobi.rambo.Main" />
+                android:value="com.hasmobi.rambo.StartActivity" />
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hasmobi.rambo.StartActivity" />
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -47,56 +48,28 @@ public class RamManager {
 		// Get all apps to exclude from the preferences
 		final SharedPreferences excludedList = context.getSharedPreferences(
 				"excluded_list", 0);
-		final Map<String, ?> appsToExclude = excludedList.getAll();
 
 		int killCount = 0;
+
 		for (RunningAppProcessInfo pid : am.getRunningAppProcesses()) {
-			boolean excludeThis = false;
 
 			if (excludedList.getBoolean(pid.processName, false)) {
-				// App is excluded
-				Log.d(Values.DEBUG_TAG, "Excluding " + pid.processName
-						+ " from kill list");
+				// Process whitelisted, don't kill
+				Log.d(Values.DEBUG_TAG, pid.processName + " [EXCLUDE]");
 			} else {
-				// App not excluded, kill it
+				// Kill process
 				am.killBackgroundProcesses(pid.processName);
 				killCount++;
-				Log.d(Values.DEBUG_TAG, "Killing " + pid.processName);
+				Log.d(Values.DEBUG_TAG, pid.processName + "[KILLING]");
 			}
-			/*
-			for (Map.Entry<String, ?> entry : appsToExclude.entrySet()) {
-				// If process exists in SharedPreferences and it is to be
-				// excluded (value=true)
-				if (pid.processName.equalsIgnoreCase(entry.getKey())
-						&& excludedList.getBoolean(entry.getKey(), false) == true) {
-					excludeThis = true;
-					Log.d(Values.DEBUG_TAG, "Excluding " + entry.getKey()
-							+ " from kill list");
-				}
-			}
-
-			if (excludeThis == false) {
-				// The running process is not in the exclude list, kill it
-				am.killBackgroundProcesses(pid.processName);
-				killCount++;
-				Log.d(Values.DEBUG_TAG, "Killing " + pid.processName);
-
-			} else {
-				// Reset the exclusion to default for the next active process
-				excludeThis = false;
-			}
-			*/
 		}
 
 		// Notify user that optimization is completed
-		Toast.makeText(
-				context,
-				String.format(
-						context.getResources().getString(R.string.ram_cleared)
-								+ "\n"
-								+ context.getResources().getString(
-										R.string.apps_killed), killCount),
-				Toast.LENGTH_LONG).show();
+		Resources res = context.getResources();
+		String toDisplay = res.getString(R.string.ram_cleared) + "\n"
+				+ res.getString(R.string.apps_killed);
+		toDisplay = String.format(toDisplay, killCount);
+		Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
 
 		// Should the device vibrate after killing?
 		SharedPreferences prefs = PreferenceManager

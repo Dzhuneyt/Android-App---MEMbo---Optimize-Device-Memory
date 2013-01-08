@@ -13,10 +13,10 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="loading">Зареждане&#8230;</string>
     <string name="boost">Изчисти!</string>
-    <string name="switch_to">Премини към&#8230;</string>
+    <string name="switch_to">Отвори</string>
     <string name="kill_app">Затвори приложение</string>
-    <string name="remove_from_whitelist">Премахмни от "бял списък"</string>
-    <string name="add_to_whitelist">Добави към "бял списък"</string>
+    <string name="remove_from_whitelist">Премахни от изключения</string>
+    <string name="add_to_whitelist">Добави към изключения</string>
     <string name="app_info">Инфо за приложение</string>
     <string name="app_killed">Приложението е затворено</string>
     <string name="app_whitelisted">Добавено към "бял списък"</string>

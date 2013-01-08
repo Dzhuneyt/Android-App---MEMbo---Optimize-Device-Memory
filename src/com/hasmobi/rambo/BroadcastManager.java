@@ -1,5 +1,8 @@
 package com.hasmobi.rambo;
 
+import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.Values;
+
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.BroadcastReceiver;
@@ -16,13 +19,16 @@ public class BroadcastManager extends BroadcastReceiver {
 			if (action.equalsIgnoreCase(Values.CLEAR_RAM)) {
 				RamManager rm = new RamManager(context);
 				rm.killBgProcesses();
-				Log.d(Values.DEBUG_TAG,
-						"Broadcast received and memory cleared.");
+				log("Broadcast received and memory cleared.");
 			}
 		}
 
 		refreshWidgets(context);
 
+	}
+
+	private void log(String s) {
+		Log.d(Values.DEBUG_TAG, s);
 	}
 
 	private void refreshWidgets(Context context) {
@@ -33,9 +39,9 @@ public class BroadcastManager extends BroadcastReceiver {
 				0, updateWidget, PendingIntent.FLAG_CANCEL_CURRENT);
 		try {
 			updateWidgetIntent.send();
-			Log.d(Values.DEBUG_TAG, "Widgets update called.");
+			log("Widgets update called.");
 		} catch (CanceledException e) {
-			Log.d(Values.DEBUG_TAG, e.getMessage());
+			log(e.getMessage());
 		}
 	}
 
