@@ -1,11 +1,10 @@
 package com.hasmobi.rambo;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.hasmobi.rambo.utils.ActiveProcessAdapter;
+import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.SingleProcess;
 import com.hasmobi.rambo.utils.Values;
@@ -31,6 +30,7 @@ import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -419,19 +419,9 @@ public class ProcessesActivity extends ListActivity {
 	}
 
 	/**
-	 * Go to the welcome activity
-	 * 
-	 * @param v
-	 *            - unused
+	 * Go to the start activity
 	 */
 	public void goHome(View v) {
-		_goHome();
-	}
-
-	/**
-	 * Helper for the goHome() method
-	 */
-	private void _goHome() {
 		Intent i = new Intent(c, StartActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(i);
@@ -439,14 +429,36 @@ public class ProcessesActivity extends ListActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_main, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+
+		FeedbackManager fm = new FeedbackManager(c);
+
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			// NavUtils.navigateUpFromSameTask(this);
-			_goHome();
-			return true;
+		case R.id.menuSettings:
+			Intent i = new Intent(c, ConfigActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			startActivity(i);
+			break;
+		case R.id.menuUpdateApp:
+			fm.goToGooglePlay();
+			break;
+		case R.id.menuFeedback:
+			fm.feedbackDialog();
+			break;
+		case R.id.menuQuit:
+			finish();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 }

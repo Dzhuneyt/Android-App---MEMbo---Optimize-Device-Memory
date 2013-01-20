@@ -9,30 +9,30 @@
     <FrameLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#fff" >
 
         <TextView
             android:id="@+id/appTitle"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:background="#fff"
+            android:layout_gravity="center_horizontal"
             android:clickable="true"
-            android:gravity="center_horizontal"
             android:onClick="goHome"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/padding_medium"
             android:text="@string/app_name"
-            android:textSize="40dp" >
+            android:textSize="@dimen/apptitle" >
         </TextView>
-
+
         <ImageView
             android:id="@+id/bRefreshProcesses"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/icon_logoright"
+            android:layout_height="@dimen/icon_logoright"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/padding_medium"
             android:clickable="true"
+            android:contentDescription="@string/reload"
             android:src="@drawable/reload" />
-
     </FrameLayout>
 
     <FrameLayout
@@ -44,10 +44,11 @@
             android:layout_height="wrap_content"
             android:background="@color/lightGreen"
             android:gravity="center_horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
             android:text="@string/running_processes"
-            android:textColor="#666" />
+            android:textColor="@color/subheader"
+            android:textSize="@dimen/ram_figures" />
     </FrameLayout>
 
     <LinearLayout

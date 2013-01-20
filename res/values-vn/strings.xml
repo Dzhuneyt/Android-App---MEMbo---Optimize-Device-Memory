@@ -40,7 +40,7 @@
 
     <!-- Remind to rate dialog follows -->
     <string name="remind_rate_dialog_title">"Tỷ lệ này App"</string>
-    <string name="remind_rate_dialog_content">"Bạn đã bắt đầu thời gian này ứng dụng %s \n\nThời gian sử dụng hỗ trợ rất có ý nghĩa. Nó thúc đẩy chúng ta phát hành tính năng mát mới và cập nhật. \n\nNếu bạn tận hưởng ứng dụng này, xin vui lòng đánh giá nó với 5 sao trên Google Play.
+    <string name="remind_rate_dialog_content">"Thời gian sử dụng hỗ trợ rất có ý nghĩa. Nó thúc đẩy chúng ta phát hành tính năng mát mới và cập nhật. \n\nNếu bạn tận hưởng ứng dụng này, xin vui lòng đánh giá nó với 5 sao trên Google Play.
 "</string>
     <string name="open_market">"Mở Google Play"</string>
     <string name="already_rated">"Đánh giá cao. Không bao giờ hiển thị một lần nữa."</string>

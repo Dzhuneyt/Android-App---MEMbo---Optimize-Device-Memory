@@ -12,5 +12,8 @@
     
     <!-- Start Activity colors -->
     <color name="startA_item_title">#BD4141</color>
+    
+    <!-- Running processes activity -->
+    <color name="subheader">#666666</color>
 
 </resources>

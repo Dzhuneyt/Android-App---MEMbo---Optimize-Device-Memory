@@ -1,23 +1,17 @@
 package com.hasmobi.rambo;
 
+import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.PieView;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.Values;
 
 import android.app.Activity;
-import android.app.ActivityManager.MemoryInfo;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +42,7 @@ public class PieActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_pie);
 
 		try {
 			getActionBar().hide();
@@ -81,74 +74,7 @@ public class PieActivity extends Activity implements OnClickListener {
 		Intent i = new Intent(context, ConfigActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(i);
-	}
-
-	private void remindRateDialog() {
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		final Dialog remindDialog = new Dialog(this);
-		remindDialog.setTitle(R.string.remind_rate_dialog_title);
-		remindDialog.setContentView(R.layout.dialog_remind_to_rate);
-		TextView tvStartCount = (TextView) remindDialog
-				.findViewById(R.id.tvRemindStartCount);
-		String dialogContents = res(R.string.remind_rate_dialog_content);
-		dialogContents = String.format(dialogContents,
-				prefs.getInt("app_start_count", 1));
-		tvStartCount.setText(dialogContents);
-		Button bOpenMarket = (Button) remindDialog
-				.findViewById(R.id.bOpenMarket);
-		TextView tvHidePermanently = (TextView) remindDialog
-				.findViewById(R.id.tvRemindHidePermanently);
-
-		class ButtonListener implements OnClickListener {
-			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.tvRemindHidePermanently:
-					// Close the dialog
-					remindDialog.dismiss();
-
-					// Remember option to never display the Rate Reminder dialog
-					SharedPreferences.Editor prefs = PreferenceManager
-							.getDefaultSharedPreferences(context).edit();
-					prefs.putBoolean("already_rated_app", true);
-					prefs.commit();
-					break;
-				case R.id.bOpenMarket:
-					// Close the dialog
-					remindDialog.dismiss();
-
-					goToGooglePlay();
-					break;
-				}
-			}
-		}
-
-		bOpenMarket.setOnClickListener(new ButtonListener());
-		tvHidePermanently.setOnClickListener(new ButtonListener());
-		remindDialog.show();
-
-	}
-
-	private void goToGooglePlay() {
-		Uri uri = Uri.parse("market://details?id="
-				+ getApplicationContext().getPackageName());
-		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-		try {
-			// If Google Play app is installed
-			startActivity(goToMarket);
-		} catch (Exception e) {
-			try {
-				// Alternatively, open it in the browser
-				startActivity(new Intent(
-						Intent.ACTION_VIEW,
-						Uri.parse("https://play.google.com/store/apps/details?id="
-								+ getApplicationContext().getPackageName())));
-			} catch (Exception ex) {
-				// Can't even open regular URLs in browser
-				Log.d(Values.DEBUG_TAG, "Can't start browser");
-			}
-		}
+		finish();
 	}
 
 	// Show a Welcome dialog with instructions
@@ -172,42 +98,28 @@ public class PieActivity extends Activity implements OnClickListener {
 	 */
 	private void appStartLogger() {
 		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final SharedPreferences.Editor prefsEditor = prefs.edit();
+				.getDefaultSharedPreferences(context);
 
 		// Get how much times the app is started
-		int appStartCount = 1;
-		boolean appAlreadyRated = false;
+		int activityStartCount = 1;
 
 		try {
-			appStartCount = (int) prefs.getInt("app_start_count", 1);
+			activityStartCount = prefs.getInt("pie_start_count", 1);
 		} catch (ClassCastException e) {
 		} finally {
-			if (appStartCount == 1) {
+			if (activityStartCount == 1) {
 				appFirstStart();
 			} else {
 				Toast.makeText(context,
 						res(R.string.tap_on_pie_for_running_processes),
 						Toast.LENGTH_LONG).show();
 			}
-			log("App started " + appStartCount + " times");
+			log("Pie activity started " + activityStartCount + " times");
 		}
-
-		try {
-			appAlreadyRated = prefs.getBoolean("already_rated_app", false);
-		} catch (ClassCastException e) {
-		} finally {
-			if ((appStartCount == 15 || appStartCount % 50 == 0)
-					&& !appAlreadyRated)
-				remindRateDialog();
-		}
-
-		// Remind the user to rate for the app in Google Play if the app is
-		// started exactly 15 times and every 50th start. (unless
-		// "Don't show this anymore" is choosed)
 
 		// Increase app start count by one
-		prefsEditor.putInt("app_start_count", appStartCount + 1);
+		final SharedPreferences.Editor prefsEditor = prefs.edit();
+		prefsEditor.putInt("pie_start_count", activityStartCount + 1);
 		prefsEditor.commit();
 	}
 
@@ -280,7 +192,7 @@ public class PieActivity extends Activity implements OnClickListener {
 		handler = new Handler();
 		r = new Runnable() {
 			public void run() {
-				new freeRamUpdater().execute();
+				new freeRamUpdater();
 				handler.postDelayed(r, updateInterval);
 			}
 		};
@@ -330,41 +242,6 @@ public class PieActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * Feedback was chosen from the options menu. Opens the default email client
-	 * and populates app version and recepient's email.
-	 */
-	private void feedbackDialog() {
-		String versionName = "n/a";
-		int versionCode = 0;
-		try {
-			final PackageInfo v = getPackageManager().getPackageInfo(
-					getPackageName(), 0);
-			versionName = v.versionName;
-			versionCode = v.versionCode;
-		} catch (NameNotFoundException e) {
-			log("Can't find app version name and code for feedback.");
-		}
-		final String receivers[] = { Values.FEEDBACK_EMAIL };
-		final String emailSubject = "Feedback for RAMbo";
-		final String emailBody = "App version " + versionName + " ("
-				+ versionCode + ")\n";
-		final Intent emailIntent = new Intent(
-				android.content.Intent.ACTION_SEND);
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, receivers);
-		emailIntent.setType("plain/text");
-		emailIntent
-				.putExtra(android.content.Intent.EXTRA_SUBJECT, emailSubject);
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailBody);
-		try {
-			startActivity(Intent.createChooser(emailIntent, getResources()
-					.getString(R.string.feedback)));
-		} catch (Exception e) {
-			toast(res(R.string.no_email_app));
-			log("Can't find email client for feedback");
-		}
-	}
-
-	/**
 	 * Apply custom fonts
 	 */
 	private void fonts() {
@@ -386,26 +263,20 @@ public class PieActivity extends Activity implements OnClickListener {
 	 * Setup the Pie chart
 	 */
 	private void setPiechart() {
-		final LinearLayout pieContainer = (LinearLayout) findViewById(R.id.pie_container_id);
-		pie = new PieView(this);
-		pie.setClickable(true);
+		pie = (PieView) findViewById(R.id.pie);
 		pie.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(context, ProcessesActivity.class));
+				Intent i = new Intent(context, ProcessesActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				startActivity(i);
 				log("Pie clicked");
 			}
 		});
-		pieContainer.removeAllViews();
-		pieContainer.addView(pie);
 		log("Pie setup completed");
 	}
 
 	private void log(String s) {
 		Log.d(Values.DEBUG_TAG, s);
-	}
-
-	private void toast(String message) {
-		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -416,19 +287,24 @@ public class PieActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
+		// Handle menu item selection
+
+		FeedbackManager fm = new FeedbackManager(context);
+
 		switch (item.getItemId()) {
 		case R.id.menuSettings:
-			startActivity(new Intent(this, ConfigActivity.class));
-			break;
-		case R.id.menuRunningProcesses:
-			startActivity(new Intent(this, ProcessesActivity.class));
+			Intent i = new Intent(context, ConfigActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			startActivity(i);
 			break;
 		case R.id.menuUpdateApp:
-			goToGooglePlay();
+			fm.goToGooglePlay();
 			break;
 		case R.id.menuFeedback:
-			feedbackDialog();
+			fm.feedbackDialog();
+			break;
+		case R.id.menuQuit:
+			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -446,6 +322,10 @@ public class PieActivity extends Activity implements OnClickListener {
 	protected class freeRamUpdater extends AsyncTask<String, String, Void> {
 
 		long availableMegs, percent = 100;
+
+		public freeRamUpdater() {
+			this.execute();
+		}
 
 		@Override
 		protected void onPreExecute() {
@@ -481,7 +361,7 @@ public class PieActivity extends Activity implements OnClickListener {
 				log("Free and Total RAM set");
 			} else {
 				log("Free or Total RAM not set at the moment");
-				new freeRamUpdater().execute();
+				new freeRamUpdater();
 			}
 
 		}

@@ -40,7 +40,7 @@
 
     <!-- Remind to rate dialog follows -->
     <string name="remind_rate_dialog_title">Оценете RAMbo</string>
-    <string name="remind_rate_dialog_content">Стартирате това приложения %s пъти.\n\nВашата подкрепа означава много за нас. Тя ни мотивира да разработваме нови функции и обновления.\n\nАко приложението ви харесва, моля оценете го с 5 звезди в Google Play.</string>
+    <string name="remind_rate_dialog_content">Вашата подкрепа означава много за нас. Тя ни мотивира да разработваме нови функции и обновления.\n\nАко приложението ви харесва, моля оценете го с 5 звезди в Google Play.</string>
     <string name="open_market">Отвори Google Play</string>
     <string name="already_rated">Вече гласувах. Не показвай това съобщение повече.</string>
 
@@ -63,5 +63,20 @@
     <string name="free">Свободна:</string>
     <string name="taken">Заета:</string>
     <string name="total">Общо RAM:</string>
+    
+    <!-- Added in version code 7 -->
+    <string name="update_app">Обнови приложението</string>
+    <string name="feedback">Дайте ни съвет</string>
+    <string name="no_email_app">Не е открито приложение за email</string>
+    <string name="tap_on_pie_for_running_processes">Изберете "пицата" за още опции</string>
+    <string name="memoryclearedamount">Спестена памет: %dMB</string>
+    <string name="aboutText">RAMbo Управление на Паметта %s</string>
+    <string name="aboutTextBody">RAMbo is a free software, provided "AS IS".\nIf you have any questions, don\'t hesitate to contact the author at feedback@hasmobi.com\n\n\u00A9 2013 hasMobi.com</string>
+    <string name="reload">Обнови</string>
+    <string name="memory_management">Управление на паметта</string>
+    <string name="settings">Настройки</string>
+    <string name="about">Относно</string>
+    <string name="quit">Изход</string>
+    
 
 </resources>

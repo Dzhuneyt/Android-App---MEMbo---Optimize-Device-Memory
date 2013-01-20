@@ -1,8 +1,23 @@
 <resources>
+    
+    <!-- regular dimens -->
 
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="ram_figures">14dp</dimen>
+    <dimen name="apptitle">40dp</dimen>
+    <dimen name="icon_logoright">35dp</dimen>
+    
+    <!-- Start activity -->
+    <dimen name="big_action_title">23dp</dimen>
+    <dimen name="big_action_icon">80dp</dimen>
+    
+    <!-- Pie activity -->
+    <dimen name="optimize_button">20dp</dimen>
+    
+    <!-- Running processes -->
+    <dimen name="single_process_title">20dp</dimen>
+    <dimen name="single_process_memory">18dp</dimen>
 
 </resources>

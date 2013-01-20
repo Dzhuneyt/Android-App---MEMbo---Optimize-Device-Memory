@@ -3,15 +3,14 @@
 
     <item
         android:id="@+id/menuSettings"
-        android:title="@string/title_activity_settings"/>
-    <item
-        android:id="@+id/menuRunningProcesses"
-        android:title="@string/running_processes"/>
+        android:title="@string/settings"/>
     <item
         android:id="@+id/menuUpdateApp"
         android:title="@string/update_app"/>
     <item
         android:id="@+id/menuFeedback"
         android:title="@string/feedback"/>
-
-</menu>
+    <item
+        android:id="@+id/menuQuit"
+        android:title="@string/quit"/>
+</menu>

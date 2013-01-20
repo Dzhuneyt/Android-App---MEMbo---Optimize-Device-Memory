@@ -17,4 +17,6 @@ public abstract class Values {
 	public static final Boolean DEBUG_MODE = false;
 
 	public static final String FEEDBACK_EMAIL = "feedback@hasmobi.com";
+	
+	public static final int REMIND_RATE_EVERY_N_START = 15;
 }

@@ -40,7 +40,7 @@
 
     <!-- Remind to rate dialog follows -->
     <string name="remind_rate_dialog_title">"Оценить приложение"</string>
-    <string name="remind_rate_dialog_content">"Вы начали этим приложением %s раз. \n\nВаше поддержка очень много значит. Это побуждает нас к выпуску новые функции и обновления. \n\nЕсли Вам нравится это приложение, пожалуйста, оцените его с 5 звезд на Google Play.
+    <string name="remind_rate_dialog_content">"Ваше поддержка очень много значит. Это побуждает нас к выпуску новые функции и обновления. \n\nЕсли Вам нравится это приложение, пожалуйста, оцените его с 5 звезд на Google Play.
 "</string>
     <string name="open_market">"Открытое Google Play"</string>
     <string name="already_rated">"Уже оценили. Никогда не показывать снова."</string>

@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pieText"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/allExceptAds"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff" >
+
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:paddingTop="@dimen/padding_medium"
+                android:text="@string/app_name"
+                android:textSize="@dimen/apptitle" />
+
+            <ImageView
+                android:id="@+id/bSettings"
+                android:layout_width="@dimen/icon_logoright"
+                android:layout_height="@dimen/icon_logoright"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="@dimen/padding_medium"
+                android:clickable="true"
+                android:contentDescription="@string/menu_settings"
+                android:onClick="openSettings"
+                android:src="@drawable/settings" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightGreen"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:text="@string/loading"
+            android:textColor="#666"
+            android:textSize="@dimen/ram_figures" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tvTaken"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="50"
+                android:background="@color/pieRed"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingTop="@dimen/padding_small"
+                android:text="@string/loading"
+                android:textColor="@color/pieText"
+                android:textSize="@dimen/ram_figures" />
+
+            <TextView
+                android:id="@+id/tvFree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="50"
+                android:background="@color/pieGreen"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingTop="@dimen/padding_small"
+                android:text="@string/loading"
+                android:textColor="@color/pieText"
+                android:textSize="@dimen/ram_figures" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mainFrame"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1" >
+
+                <LinearLayout
+                    android:id="@+id/pie_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <com.hasmobi.rambo.utils.PieView
+                        android:id="@+id/pie"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true" >
+                    </com.hasmobi.rambo.utils.PieView>
+                </LinearLayout>
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/bOptimize"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/optimizeButtonBG"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:padding="@dimen/padding_large"
+                android:text="@string/quick_optimize"
+                android:textColor="@color/optimizeButtonText"
+                android:textSize="@dimen/optimize_button" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="a1507c306fdcc36"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+        android:background="#00000000"
+        android:visibility="visible" />
+
+</LinearLayout>

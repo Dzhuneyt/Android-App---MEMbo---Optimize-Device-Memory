@@ -14,9 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/padding_medium"
             android:text="@string/app_name"
-            android:textSize="40dp" >
+            android:textSize="@dimen/apptitle" >
         </TextView>
     </FrameLayout>
 
@@ -24,13 +24,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/lightGreen"
-        android:orientation="vertical"
-        android:weightSum="100" >
+        android:orientation="vertical" android:padding="@dimen/padding_medium" android:weightSum="100">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="50" >
+            android:layout_weight="50"
+            android:baselineAligned="false" >
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -41,9 +41,10 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="@dimen/big_action_icon"
+                    android:layout_height="@dimen/big_action_icon"
+                    android:layout_marginBottom="@dimen/padding_medium"
+                    android:contentDescription="@string/memory_management"
                     android:src="@drawable/black_pie" />
 
                 <TextView
@@ -52,9 +53,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:lines="2"
-                    android:text="Memory Management"
+                    android:text="@string/memory_management"
                     android:textColor="@color/startA_item_title"
-                    android:textSize="23dp" />
+                    android:textSize="@dimen/big_action_title" />
             </LinearLayout>
 
             <LinearLayout
@@ -66,9 +67,10 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="@dimen/big_action_icon"
+                    android:layout_height="@dimen/big_action_icon"
+                    android:layout_marginBottom="@dimen/padding_medium"
+                    android:contentDescription="@string/running_processes"
                     android:src="@drawable/black_apps" />
 
                 <TextView
@@ -77,16 +79,17 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:lines="2"
-                    android:text="Running Processes"
+                    android:text="@string/running_processes"
                     android:textColor="@color/startA_item_title"
-                    android:textSize="23dp" />
+                    android:textSize="@dimen/big_action_title" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="50" >
+            android:layout_weight="50"
+            android:baselineAligned="false" >
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -97,9 +100,10 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="@dimen/big_action_icon"
+                    android:layout_height="@dimen/big_action_icon"
+                    android:layout_marginBottom="@dimen/padding_medium"
+                    android:contentDescription="@string/settings"
                     android:onClick="openSettings"
                     android:src="@drawable/black_wrench" />
 
@@ -110,23 +114,25 @@
                     android:gravity="center_horizontal"
                     android:lines="2"
                     android:onClick="openSettings"
-                    android:text="Settings"
+                    android:text="@string/settings"
                     android:textColor="@color/startA_item_title"
-                    android:textSize="23dp" />
+                    android:textSize="@dimen/big_action_title" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="50"
+                android:contentDescription="@string/about"
                 android:gravity="center"
                 android:onClick="openAbout"
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="@dimen/big_action_icon"
+                    android:layout_height="@dimen/big_action_icon"
+                    android:layout_marginBottom="@dimen/padding_medium"
+                    android:contentDescription="@string/about"
                     android:onClick="openAbout"
                     android:src="@drawable/black_questionmark" />
 
@@ -137,9 +143,9 @@
                     android:gravity="center_horizontal"
                     android:lines="2"
                     android:onClick="openAbout"
-                    android:text="About"
+                    android:text="@string/about"
                     android:textColor="@color/startA_item_title"
-                    android:textSize="23dp" />
+                    android:textSize="@dimen/big_action_title" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

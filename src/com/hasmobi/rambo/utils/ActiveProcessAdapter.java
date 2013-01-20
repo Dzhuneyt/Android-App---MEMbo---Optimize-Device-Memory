@@ -3,9 +3,9 @@ package com.hasmobi.rambo.utils;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import com.hasmobi.rambo.R;
+
 import android.app.Activity;
-import android.graphics.Typeface;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +54,7 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 		}
 
 		// Get the process data
-		SingleProcess currentApp = (SingleProcess) objects.get(position);
+		SingleProcess currentApp = objects.get(position);
 
 		// Transfer the data to the view
 		sqView.name.setText(currentApp.name); // App name
