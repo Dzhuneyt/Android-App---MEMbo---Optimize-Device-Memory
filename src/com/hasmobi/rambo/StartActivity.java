@@ -206,7 +206,7 @@ public class StartActivity extends Activity {
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		boolean displayIcon = prefs.getBoolean("notification_icon", false);
+		boolean displayIcon = prefs.getBoolean("notification_icon", true);
 
 		if (displayIcon) {
 			log("Notification icon [ACTIVATE]");
@@ -277,9 +277,6 @@ public class StartActivity extends Activity {
 			break;
 		case R.id.menuFeedback:
 			fm.feedbackDialog();
-			break;
-		case R.id.menuQuit:
-			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -452,9 +452,6 @@ public class ProcessesActivity extends ListActivity {
 		case R.id.menuFeedback:
 			fm.feedbackDialog();
 			break;
-		case R.id.menuQuit:
-			finish();
-			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

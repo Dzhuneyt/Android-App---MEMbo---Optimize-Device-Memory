@@ -10,7 +10,4 @@
     <item
         android:id="@+id/menuFeedback"
         android:title="@string/feedback"/>
-    <item
-        android:id="@+id/menuQuit"
-        android:title="@string/quit"/>
 </menu>

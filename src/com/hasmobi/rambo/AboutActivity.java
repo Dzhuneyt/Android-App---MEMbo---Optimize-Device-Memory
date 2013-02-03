@@ -103,9 +103,6 @@ public class AboutActivity extends Activity {
 		case R.id.menuFeedback:
 			fm.feedbackDialog();
 			break;
-		case R.id.menuQuit:
-			finish();
-			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

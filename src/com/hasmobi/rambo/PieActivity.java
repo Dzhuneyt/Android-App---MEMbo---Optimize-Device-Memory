@@ -303,9 +303,6 @@ public class PieActivity extends Activity implements OnClickListener {
 		case R.id.menuFeedback:
 			fm.feedbackDialog();
 			break;
-		case R.id.menuQuit:
-			finish();
-			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
