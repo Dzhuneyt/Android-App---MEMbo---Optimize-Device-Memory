@@ -125,15 +125,12 @@ public class RamManager {
 
 			// Notify user that optimization is completed
 			Resources res = context.getResources();
-			String toDisplay = res.getString(R.string.ram_cleared) + "\n"
-					+ res.getString(R.string.apps_killed);
-			toDisplay = String.format(toDisplay, killCount);
-			toDisplay = toDisplay
-					+ "\n"
-					+ String.format(
-							res.getString(R.string.memoryclearedamount),
-							savedRam);
-			Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
+			if (res != null) {
+				String toDisplay = res
+						.getString(R.string.memory_optimized_toast);
+				toDisplay = String.format(toDisplay, killCount, savedRam);
+				Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
+			}
 
 		} else {
 			Toast.makeText(context, "No processes killed", Toast.LENGTH_LONG)

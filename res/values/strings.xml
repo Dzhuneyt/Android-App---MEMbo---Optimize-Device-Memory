@@ -5,7 +5,7 @@
     <string name="total_ram_0">Total RAM: 0</string>
     <string name="free_ram_0">Free RAM: 0</string>
     <string name="taken_ram_0">Taken RAM: 0</string>
-    <string name="ram_cleared">Memory optimization complete.</string>
+    <string name="ram_cleared">Memory optimized!</string>
     <string name="apps_killed">%d Apps Killed</string>
     <string name="quick_optimize">QUICK OPTIMIZE</string>
     <string name="optimizing">OPTIMIZING&#8230;</string>
@@ -33,7 +33,7 @@
         <item quantity="one">Updates every second</item>
         <item quantity="other">Updates every %d seconds</item>
     </plurals>
-    
+
     <!-- First start Welcome dialog -->
     <string name="welcome_dialog_title">Tutorial</string>
     <string name="welcome_dialog_text">Welcome to RAMbo. Here\'s a brief introduction to the features:\n\n1.Pie Chart - Shows how much free memory your device has. Tap on the Pie Chart to see a list of running processes. Long press on each process for more options, including the whitelist option (which prevents an app from being killed).\n\n2.Tap \"QUICK OPTIMIZE\" to close background apps and free up memory. (NOTE: Whitelisted apps won\'t be closed)\n\n3. Press the Menu button to reveal more options including the Settings screen.</string>
@@ -58,7 +58,7 @@
     <string name="widget_update_interval_summary">How often should the widgets be updated (minutes)</string>
     <string name="vibrate_after_optimize_title">Vibration Notification</string>
     <string name="vibrate_after_optimize_summary">Vibrate after memory optimization</string>
-    
+
     <!-- Added in version code 6 -->
     <string name="free">Free:</string>
     <string name="taken">Taken:</string>
@@ -77,5 +77,8 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="quit">Quit</string>
+
+    <!-- Added in version code 8 -->
+    <string name="memory_optimized_toast">"Memory optimized!\n%1$d apps closed.\n%2$d MB of RAM freed."</string>
 
 </resources>
