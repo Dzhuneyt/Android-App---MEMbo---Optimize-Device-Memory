@@ -22,23 +22,20 @@ import android.widget.Toast;
 public class RamManager {
 
 	class ProcessToKill {
+		// A class object to keep processes to be killed
 		private int pid;
 		private String packageName;
 	}
 
-	MemoryInfo mi = null;
-
 	Context context;
-	ActivityManager am;
 
 	public RamManager(Context c) {
 		this.context = c;
-		am = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		mi = new MemoryInfo();
 	}
 
 	public void killPackage(String packageName) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		am.killBackgroundProcesses(packageName);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
@@ -52,36 +49,22 @@ public class RamManager {
 		}
 	}
 
-	/**
-	 * Unused for now since a more practical and perfromance friendly method was
-	 * found
-	 * 
-	 * @param pid
-	 *            - The PID of an active process
-	 * @return int - Total RAM usage (including PSS, SharedDirty and
-	 *         PrivateDirty for the process.
-	 */
-	private int getMemoryUsageForPid(int pid) {
-		int totalMemoryUsage = 0;
-		try {
-			final android.os.Debug.MemoryInfo memoryInfoArray = am
-					.getProcessMemoryInfo(new int[] { pid })[0];
-			totalMemoryUsage = memoryInfoArray.nativePss
-					+ memoryInfoArray.nativePrivateDirty
-					+ memoryInfoArray.nativeSharedDirty;
-		} catch (Exception e) {
-			log("Can't get memory info for PID: " + pid);
-		}
-		return totalMemoryUsage;
+	public void killBgProcesses() {
+		this.killBgProcesses(false);
 	}
 
-	public void killBgProcesses() {
+	public void killBgProcesses(boolean silent) {
+
+		silent = ((silent == true) ? true : false);
 
 		// Get all apps to exclude from the preferences
 		final SharedPreferences excludedList = context.getSharedPreferences(
 				"excluded_list", 0);
 
-		List<RunningAppProcessInfo> runningProcesses = am
+		final ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
+		final List<RunningAppProcessInfo> runningProcesses = am
 				.getRunningAppProcesses();
 
 		List<ProcessToKill> processesToKillArr = new ArrayList<ProcessToKill>();
@@ -104,13 +87,11 @@ public class RamManager {
 			}
 		}
 
-		// am.getProcessMemoryInfo(new int[pid.pid]);
-
 		if (processesToKillArr.size() > 0) {
 
 			int killCount = 0;
 
-			int oldFreeRam = new RamManager(context).getFreeRam();
+			final int oldFreeRam = new RamManager(context).getFreeRam();
 
 			for (ProcessToKill p : processesToKillArr) {
 				// Kill this process
@@ -120,30 +101,52 @@ public class RamManager {
 				killCount++;
 			}
 
-			int newFreeRam = new RamManager(context).getFreeRam();
+			final int newFreeRam = new RamManager(context).getFreeRam();
 			int savedRam = newFreeRam - oldFreeRam;
 
+			savedRam = ((savedRam < 0) ? 0 : savedRam);
+
+			logSavedRam(savedRam);
+
 			// Notify user that optimization is completed
-			Resources res = context.getResources();
+			final Resources res = context.getResources();
 			if (res != null) {
-				String toDisplay = res
-						.getString(R.string.memory_optimized_toast);
-				toDisplay = String.format(toDisplay, killCount, savedRam);
-				Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
+				if (!silent) {
+					String toDisplay = res
+							.getString(R.string.memory_optimized_toast);
+					toDisplay = String.format(toDisplay, killCount, savedRam);
+
+					Toast.makeText(context, toDisplay, Toast.LENGTH_LONG)
+							.show();
+				}
+
+			} else {
+				log("Can not get resources with context.getResources()");
 			}
 
 		} else {
-			Toast.makeText(context, "No processes killed", Toast.LENGTH_LONG)
-					.show();
+			log("No apps to kill");
+			try {
+				if (!silent) {
+					Toast.makeText(
+							context,
+							context.getResources().getString(
+									R.string.no_apps_killed),
+							Toast.LENGTH_SHORT).show();
+				}
+			} catch (Exception e) {
+				// Can't get resources or can't display toast
+				log("Can not get resources or can not display toast");
+			}
 		}
 
 		// Should the device vibrate after killing?
-		SharedPreferences prefs = PreferenceManager
+		final SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		if (prefs.getBoolean("vibrate_after_optimize", true)) {
-			Vibrator v = (Vibrator) context
+			final Vibrator v = (Vibrator) context
 					.getSystemService(Context.VIBRATOR_SERVICE);
-			if (v != null)
+			if (v != null && !silent)
 				v.vibrate(100);
 		}
 	}
@@ -152,7 +155,45 @@ public class RamManager {
 		Log.d(Values.DEBUG_TAG, s);
 	}
 
+	/*
+	 * Log the increment number of MBs of RAM this app has cleared. Will be used
+	 * later to show it to the user for various marketing reasons.
+	 */
+	private void logSavedRam(int savedRam) {
+		final SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final SharedPreferences.Editor e = prefs.edit();
+
+		int totalSavedUntilNow = 0;
+
+		try {
+			totalSavedUntilNow = prefs.getInt("total_memory_saved", 0);
+		} catch (Exception ex) {
+
+		}
+
+		totalSavedUntilNow = totalSavedUntilNow + savedRam;
+
+		e.putInt("total_memory_saved", totalSavedUntilNow);
+
+		final String firstBoostTimestamp = prefs.getString(
+				"first_boost_timestamp", null);
+		if (firstBoostTimestamp == null) {
+			long currentTime = System.currentTimeMillis();
+			e.putString("first_boost_timestamp", "" + currentTime);
+		}
+
+		e.commit();
+	}
+
+	/*
+	 * Gets the available memory on the device in MB or 0 on error
+	 */
 	public int getFreeRam() {
+		MemoryInfo mi = new MemoryInfo();
+		final ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
 		am.getMemoryInfo(mi);
 		int freeRam = 0;
 		try {
@@ -162,11 +203,14 @@ public class RamManager {
 		return freeRam;
 	}
 
+	/*
+	 * Gets the total available memory on the device in MB or 0 on error
+	 */
 	public int getTotalRam() {
 		int tm = 0;
 		try {
-			RandomAccessFile r;
-			r = new RandomAccessFile("/proc/meminfo", "r");
+			final RandomAccessFile r = new RandomAccessFile("/proc/meminfo",
+					"r");
 			String load = r.readLine();
 			String[] totrm = load.split(" kB");
 			String[] trm = totrm[0].split(" ");

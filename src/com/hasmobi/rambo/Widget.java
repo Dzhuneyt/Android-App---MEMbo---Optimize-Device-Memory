@@ -18,10 +18,6 @@ import android.widget.RemoteViews;
 
 public class Widget extends AppWidgetProvider {
 
-	// How often should the widget be updated (in minutes, overwritten by
-	// SharedPreferences value if set below)
-	int widgetsUpdateInterval = 5;
-
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
@@ -61,12 +57,17 @@ public class Widget extends AppWidgetProvider {
 			TIME.set(Calendar.SECOND, 0);
 			TIME.set(Calendar.MILLISECOND, 0);
 
+			// How often should the widget be updated (in minutes, overwritten
+			// by
+			// SharedPreferences value if set below)
+			int widgetsUpdateInterval;
 			try {
 				SharedPreferences prefs = PreferenceManager
 						.getDefaultSharedPreferences(context);
 				widgetsUpdateInterval = prefs.getInt("widget_update_interval",
 						5);
 			} catch (Exception e) {
+				widgetsUpdateInterval = 5;
 			}
 
 			// The actual repeating task

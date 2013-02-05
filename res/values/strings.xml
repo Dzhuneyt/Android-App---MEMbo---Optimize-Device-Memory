@@ -80,5 +80,10 @@
 
     <!-- Added in version code 8 -->
     <string name="memory_optimized_toast">"Memory optimized!\n%1$d apps closed.\n%2$d MB of RAM freed."</string>
+    <string name="no_apps_killed">Maximum memory optimization accomplished!</string>
+    <string name="settings_title_general">General Settings</string>
+    <string name="settings_title_advanced">Advanced Settings</string>
+    <string name="settings_title_enable_autoboost">Enable Auto Boost</string>
+    <string name="settings_summary_enable_autoboost">Auto Boost will automatically make your device faster, by clearing memory at specified intervals.</string>
 
 </resources>

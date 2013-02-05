@@ -4,10 +4,12 @@ import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.Values;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,6 +40,24 @@ public class StartActivity extends Activity {
 		setup();
 
 		remindToRate();
+
+		startAutoBoost();
+	}
+
+	private void startAutoBoost() {
+		Intent autoBoostIntent = new Intent(c, BroadcastManager.class);
+		autoBoostIntent.setAction(Values.ACTION_AUTOBOOST_ENABLE);
+		PendingIntent pi = PendingIntent.getBroadcast(c, 0, autoBoostIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		try {
+			pi.send();
+		} catch (CanceledException e) {
+			log("Can not start autobooster due to an exception.");
+			log(e.getMessage());
+		}
+
+		log("autoboosting");
+
 	}
 
 	public void openMemoryManagement(View v) {
