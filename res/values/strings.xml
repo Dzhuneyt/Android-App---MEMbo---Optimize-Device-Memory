@@ -84,6 +84,7 @@
     <string name="settings_title_general">General Settings</string>
     <string name="settings_title_advanced">Advanced Settings</string>
     <string name="settings_title_enable_autoboost">Enable Auto Boost</string>
-    <string name="settings_summary_enable_autoboost">Auto Boost will automatically make your device faster, by clearing memory at specified intervals.</string>
+    <string name="settings_summary_enable_autoboost">Auto Boost will automatically make your device faster, by clearing memory every 15 minutes.</string>
+    <string name="toast_can_not_open_googleplay">Can not go to Google Play</string>
 
 </resources>

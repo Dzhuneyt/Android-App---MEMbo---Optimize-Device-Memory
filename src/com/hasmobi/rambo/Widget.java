@@ -1,10 +1,8 @@
 package com.hasmobi.rambo;
 
-import java.util.Calendar;
-
+import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.Values;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -12,11 +10,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 public class Widget extends AppWidgetProvider {
+
+	public static String ACTION_UPDATE_WIDGETS = "update_widgets";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -26,78 +24,96 @@ public class Widget extends AppWidgetProvider {
 		// These two are populated on each loop instead of being created over
 		// and over to conserve memory.
 		int appWidgetId;
-		RemoteViews views;
+
+		RamManager rm = new RamManager(context);
 
 		// Do this for each instance of this widget
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			appWidgetId = appWidgetIds[i];
 
 			// Setup layout
-			views = new RemoteViews(context.getPackageName(), R.layout.widget);
+			RemoteViews views = new RemoteViews(context.getPackageName(),
+					R.layout.widget);
+
+			// Get the free/available RAM and set it to the TextViews
+			views.setTextViewText(R.id.tvWidgetRam,
+					String.valueOf(rm.getFreeRam() + "/" + rm.getTotalRam()));
 
 			// Setup a PendingIntent that clears the memory when started
-			Intent intent = new Intent(context, BroadcastManager.class);
-			intent.setAction(Values.CLEAR_RAM);
+			Intent intent = new Intent(context, AutoBoostBroadcast.class);
+			intent.setAction(AutoBoostBroadcast.ACTION_BOOST);
 			PendingIntent clearRamIntent = PendingIntent.getBroadcast(context,
 					0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 			// Attach a onClick event to the Boost button
 			views.setOnClickPendingIntent(R.id.bWidgetBoost, clearRamIntent);
 
-			// Setup and repeat the update widget procedure
-			Intent updateWidget = new Intent(context, Widget.class);
-			updateWidget.setAction(Values.UPDATE_WIDGETS);
-			PendingIntent updateWidgetIntent = PendingIntent
-					.getBroadcast(context, 0, updateWidget,
-							PendingIntent.FLAG_CANCEL_CURRENT);
-			final AlarmManager am = (AlarmManager) context
-					.getSystemService(Context.ALARM_SERVICE);
-			final Calendar TIME = Calendar.getInstance();
-			TIME.set(Calendar.MINUTE, 0);
-			TIME.set(Calendar.SECOND, 0);
-			TIME.set(Calendar.MILLISECOND, 0);
-
-			// How often should the widget be updated (in minutes, overwritten
-			// by
-			// SharedPreferences value if set below)
-			int widgetsUpdateInterval;
-			try {
-				SharedPreferences prefs = PreferenceManager
-						.getDefaultSharedPreferences(context);
-				widgetsUpdateInterval = prefs.getInt("widget_update_interval",
-						5);
-			} catch (Exception e) {
-				widgetsUpdateInterval = 5;
-			}
-
-			// The actual repeating task
-			am.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(),
-					1000 * widgetsUpdateInterval, updateWidgetIntent);
-
 			// Update the widget layout
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
 
+		this.setupNextWidgetUpdate(context);
+
 	}
 
+	/**
+	 * Setup the widget updater following this policy for getting the update
+	 * interval: 1) shared preferences if set or 2) 5 seconds by default. Note
+	 * that widget updates will only occur when the screen is on (to save
+	 * battery)
+	 * 
+	 * @param c
+	 *            Context
+	 */
+	private void setupNextWidgetUpdate(Context c) {
+
+		Prefs p = new Prefs(c);
+		final AlarmManager am = (AlarmManager) c
+				.getSystemService(Context.ALARM_SERVICE);
+
+		Intent updateWidget = new Intent(c, Widget.class);
+		updateWidget.setAction(ACTION_UPDATE_WIDGETS);
+
+		PendingIntent updateWidgetIntent = PendingIntent.getBroadcast(c, 0,
+				updateWidget, PendingIntent.FLAG_CANCEL_CURRENT);
+
+		am.set(AlarmManager.RTC,
+				System.currentTimeMillis()
+						+ (p.getWidgetUpdateInterval() * 1000),
+				updateWidgetIntent);
+	}
+
+	/**
+	 * This class is also a broadcast receiver. It usually handles scheduled
+	 * widget update requests (we schedule them instead of just relying on the
+	 * OS to update the widgets, because the OS is not very reliable on its
+	 * timing)
+	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals(Values.UPDATE_WIDGETS)) {
-			// Manual or automatic widget update started
+		String action = intent.getAction();
+		if (action != null) {
+			if (action.equalsIgnoreCase(ACTION_UPDATE_WIDGETS)) {
+				// Manual or automatic widget update started (e.g. from
+				// scheduled
+				// AlarmManager)
 
-			RamManager rm = new RamManager(context);
+				Intent i = new Intent();
+				i.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+				// Use an array and EXTRA_APPWIDGET_IDS instead of
+				// AppWidgetManager.EXTRA_APPWIDGET_ID,
+				// since it seems the onUpdate() is only fired on that:
+				AppWidgetManager am = AppWidgetManager.getInstance(context);
+				int ids[] = am.getAppWidgetIds(new ComponentName(context,
+						Widget.class));
 
-			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-					R.layout.widget);
+				intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
 
-			// Set the available/free RAM text to the widget
-			remoteViews.setTextViewText(R.id.tvWidgetRam,
-					String.valueOf(rm.getFreeRam() + "/" + rm.getTotalRam()));
-
-			// Trigger widget layout update
-			AppWidgetManager.getInstance(context).updateAppWidget(
-					new ComponentName(context, Widget.class), remoteViews);
+				onUpdate(context, am, ids);
+			}
 		}
+
+		setupNextWidgetUpdate(context);
 
 		super.onReceive(context, intent);
 	}

@@ -16,9 +16,11 @@ public abstract class Values {
 
 	public static final int notificationID = 10001;
 
-	public static final Boolean DEBUG_MODE = false;
+	public static final Boolean DEBUG_MODE = true;
 
 	public static final String FEEDBACK_EMAIL = "feedback@hasmobi.com";
 
 	public static final int REMIND_RATE_EVERY_N_START = 15;
+
+	public static final int AUTOBOOST_DELAY_SECONDS = 60*5;
 }

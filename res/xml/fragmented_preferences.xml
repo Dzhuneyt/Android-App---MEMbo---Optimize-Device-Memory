@@ -19,14 +19,6 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_title_advanced" >
         <ListPreference
-            android:dialogTitle="@string/widget_update_interval_summary"
-            android:entries="@array/widgetUpdateIntervals"
-            android:entryValues="@array/widgetUpdateIntervals"
-            android:key="widget_update_interval"
-            android:summary="@string/widget_update_interval_summary"
-            android:title="@string/widget_update_interval_title" >
-        </ListPreference>
-        <ListPreference
             android:dialogTitle="@string/pie_update_interval_summary"
             android:entries="@array/updateIntervalValues"
             android:entryValues="@array/updateIntervalValues"
