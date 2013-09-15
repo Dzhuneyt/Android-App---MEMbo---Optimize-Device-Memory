@@ -216,6 +216,7 @@ public class RamManager {
 			String[] trm = totrm[0].split(" ");
 			tm = Integer.parseInt(trm[trm.length - 1]);
 			tm = Math.round(tm / 1024);
+			r.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

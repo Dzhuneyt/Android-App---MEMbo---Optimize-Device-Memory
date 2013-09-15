@@ -4,7 +4,6 @@ import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.Values;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
