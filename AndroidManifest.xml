@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hasmobi.rambo"
     android:installLocation="auto"
@@ -20,7 +21,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".StartActivity"
+            android:name="com.hasmobi.rambo.MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hasmobi.rambo.StartActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,28 +39,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PieActivity"
+            android:name="com.hasmobi.rambo.PieActivity"
             android:label="@string/app_name" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hasmobi.rambo.StartActivity" />
         </activity>
         <activity
-            android:name=".ConfigActivity"
+            android:name="com.hasmobi.rambo.ConfigActivity"
             android:label="@string/title_activity_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hasmobi.rambo.StartActivity" />
         </activity>
         <activity
-            android:name=".ProcessesActivity"
+            android:name="com.hasmobi.rambo.ProcessesActivity"
             android:label="@string/running_processes" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hasmobi.rambo.StartActivity" />
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name="com.hasmobi.rambo.AboutActivity"
             android:label="@string/about" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,7 +73,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <receiver
-            android:name=".Widget"
+            android:name="com.hasmobi.rambo.Widget"
             android:exported="false"
             android:label="@string/instant_optimize" >
             <intent-filter>

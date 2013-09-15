@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <fragment
+        android:id="@+id/fHeader"
+        android:name="com.hasmobi.rambo.FragmentHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@xml/fragment_header" />
+
+    <fragment
+        android:id="@+id/fMainActions"
+        android:name="com.hasmobi.rambo.FragmentMainActions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:layout="@xml/fragment_main_actions" />
+
+</LinearLayout>

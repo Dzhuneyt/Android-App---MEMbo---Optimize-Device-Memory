@@ -2,4 +2,12 @@
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
+    <style name="AppNameHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/apptitle</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+    </style>
+
 </resources>

@@ -17,15 +17,5 @@
             android:summary="@string/vibrate_after_optimize_summary"
             android:title="@string/vibrate_after_optimize_title" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_title_advanced" >
-        <ListPreference
-            android:dialogTitle="@string/pie_update_interval_summary"
-            android:entries="@array/updateIntervalValues"
-            android:entryValues="@array/updateIntervalValues"
-            android:key="pie_update_interval"
-            android:summary="@string/pie_update_interval_summary"
-            android:title="@string/pie_update_interval_title" >
-        </ListPreference>
-    </PreferenceCategory>
 
 </PreferenceScreen>

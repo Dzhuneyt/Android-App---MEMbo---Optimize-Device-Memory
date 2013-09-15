@@ -48,15 +48,19 @@ public class StartActivity extends DActivity {
 
 	private void startAutoBoost() {
 
-		Intent i = new Intent(c, AutoBoostBroadcast.class);
-		i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_ENABLE);
-		PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		try {
-			pi.send();
-		} catch (CanceledException e) {
-			log("Can not start autobooster due to an exception.");
-			log(e.getMessage());
+		Prefs p = new Prefs(c);
+		
+		if (p.isAutoboostEnabled()) {
+			Intent i = new Intent(c, AutoBoostBroadcast.class);
+			i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_ENABLE);
+			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			try {
+				pi.send();
+			} catch (CanceledException e) {
+				log("Can not start autobooster due to an exception.");
+				log(e.getMessage());
+			}
 		}
 
 	}
@@ -128,7 +132,7 @@ public class StartActivity extends DActivity {
 	 * the notification bar or cancel/remove notification if it has been
 	 * disabled in preferences.
 	 */
-	@SuppressWarnings("deprecation")
+	// SuppressWarnings("deprecation")
 	private void sendNotification() {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -170,13 +174,13 @@ public class StartActivity extends DActivity {
 	 *         blank string if not found
 	 */
 	private String res(int resID) {
-		String found = "";
+		String s = "";
 		try {
-			found = getResources().getString(resID);
+			s = getResources().getString(resID);
 		} catch (NotFoundException e) {
 			log("Resource with ID " + resID + " not found.");
 		}
-		return found;
+		return s;
 	}
 
 	private void log(String s) {

@@ -38,7 +38,7 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 		if (action != null) {
 			if (action.equalsIgnoreCase(ACTION_BOOST)) {
 				// kill apps now - once
-				this.killApps(context);
+				this.optimize(context);
 			} else if (action.equalsIgnoreCase(ACTION_AUTOBOOST_ENABLE)) {
 				// enable autoboost
 				this.enableAutoBoost(context);
@@ -60,7 +60,7 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 
 	}
 
-	private void killApps(Context c) {
+	private void optimize(Context c) {
 		RamManager rm = new RamManager(c);
 		rm.killBgProcesses();
 

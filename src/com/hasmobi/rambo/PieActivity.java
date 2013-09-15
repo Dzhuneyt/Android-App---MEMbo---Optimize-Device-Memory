@@ -205,18 +205,7 @@ public class PieActivity extends Activity implements OnClickListener {
 	 * @return int - milliseconds
 	 */
 	private int getPieUpdateInterval() {
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		int _updateIntervalSeconds;
-		try {
-			_updateIntervalSeconds = Integer.valueOf(prefs.getString(
-					"pie_update_interval", "1"));
-		} catch (NumberFormatException e) {
-			_updateIntervalSeconds = 1;
-		}
-		int updateIntervalMillis = _updateIntervalSeconds * 1000;
-		return updateIntervalMillis;
+		return 2500 * 1;
 	}
 
 	@Override
