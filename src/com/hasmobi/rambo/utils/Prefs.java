@@ -59,6 +59,5 @@ public class Prefs {
 	 */
 	public int getWidgetUpdateInterval() {
 		return 5;
-		// return (prefs.getInt("widget_update_interval", 5) * 1000);
 	}
 }

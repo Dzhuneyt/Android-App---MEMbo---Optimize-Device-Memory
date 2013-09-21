@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">RAM-bo</string>
+    <string name="app_name">RAMbo</string>
     <string name="menu_settings">Настройки</string>
     <string name="total_ram_0">Total RAM: 0</string>
     <string name="free_ram_0">Free RAM: 0</string>
@@ -9,12 +9,12 @@
     <string name="apps_killed">Затворени са %d приложения</string>
     <string name="quick_optimize">Бърза Оптимизация</string>
     <string name="optimizing">Оптимизиране&#8230;</string>
-    <string name="instant_optimize">Мигновено Оптимизиране</string>
+    <string name="instant_optimize">Оптимизиране</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="loading">Зареждане&#8230;</string>
     <string name="boost">Изчисти!</string>
     <string name="switch_to">Отвори</string>
-    <string name="kill_app">Затвори приложение</string>
+    <string name="kill_app">Спри</string>
     <string name="remove_from_whitelist">Премахни от изключения</string>
     <string name="add_to_whitelist">Добави към изключения</string>
     <string name="app_info">Инфо за приложение</string>

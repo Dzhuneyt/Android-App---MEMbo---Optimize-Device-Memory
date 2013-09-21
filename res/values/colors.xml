@@ -6,14 +6,26 @@
     <color name="pieRed">#BD4141</color>
     <color name="pieGreen">#719D98</color>
     <color name="pieText">#F2E8DF</color>
-    <color name="optimizeButtonBG">#BD4141</color>
     <color name="optimizeButtonBGclicked">#D97570</color>
     <color name="optimizeButtonText">#F2E8DF</color>
-    
+
     <!-- Start Activity colors -->
     <color name="startA_item_title">#BD4141</color>
-    
+
     <!-- Running processes activity -->
     <color name="subheader">#666666</color>
+
+    <!-- Refactored colors follow: -->
+    <color name="main_bg">#5b5c5e</color>
+    <color name="optimizeButtonBG">#ff4e51</color>
+    <color name="light_blue_header">#6dcff6</color>
+    <color name="mainActionButtonBG">#5e7f9c</color>
+    <color name="mainTextColor">#f4f5ed</color>
+    <color name="pieBg">#adadad</color>
+    <color name="pieOverlay">#5e7f9c</color>
+    <color name="lightOragen">#ff9a65</color>
+    <color name="lightGray">#adadad</color>
+    <color name="solidBlack">#000000</color>
+    <color name="regularBlue">#5e7f9c</color>
 
 </resources>

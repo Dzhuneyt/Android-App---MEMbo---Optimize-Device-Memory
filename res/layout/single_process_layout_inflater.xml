@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llProcessWrapper"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#fff"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    style="@style/llSingleProcessInflatedView" >
 
     <ImageView
         android:id="@+id/app_icon"
         android:layout_width="@android:dimen/app_icon_size"
         android:layout_height="@android:dimen/app_icon_size"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
-        android:layout_marginRight="11dip"
+        android:layout_marginRight="10dip"
         android:scaleType="fitCenter" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="100" >
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/single_process_title" />
+            style="@style/tvRunningProcessesProcessName" />
 
         <TextView
             android:id="@+id/tvMemory"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:gravity="center_vertical"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="@dimen/single_process_memory" />
+            style="@style/tvRunningProcessesProcessMemory" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bKillProcess"
+        style="@style/bKillProcess"
+        android:text="@string/kill_app" />
 
 </LinearLayout>

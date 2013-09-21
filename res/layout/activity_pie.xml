@@ -108,12 +108,12 @@
                     android:layout_height="match_parent"
                     android:gravity="center" >
 
-                    <com.hasmobi.rambo.utils.PieView
+                    <com.hasmobi.rambo.utils.custom_views.PieView
                         android:id="@+id/pie"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clickable="true" >
-                    </com.hasmobi.rambo.utils.PieView>
+                    </com.hasmobi.rambo.utils.custom_views.PieView>
                 </LinearLayout>
             </FrameLayout>
 

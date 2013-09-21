@@ -1,9 +1,9 @@
 package com.hasmobi.rambo;
 
 import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.PieView;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.Values;
+import com.hasmobi.rambo.utils.custom_views.PieView;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -81,16 +81,16 @@ public class PieActivity extends Activity implements OnClickListener {
 	private void welcomeDialog() {
 		final Dialog d = new Dialog(this);
 		d.setTitle(res(R.string.welcome_dialog_title));
-		d.setContentView(R.layout.dialog_welcome);
+		// d.setContentView(R.layout.dialog_welcome);
 		d.show();
 
 		// Close the dialog on Close button click
-		final Button bClose = (Button) d.findViewById(R.id.bClose);
-		bClose.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				d.dismiss();
-			}
-		});
+		//final Button bClose = (Button) d.findViewById(R.id.bClose);
+		//bClose.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// d.dismiss();
+		// }
+		// });
 	}
 
 	/**
@@ -356,14 +356,17 @@ public class PieActivity extends Activity implements OnClickListener {
 			final RamManager ramManager = new RamManager(context);
 
 			final TextView tvTotal = (TextView) findViewById(R.id.tvTotal);
-			try {
-				totalRam = ramManager.getTotalRam();
-				tvTotal.setText(res(R.string.total) + " "
-						+ String.valueOf(totalRam) + " MB");
-			} catch (Exception e) {
-				tvTotal.setText("Total RAM: Unable to find");
-				log("Unable to find total RAM. See readTotalRam()");
+			if (tvTotal != null) {
+				try {
+					totalRam = ramManager.getTotalRam();
+					tvTotal.setText(res(R.string.total) + " "
+							+ String.valueOf(totalRam) + " MB");
+				} catch (Exception e) {
+					tvTotal.setText("Total RAM: Unable to find");
+					log("Unable to find total RAM. See readTotalRam()");
+				}
 			}
+
 		}
 
 	}

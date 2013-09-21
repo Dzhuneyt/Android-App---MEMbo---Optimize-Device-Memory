@@ -8,7 +8,7 @@ public class SingleProcess {
 	public String name;
 	public boolean whitelisted = false;
 	public Drawable icon;
-	public int memoryUsage;
+	public float memoryUsage;
 	public ApplicationInfo appInfo;
 
 	public SingleProcess(String name, boolean whitelisted, Drawable icon) {
@@ -26,7 +26,7 @@ public class SingleProcess {
 	}
 
 	public SingleProcess(ApplicationInfo ai, String appName,
-			boolean isWhitelisted, Drawable appIcon, int totalMemoryUsage) {
+			boolean isWhitelisted, Drawable appIcon, float totalMemoryUsage) {
 		this.appInfo = ai;
 		this.name = appName;
 		this.whitelisted = isWhitelisted;

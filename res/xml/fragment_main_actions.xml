@@ -1,35 +1,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/mainActionsFragmentWrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
-    <com.hasmobi.rambo.utils.FlowLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="TestText "
-            android:textSize="30dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="TestText "
-            android:textSize="30dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="TestText "
-            android:textSize="30dp" />
-    </com.hasmobi.rambo.utils.FlowLayout>
+    <LinearLayout
+        android:id="@+id/llMainActionRow1"
+        style="@style/MainActionRow2Elems" >
+        <LinearLayout style="@style/MainActionWrapper" >
+            <com.hasmobi.rambo.utils.custom_views.MainActionButton
+                style="@style/MainActionButton" android:id="@+id/actOpenRunningApps"
+                android:text="@string/running_processes" />
+
+            <TextView
+                android:id="@+id/tvMainActionsLabelRunningApps"
+                style="@style/MainActionLabel"
+                android:text="23 apps" />
+        </LinearLayout>
+        <LinearLayout style="@style/MainActionWrapper" >
+            <com.hasmobi.rambo.utils.custom_views.MainActionButton
+                style="@style/MainActionButton" android:id="@+id/actOpenPie"
+                android:text="@string/memory_management" />
+
+            <TextView
+                android:id="@+id/tvMainActionsLabelPie"
+                style="@style/MainActionLabel"
+                android:text="23 apps" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llMainActionRow2"
+        style="@style/MainActionRow2Elems" >
+        <LinearLayout style="@style/MainActionWrapper" >
+            <com.hasmobi.rambo.utils.custom_views.MainActionButton
+                android:id="@+id/actOpenWhitelist"
+                style="@style/MainActionButton"
+                android:text="@string/app_whitelist" />
+
+            <TextView
+                android:id="@+id/tvMainActionsLabelWhitelist"
+                style="@style/MainActionLabel"
+                android:text="23 apps" />
+        </LinearLayout>
+        <LinearLayout style="@style/MainActionWrapper" >
+            <com.hasmobi.rambo.utils.custom_views.MainActionButton
+                android:id="@+id/actOpenSettings"
+                style="@style/MainActionButton"
+                android:text="@string/action_settings" />
+
+            <TextView
+                android:id="@+id/tvMainActionsLabelSettings"
+                style="@style/MainActionLabel"
+                android:text="@string/manage_settings_label" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

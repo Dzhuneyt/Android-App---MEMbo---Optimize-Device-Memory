@@ -22,5 +22,7 @@ public abstract class Values {
 
 	public static final int REMIND_RATE_EVERY_N_START = 15;
 
-	public static final int AUTOBOOST_DELAY_SECONDS = 60*5;
+	public static final int AUTOBOOST_DELAY_SECONDS = 60 * 5;
+
+	public static final int PIE_UPDATE_INTERVAL = 1500; // milliseconds
 }

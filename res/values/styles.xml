@@ -1,13 +1,167 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
-    <style name="AppNameHeader">
+    <style name="MainActivity">
+        <item name="android:background">@color/main_bg</item>
+    </style>
+
+    <!-- Header fragment -->
+    <style name="headerFragmentWrapper">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/main_bg</item>
+    </style>
+
+    <style name="headerFragmentAppName">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/light_blue_header</item>
         <item name="android:textSize">@dimen/apptitle</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:shadowColor">#882a2b</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <!-- Main actions fragment -->
+    <style name="mainActionsFragmentWrapper">
+        <item name="android:background">@color/main_bg</item>
+    </style>
+
+    <style name="MainActionRow2Elems">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="MainActionRow3Elems">
+        <item name="android:weightSum">3</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="MainActionWrapper">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MainActionButton">
+        <item name="android:singleLine">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">140dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:radius">30dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:background">@drawable/btn_blue</item>
+    </style>
+    <!-- ^ Button ^ -->
+    <style name="MainActionLabel">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">140dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!-- ^ TextView ^ -->
+
+
+    <!-- Toolbar fragment -->
+    <style name="toolbarFragmentWrapper">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/main_bg</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+    </style>
+
+    <style name="bOptimize">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:background">@drawable/btn_blue_optimize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:shadowColor">#882a2b</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <!-- Running processes fragment -->
+    <style name="RunningProcessesFragmentWrapper">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="runningProcessesListView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:background">@color/main_bg</item>
+    </style>
+
+    <style name="runningProcessesPlaceholder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/main_bg</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
+    <style name="llSingleProcessInflatedView">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/lightGray</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="tvRunningProcessesProcessName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/single_process_title</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/regularBlue</item>
+    </style>
+
+    <style name="tvRunningProcessesProcessMemory">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/single_process_memory</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
+    <style name="bKillProcess">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:background">@color/regularBlue</item>
     </style>
 
 </resources>
