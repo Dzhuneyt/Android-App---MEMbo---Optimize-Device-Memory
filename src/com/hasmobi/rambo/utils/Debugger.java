@@ -29,7 +29,7 @@ public class Debugger {
 		log("END OF CURRENTLY EXCLUDED APPS LIST");
 	}
 
-	private void log(String s) {
+	public static void log(String s) {
 		if (Values.DEBUG_MODE)
 			Log.d(Values.DEBUG_TAG, s);
 	}
