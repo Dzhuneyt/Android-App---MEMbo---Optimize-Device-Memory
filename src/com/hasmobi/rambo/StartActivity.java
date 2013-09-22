@@ -128,7 +128,6 @@ public class StartActivity extends DActivity {
 	 * the notification bar or cancel/remove notification if it has been
 	 * disabled in preferences.
 	 */
-	// SuppressWarnings("deprecation")
 	private void sendNotification() {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 

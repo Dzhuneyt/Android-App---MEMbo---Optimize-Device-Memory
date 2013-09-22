@@ -7,9 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.View;
+import android.widget.ImageView;
 
-public class PieView extends View {
+public class PieView extends ImageView {
 	RectF mOvals = null;
 
 	long freeRam = 0, totalRam = 0;
@@ -66,6 +66,10 @@ public class PieView extends View {
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+		if (widthMeasureSpec == 0 || heightMeasureSpec == 0) {
+			return;
+		}
 
 		// Get whichever is smaller - width or height.
 		// Helps to make a square instead of a rectangle.

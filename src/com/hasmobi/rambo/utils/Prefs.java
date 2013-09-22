@@ -54,6 +54,10 @@ public class Prefs {
 		return prefs.getBoolean("enable_autoboost", false);
 	}
 
+	public boolean isNotificationIconEnabled() {
+		return prefs.getBoolean("notification_icon", false);
+	}
+
 	/**
 	 * Get the update interval for widgets in seconds (always 5 seconds for now)
 	 */

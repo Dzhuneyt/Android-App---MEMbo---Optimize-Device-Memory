@@ -46,7 +46,7 @@
     <string name="already_rated">Already rated. Never show again.</string>
 
     <!-- Notification strings below -->
-    <string name="notification_text">Instantly closes background apps</string>
+    <string name="notification_text">Touch to optimize memory</string>
     <string name="notification_title">Tap to Optimize Memory</string>
     <string name="running_processes">Running Apps</string>
 
@@ -97,8 +97,12 @@
     <string name="users_n_mb_ram">Uses %s</string>
     <string name="whitelist_app_add">Whitelist</string>
     <string name="whitelist_app_remove">Remove from Whitelist</string>
+    <!-- Settings fragment -->
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="sett_name_autoboost">Regular Autoboost</string>
+    <string name="sett_name_notif_icon">Notification Icon</string>
+    <!-- Notification icon -->
+    <string name="memory_usage">Memory usage</string>
 
 </resources>

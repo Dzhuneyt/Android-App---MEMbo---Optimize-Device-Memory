@@ -43,7 +43,7 @@ public class Widget extends AppWidgetProvider {
 			Intent intent = new Intent(context, AutoBoostBroadcast.class);
 			intent.setAction(AutoBoostBroadcast.ACTION_BOOST);
 			PendingIntent clearRamIntent = PendingIntent.getBroadcast(context,
-					0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+					0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			// Attach a onClick event to the Boost button
 			views.setOnClickPendingIntent(R.id.bWidgetBoost, clearRamIntent);
@@ -75,7 +75,7 @@ public class Widget extends AppWidgetProvider {
 		updateWidget.setAction(ACTION_UPDATE_WIDGETS);
 
 		PendingIntent updateWidgetIntent = PendingIntent.getBroadcast(c, 0,
-				updateWidget, PendingIntent.FLAG_CANCEL_CURRENT);
+				updateWidget, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		am.set(AlarmManager.RTC,
 				System.currentTimeMillis()

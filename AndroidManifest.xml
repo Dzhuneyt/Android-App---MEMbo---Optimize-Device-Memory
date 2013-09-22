@@ -78,6 +78,7 @@
             android:label="@string/instant_optimize" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="ram_manager_run" />
             </intent-filter>
 
             <meta-data
@@ -86,6 +87,14 @@
         </receiver>
         <receiver android:name="com.hasmobi.rambo.utils.AutoBoostBroadcast" >
             <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.hasmobi.rambo.utils.NotificationIcon"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="ram_manager_run" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

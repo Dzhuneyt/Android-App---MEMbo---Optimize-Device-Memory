@@ -19,7 +19,9 @@ import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.supers.SettingChangeObserver;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
+import com.hasmobi.rambo.utils.ResManager;
 
 public class FragmentSettings extends DFragment {
 
@@ -42,10 +44,14 @@ public class FragmentSettings extends DFragment {
 		List<SettingsSingle> list = new ArrayList<SettingsSingle>();
 
 		SettingsSingle setting1 = new SettingsSingle("enable_autoboost",
-				"Constant Autoboost", new AutoBoostSettingChanged());
+				ResManager.getString(c, R.string.sett_name_autoboost),
+				new AutoBoostSettingChanged());
+		SettingsSingle setting2 = new SettingsSingle("notification_icon",
+				ResManager.getString(c, R.string.sett_name_notif_icon),
+				new NotificationIconSettingChanged());
 
 		list.add(setting1);
-		list.add(setting1);
+		list.add(setting2);
 
 		SettingsAdapter adapter = new SettingsAdapter(getActivity(), list);
 
@@ -77,6 +83,25 @@ public class FragmentSettings extends DFragment {
 				pi.send();
 			} catch (CanceledException e) {
 				Debugger.log("Can not start autobooster due to an exception.");
+				Debugger.log(e.getMessage());
+			}
+		}
+
+	}
+
+	/**
+	 * Get notified when the Notification icon preferences are changed (and
+	 * enable/disable the Notification icon accordingly)
+	 */
+	class NotificationIconSettingChanged implements SettingChangeObserver {
+
+		public void changed() {
+			Intent i = new Intent(getActivity(), NotificationIcon.class);
+			PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			try {
+				pi.send();
+			} catch (CanceledException e) {
 				Debugger.log(e.getMessage());
 			}
 		}

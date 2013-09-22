@@ -12,6 +12,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Vibrator;
@@ -20,6 +21,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class RamManager {
+
+	static public String ACTION_RAM_MANAGER = "ram_manager_run";
 
 	class ProcessToKill {
 		// A class object to keep processes to be killed
@@ -47,6 +50,8 @@ public class RamManager {
 			if (v != null)
 				v.vibrate(100); // Vibrate for 100ms
 		}
+
+		this.broadcast();
 	}
 
 	public void killBgProcesses() {
@@ -149,6 +154,8 @@ public class RamManager {
 			if (v != null && !silent)
 				v.vibrate(100);
 		}
+
+		this.broadcast();
 	}
 
 	private void log(String s) {
@@ -224,5 +231,13 @@ public class RamManager {
 		}
 
 		return tm;
+	}
+
+	private void broadcast() {
+		Intent i = new Intent();
+		i.setAction(ACTION_RAM_MANAGER);
+		context.sendBroadcast(i);
+
+		Debugger.log("sending broadcast that ram was cleared. onReceive should handle stuff");
 	}
 }

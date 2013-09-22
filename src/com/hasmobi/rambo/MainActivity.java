@@ -1,7 +1,14 @@
 package com.hasmobi.rambo;
 
 import com.hasmobi.rambo.supers.DFragmentActivity;
+import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.NotificationIcon;
+import com.hasmobi.rambo.utils.Prefs;
 
+import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -14,6 +21,20 @@ public class MainActivity extends DFragmentActivity {
 
 		if (getActionBar() != null) {
 			getActionBar().hide();
+		}
+
+		sendNotification();
+	}
+
+	private void sendNotification() {
+		Intent i = new Intent(c, AutoBoostBroadcast.class);
+		PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		try {
+			pi.send();
+		} catch (CanceledException e) {
+			Debugger.log("Can not start autobooster due to an exception.");
+			Debugger.log(e.getMessage());
 		}
 	}
 
