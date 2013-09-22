@@ -31,30 +31,15 @@ import com.hasmobi.rambo.utils.Values;
 
 public class FragmentRunningApps extends DFragment {
 
-	Context c;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		c = getActivity().getBaseContext();
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.xml.fragment_running_processes, null);
-
-		return v;
+		return inflater.inflate(R.xml.fragment_running_processes, null);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		init();
-	}
-
-	protected void init() {
 		setupListView();
 	}
 
@@ -211,7 +196,6 @@ public class FragmentRunningApps extends DFragment {
 				try {
 					lv.setSelectionFromTop(index, top);
 				} catch (Exception e) {
-
 				}
 			} else {
 				Debugger.log("No running processes found");
@@ -225,8 +209,8 @@ public class FragmentRunningApps extends DFragment {
 				}
 			};
 
-			// Update list every 30 seconds
-			h.postDelayed(r, 30000);
+			// Update list every 20 seconds
+			h.postDelayed(r, 20000);
 
 		}
 	}
