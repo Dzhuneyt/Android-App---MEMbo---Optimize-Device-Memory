@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.fragments.child.FragmentMainActions;
+import com.hasmobi.rambo.supers.DFragment;
 
 public class FragmentHeader extends DFragment implements OnClickListener {
 
@@ -26,10 +30,9 @@ public class FragmentHeader extends DFragment implements OnClickListener {
 		tvAppName.setOnClickListener(this);
 
 		// Setup header font
-		final TextView tv = (TextView) v.findViewById(R.id.tvAppNameHeader);
 		final Typeface face = Typeface.createFromAsset(getActivity()
 				.getAssets(), "sttransmission_800_extrabold.otf");
-		tv.setTypeface(face);
+		tvAppName.setTypeface(face);
 
 		return v;
 	}

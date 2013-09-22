@@ -1,5 +1,6 @@
 package com.hasmobi.rambo;
 
+import com.hasmobi.rambo.supers.DActivity;
 import com.hasmobi.rambo.utils.AppRating;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.FeedbackManager;

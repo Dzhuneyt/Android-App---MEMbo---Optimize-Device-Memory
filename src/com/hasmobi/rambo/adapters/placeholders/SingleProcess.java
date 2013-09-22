@@ -1,4 +1,4 @@
-package com.hasmobi.rambo.utils;
+package com.hasmobi.rambo.adapters.placeholders;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;

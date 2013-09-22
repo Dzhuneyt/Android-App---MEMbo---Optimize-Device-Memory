@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.fragments.child;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;

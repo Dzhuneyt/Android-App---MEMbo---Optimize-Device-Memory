@@ -1,5 +1,7 @@
 package com.hasmobi.rambo;
 
+import com.hasmobi.rambo.supers.DFragmentActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 

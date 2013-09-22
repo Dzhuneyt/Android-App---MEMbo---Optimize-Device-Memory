@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.fragments.child;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.Values;
@@ -95,14 +97,22 @@ public class FragmentMainActions extends DFragment {
 					newFragment = new FragmentRunningApps();
 					break;
 				case R.id.actOpenSettings:
+					newFragment = new FragmentSettings();
 					break;
 				case R.id.actOpenWhitelist:
+					newFragment = new FragmentWhitelist();
 					break;
 				}
-				final FragmentTransaction ft = getFragmentManager()
-						.beginTransaction();
-				ft.replace(R.id.fMain, newFragment, "NewFragmentTag");
-				ft.commit();
+				try {
+					final FragmentTransaction ft = getFragmentManager()
+							.beginTransaction();
+					ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
+					ft.commit();
+				} catch (Exception e) {
+					Debugger.log(e.getMessage());
+					Debugger d = new Debugger(c);
+					d.toast("Can not open new Fragment. Please, contact us at feedback@hasmobi.com");
+				}
 			}
 
 		};

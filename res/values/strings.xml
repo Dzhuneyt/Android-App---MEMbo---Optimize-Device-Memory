@@ -94,6 +94,11 @@
     <string name="n_apps_placeholder">%d apps</string>
     <string name="available_percent_ram_label">%d%% free</string>
     <string name="manage_settings_label">Manage</string>
+    <string name="users_n_mb_ram">Uses %s</string>
+    <string name="whitelist_app_add">Whitelist</string>
+    <string name="whitelist_app_remove">Remove from Whitelist</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -107,6 +107,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/main_bg</item>
     </style>
 
     <style name="runningProcessesListView">
@@ -161,6 +162,37 @@
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:background">@color/regularBlue</item>
+    </style>
+
+    <!-- Whitelist Fragment -->
+    <style name="llSingleInstalledAppInflatedView">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/lightGray</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="tvSingleInstalledAppName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/single_process_title</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/regularBlue</item>
+    </style>
+
+    <style name="bWhitelistBlacklistBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:text">@string/whitelist_app_add</item>
         <item name="android:background">@color/regularBlue</item>
     </style>
 

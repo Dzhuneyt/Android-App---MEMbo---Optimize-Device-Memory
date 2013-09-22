@@ -1,8 +1,6 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.fragments.child;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.ActivityManager;
@@ -23,19 +21,17 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hasmobi.rambo.utils.ActiveProcessAdapter;
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
+import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.SingleProcess;
 import com.hasmobi.rambo.utils.Values;
 
 public class FragmentRunningApps extends DFragment {
 
-	List<SingleProcess> listOfProcesses;
-
 	Context c;
-
-	boolean fragmentVisible = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,18 +50,8 @@ public class FragmentRunningApps extends DFragment {
 
 	@Override
 	public void onResume() {
-		fragmentVisible = true;
-
-		init();
-
 		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		fragmentVisible = false;
-
-		super.onPause();
+		init();
 	}
 
 	protected void init() {
@@ -81,13 +67,7 @@ public class FragmentRunningApps extends DFragment {
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {
 
-		@Override
-		protected void onPreExecute() {
-			if (Values.DEBUG_MODE) {
-				log("List updating");
-			}
-			super.onPreExecute();
-		}
+		List<SingleProcess> listOfProcesses = null;
 
 		@Override
 		protected Void doInBackground(Void... v) {
@@ -106,10 +86,6 @@ public class FragmentRunningApps extends DFragment {
 			listOfProcesses = new ArrayList<SingleProcess>();
 
 			ApplicationInfo ai = null;
-
-			if (Values.DEBUG_MODE) {
-				log("Going through all running processes...");
-			}
 
 			List<RunningAppProcessInfo> runningProcesses = am
 					.getRunningAppProcesses();
@@ -248,7 +224,9 @@ public class FragmentRunningApps extends DFragment {
 					setupListView();
 				}
 			};
-			h.postDelayed(r, 5000);
+
+			// Update list every 30 seconds
+			h.postDelayed(r, 30000);
 
 		}
 	}

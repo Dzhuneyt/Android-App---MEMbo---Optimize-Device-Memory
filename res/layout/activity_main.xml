@@ -9,14 +9,14 @@
 
     <fragment
         android:id="@+id/fHeader"
-        android:name="com.hasmobi.rambo.FragmentHeader"
+        android:name="com.hasmobi.rambo.fragments.FragmentHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@xml/fragment_header" />
 
     <fragment
         android:id="@+id/fMain"
-        android:name="com.hasmobi.rambo.FragmentMainActions"
+        android:name="com.hasmobi.rambo.fragments.child.FragmentMainActions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/fToolbar"
-        android:name="com.hasmobi.rambo.FragmentToolbar"
+        android:name="com.hasmobi.rambo.fragments.FragmentToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@xml/fragment_toolbar" />

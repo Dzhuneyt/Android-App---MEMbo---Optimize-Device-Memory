@@ -3,10 +3,10 @@ package com.hasmobi.rambo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hasmobi.rambo.utils.ActiveProcessAdapter;
+import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
+import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
 import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.SingleProcess;
 import com.hasmobi.rambo.utils.Values;
 
 import android.net.Uri;

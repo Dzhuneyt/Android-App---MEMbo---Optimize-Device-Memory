@@ -1,11 +1,9 @@
-package com.hasmobi.rambo.utils;
+package com.hasmobi.rambo.adapters;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import com.hasmobi.rambo.R;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -17,6 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.utils.RamManager;
 
 public class ActiveProcessAdapter extends ArrayAdapter<String> {
 
@@ -76,10 +78,14 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 		// Transfer the data to the view
 		sqView.name.setText(currentApp.name); // App name
 
+		String memoryUsage = formatFileSize(currentApp.memoryUsage * 1000 * 1000);
+		memoryUsage = String.format(
+				context.getResources().getString(R.string.users_n_mb_ram),
+				memoryUsage);
+
 		// Set the app icon
 		sqView.icon.setImageDrawable(currentApp.icon);
-		String memoryUsage = formatFileSize(currentApp.memoryUsage * 1000 * 1000);
-		sqView.memory.setText(String.valueOf(memoryUsage));
+		sqView.memory.setText(memoryUsage);
 		sqView.killButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {

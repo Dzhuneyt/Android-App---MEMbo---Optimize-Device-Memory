@@ -1,4 +1,4 @@
-package com.hasmobi.rambo;
+package com.hasmobi.rambo.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.RamManager;
 
 public class FragmentToolbar extends DFragment implements OnClickListener {
