@@ -1,16 +1,15 @@
 package com.hasmobi.rambo.utils;
 
-import com.hasmobi.rambo.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.hasmobi.rambo.R;
 
 public class AppRating {
 
@@ -20,7 +19,6 @@ public class AppRating {
 		this.c = c;
 
 		Prefs p = new Prefs(c);
-		final SharedPreferences prefs = p.instance();
 
 		// Get the app start count from preferences
 		int appStartCount = p.getAppStartCount();

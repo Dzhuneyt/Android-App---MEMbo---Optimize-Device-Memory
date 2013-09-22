@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 public class ConfigActivity extends PreferenceActivity {
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle b) {
 		super.onCreate(b);
