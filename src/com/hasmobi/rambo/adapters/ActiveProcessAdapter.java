@@ -97,7 +97,11 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 					rm.killPackage(pkg);
 
 					// Remove the app from the processes list immediately
-					objects.remove(position);
+					try {
+						objects.remove(position);
+					} catch (Exception e) {
+
+					}
 
 					// Notify the ListView that the data list was changed
 					notifyDataSetChanged();

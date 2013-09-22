@@ -97,6 +97,10 @@ public class SettingsAdapter extends ArrayAdapter<String> {
 			((Button) v).setText(r.getString(checked ? R.string.disable
 					: R.string.enable));
 
+			if (current.observer != null) {
+				current.observer.changed();
+			}
+
 			notifyDataSetChanged();
 		}
 	}

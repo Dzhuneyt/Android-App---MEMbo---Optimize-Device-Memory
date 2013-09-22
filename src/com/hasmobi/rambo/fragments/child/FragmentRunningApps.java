@@ -52,7 +52,18 @@ public class FragmentRunningApps extends DFragment {
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {
 
+		private boolean oneTimeOnly = false;
+
 		List<SingleProcess> listOfProcesses = null;
+
+		public listUpdater(boolean oneTimeOnly) {
+			super();
+			this.oneTimeOnly = oneTimeOnly;
+
+		}
+
+		public listUpdater() {
+		}
 
 		@Override
 		protected Void doInBackground(Void... v) {
@@ -202,15 +213,17 @@ public class FragmentRunningApps extends DFragment {
 
 			}
 
-			Handler h = new Handler();
-			Runnable r = new Runnable() {
-				public void run() {
-					setupListView();
-				}
-			};
+			if (!oneTimeOnly) {
+				Handler h = new Handler();
+				Runnable r = new Runnable() {
+					public void run() {
+						setupListView();
+					}
+				};
 
-			// Update list every 20 seconds
-			h.postDelayed(r, 20000);
+				// Update list every 20 seconds
+				h.postDelayed(r, 20000);
+			}
 
 		}
 	}
