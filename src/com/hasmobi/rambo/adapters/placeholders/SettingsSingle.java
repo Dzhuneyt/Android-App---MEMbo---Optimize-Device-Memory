@@ -8,10 +8,10 @@ public class SettingsSingle {
 	public String settingName;
 	// The key under which we save it in SharedPreferences
 	public String settingKey;
-	public SettingChangeObserver observer;
+	public Runnable observer;
 
 	public SettingsSingle(String settingKey, String settingName,
-			SettingChangeObserver observer) {
+			Runnable observer) {
 		this.settingKey = settingKey;
 		this.settingName = settingName;
 		this.observer = observer;

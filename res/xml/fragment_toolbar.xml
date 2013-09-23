@@ -2,7 +2,7 @@
     android:id="@+id/llToolbar"
     style="@style/toolbarFragmentWrapper"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 

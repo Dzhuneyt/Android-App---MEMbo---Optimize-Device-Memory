@@ -15,6 +15,10 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 	// Broadcast action that kills apps immediately - once
 	public static String ACTION_BOOST = "boost";
 
+	// Broadcast action that kills apps immediately - once, without displaying a
+	// Toast afterwards
+	public static String ACTION_BOOST_SILENT = "silent_boost";
+
 	// Broadcast action that enables autoboost - a feature that will kill apps
 	// at a scheduled interval
 	public static String ACTION_AUTOBOOST_ENABLE = "autoboost_enable";
@@ -38,7 +42,10 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 		if (action != null) {
 			if (action.equalsIgnoreCase(ACTION_BOOST)) {
 				// kill apps now - once
-				this.optimize(context);
+				this.optimize(context, false);
+			} else if (action.equalsIgnoreCase(ACTION_BOOST_SILENT)) {
+				// kill apps now - once. Don't display a Toast
+				this.optimize(context, true);
 			} else if (action.equalsIgnoreCase(ACTION_AUTOBOOST_ENABLE)) {
 				// enable autoboost
 				this.enableAutoBoost(context);
@@ -60,22 +67,9 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 
 	}
 
-	private void optimize(Context c) {
+	private void optimize(Context c, boolean silent) {
 		RamManager rm = new RamManager(c);
-		rm.killBgProcesses();
-
-		// Update widgets, because the "Boost" may have been initiated by a
-		// widget button click
-		Intent updateWidget = new Intent(c, Widget.class);
-		updateWidget.setAction(Widget.ACTION_UPDATE_WIDGETS);
-
-		PendingIntent updateWidgetIntent = PendingIntent.getBroadcast(c, 0,
-				updateWidget, PendingIntent.FLAG_CANCEL_CURRENT);
-		try {
-			updateWidgetIntent.send();
-		} catch (CanceledException e) {
-			e.printStackTrace();
-		}
+		rm.killBgProcesses(silent);
 	}
 
 	private void disableAutoBoost(Context context) {
@@ -93,7 +87,7 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 
 	private void enableAutoBoost(Context context) {
 		Intent autoBoostIntent = new Intent(context, AutoBoostBroadcast.class);
-		autoBoostIntent.setAction(ACTION_BOOST);
+		autoBoostIntent.setAction(ACTION_BOOST_SILENT);
 
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0,
 				autoBoostIntent, PendingIntent.FLAG_CANCEL_CURRENT);

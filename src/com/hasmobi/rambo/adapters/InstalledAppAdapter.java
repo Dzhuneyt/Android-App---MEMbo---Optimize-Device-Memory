@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.SingleInstalledApp;
 
 public class InstalledAppAdapter extends ArrayAdapter<String> {
@@ -118,13 +119,15 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 		v.bWhitelist.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View view) {
-				Debugger.log("whitelist request");
 
 				// Whitelist/Blacklist the clicked package and update its button
 				// label
 				boolean excluded = excluded_list.getBoolean(
 						currentApp.ai.packageName, false);
 				SharedPreferences.Editor edit = excluded_list.edit();
+
+				Debugger d = new Debugger(context);
+
 				try {
 					if (excluded) {
 						edit.remove(currentApp.ai.packageName);
@@ -136,13 +139,22 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 				} catch (Exception e) {
 					Debugger.log("Can not whitelist/blacklist package");
 					Debugger.log(e.getMessage());
-					Debugger d = new Debugger(context);
 					d.longToast("This app can not be "
 							+ (excluded ? "removed from blacklist"
 									: "added to blacklist")
 							+ ". Please contact us at feedback@hasmobi.com if this error persists.");
 				}
-				edit.commit();
+
+				boolean success = edit.commit();
+
+				if (success) {
+					d.toast(excluded ? ResManager.getString(context,
+							R.string.app_whitelist_removed) : ResManager
+							.getString(context, R.string.app_whitelisted));
+				} else {
+					d.toast("Unable to whitelist/remove from whitelist");
+				}
+
 				notifyDataSetChanged();
 			}
 

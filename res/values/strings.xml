@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">RAMbo</string>
+    <string name="app_name">MEMbo</string>
     <string name="menu_settings">Settings</string>
     <string name="total_ram_0">Total RAM: 0</string>
     <string name="free_ram_0">Free RAM: 0</string>
@@ -90,9 +90,10 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="app_whitelist">App Whitelist</string>
-    <string name="active_apps_label">%d apps</string>
-    <string name="n_apps_placeholder">%d apps</string>
-    <string name="available_percent_ram_label">%d%% free</string>
+    <string name="active_apps_label">%d apps running</string>
+    <string name="whitelisted_apps_label">%d apps whitelisted</string>
+    <string name="n_apps_placeholder">%d apps running</string>
+    <string name="available_percent_ram_label">%d%% free memory</string>
     <string name="manage_settings_label">Manage</string>
     <string name="users_n_mb_ram">Uses %s</string>
     <string name="whitelist_app_add">Whitelist</string>
@@ -102,6 +103,8 @@
     <string name="disable">Disable</string>
     <string name="sett_name_autoboost">Regular Autoboost</string>
     <string name="sett_name_notif_icon">Notification Icon</string>
+    <string name="autoboost_enabled">Autoboost enabled</string>
+    <string name="autoboost_disabled">Autoboost disabled</string>
     <!-- Notification icon -->
     <string name="memory_usage">Memory usage</string>
 

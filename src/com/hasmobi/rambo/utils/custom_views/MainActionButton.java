@@ -1,6 +1,7 @@
 package com.hasmobi.rambo.utils.custom_views;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;
@@ -38,27 +39,14 @@ public class MainActionButton extends Button {
 	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-		// UNUSED
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+		// Get whichever is smaller - width or height.
+		// Helps to make a square instead of a rectangle.
+		// int size = Math.max(getMeasuredWidth(), getMeasuredHeight());
 
-		int size;
-		if (widthMode == MeasureSpec.EXACTLY && widthSize == 0) {
-			size = widthSize;
-		} else if (heightMode == MeasureSpec.EXACTLY && heightSize == 0) {
-			size = heightSize;
-		} else {
-			size = widthSize > heightSize ? widthSize : heightSize;
-		}
-
-		int finalMeasureSpec = MeasureSpec.makeMeasureSpec(size,
-				MeasureSpec.EXACTLY);
+//		setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
 	}
 
 }

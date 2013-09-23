@@ -26,21 +26,10 @@ import com.hasmobi.rambo.utils.Values;
 
 public class FragmentMainActions extends DFragment {
 
-	Context c;
-
 	boolean fragmentActive = false;
 
 	ActiveAppsLabel ActiveAppsLabel = null;
 	AvailableMemoryLabel AvailableMemoryLabel = null;
-	WhiteListedAppsLabel WhiteListedAppsLabel = null;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-
-		c = getActivity().getBaseContext();
-
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public void onResume() {
@@ -52,9 +41,6 @@ public class FragmentMainActions extends DFragment {
 		AvailableMemoryLabel = new AvailableMemoryLabel();
 		AvailableMemoryLabel.start();
 
-		WhiteListedAppsLabel = new WhiteListedAppsLabel();
-		WhiteListedAppsLabel.start();
-
 		super.onResume();
 	}
 
@@ -64,7 +50,6 @@ public class FragmentMainActions extends DFragment {
 
 		ActiveAppsLabel.stop();
 		AvailableMemoryLabel.stop();
-		WhiteListedAppsLabel.stop();
 
 		super.onPause();
 	}
@@ -293,74 +278,4 @@ public class FragmentMainActions extends DFragment {
 
 	}
 
-	/**
-	 * A self contained class that will auto-update the available RAM (in
-	 * percents) every N seconds and update a TextView
-	 * 
-	 */
-	private class WhiteListedAppsLabel {
-		Handler h = null;
-		Runnable r = null;
-
-		/**
-		 * Setup the Handler and Runnable in constructor. They are not runned
-		 * until you call start()
-		 */
-		public WhiteListedAppsLabel() {
-
-			final SharedPreferences excludedPrefs = getActivity()
-					.getSharedPreferences(Values.EXCLUDED_LIST_FILE, 0);
-
-			h = new Handler();
-			r = new Runnable() {
-
-				public void run() {
-					if (fragmentActive) {
-						int count = 0;
-
-						try {
-							count = excludedPrefs.getAll().size();
-						} catch (NullPointerException e) {
-
-						}
-
-						updateLabel(count);
-						h.postDelayed(this, 10000);
-					}
-				}
-
-			};
-
-		}
-
-		public void start() {
-			if (h == null) {
-				h = new Handler();
-			}
-			if (r != null) {
-				h.removeCallbacks(r);
-			}
-			h.post(r);
-		}
-
-		public void stop() {
-			if (h != null && r != null)
-				h.removeCallbacks(r);
-		}
-
-		private void updateLabel(int whitelistedAppsCount) {
-			try {
-				final TextView tvActiveApps = (TextView) getView()
-						.findViewById(R.id.tvMainActionsLabelWhitelist);
-				String label = getActivity().getResources().getString(
-						R.string.n_apps_placeholder);
-				label = String.format(label, whitelistedAppsCount);
-				tvActiveApps.setText(label);
-			} catch (Exception e) {
-				Debugger.log("Can not update main actions label for whitelisted apps count. Error: "
-						+ e.getMessage());
-			}
-		}
-
-	}
 }

@@ -27,14 +27,18 @@
 
     <!-- Main actions fragment -->
     <style name="mainActionsFragmentWrapper">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@color/main_bg</item>
     </style>
 
     <style name="MainActionRow2Elems">
         <item name="android:gravity">center</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:orientation">horizontal</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="MainActionRow3Elems">
@@ -49,21 +53,22 @@
     <style name="MainActionWrapper">
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">10dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="MainActionButton">
         <item name="android:singleLine">false</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_width">140dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:layout_height">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:radius">30dp</item>
         <item name="android:padding">5dp</item>
+        <item name="android:lines">2</item>
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:background">@drawable/btn_blue</item>
     </style>
@@ -71,9 +76,11 @@
     <style name="MainActionLabel">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_width">140dp</item>
-        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/main_actions_pie_right_label</item>
     </style>
     <!-- ^ TextView ^ -->
 
@@ -84,13 +91,14 @@
         <item name="android:background">@color/main_bg</item>
         <item name="android:paddingBottom">20dp</item>
         <item name="android:paddingTop">10dp</item>
+        <item name="android:minHeight">50dp</item>
         <item name="android:paddingLeft">30dp</item>
         <item name="android:paddingRight">30dp</item>
     </style>
 
     <style name="bOptimize">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:textSize">30sp</item>
         <item name="android:background">@drawable/btn_blue_optimize</item>

@@ -1,6 +1,5 @@
 <resources>
 
-    <string name="app_name">RAMbo</string>
     <string name="menu_settings">Настройки</string>
     <string name="total_ram_0">Total RAM: 0</string>
     <string name="free_ram_0">Free RAM: 0</string>

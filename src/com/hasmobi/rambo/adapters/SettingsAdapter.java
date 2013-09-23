@@ -98,7 +98,7 @@ public class SettingsAdapter extends ArrayAdapter<String> {
 					: R.string.enable));
 
 			if (current.observer != null) {
-				current.observer.changed();
+				current.observer.run();
 			}
 
 			notifyDataSetChanged();

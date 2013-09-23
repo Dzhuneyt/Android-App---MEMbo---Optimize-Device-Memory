@@ -43,12 +43,53 @@ public class FragmentSettings extends DFragment {
 
 		List<SettingsSingle> list = new ArrayList<SettingsSingle>();
 
+		Runnable autoboostSettChangeListener = new Runnable() {
+
+			public void run() {
+				Debugger d = new Debugger(c);
+				Prefs p = new Prefs(c);
+				Intent i = new Intent(c, AutoBoostBroadcast.class);
+				if (p.isAutoboostEnabled()) {
+					i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_ENABLE);
+					d.toast(ResManager.getString(c, R.string.autoboost_enabled));
+				} else {
+					i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_DISABLE);
+					d.toast(ResManager
+							.getString(c, R.string.autoboost_disabled));
+				}
+				PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
+						PendingIntent.FLAG_CANCEL_CURRENT);
+				try {
+					pi.send();
+				} catch (CanceledException e) {
+					Debugger.log("Can not start autobooster due to an exception.");
+					Debugger.log(e.getMessage());
+				}
+			}
+
+		};
+
+		Runnable notifIconSettChangeListener = new Runnable() {
+
+			public void run() {
+				Intent i = new Intent(getActivity(), NotificationIcon.class);
+				PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0,
+						i, PendingIntent.FLAG_CANCEL_CURRENT);
+				try {
+					pi.send();
+				} catch (CanceledException e) {
+					Debugger.log(e.getMessage());
+				}
+			}
+
+		};
+
 		SettingsSingle setting1 = new SettingsSingle("enable_autoboost",
 				ResManager.getString(c, R.string.sett_name_autoboost),
-				new AutoBoostSettingChanged());
+				autoboostSettChangeListener);
 		SettingsSingle setting2 = new SettingsSingle("notification_icon",
 				ResManager.getString(c, R.string.sett_name_notif_icon),
-				new NotificationIconSettingChanged());
+				notifIconSettChangeListener);
 
 		list.add(setting1);
 		list.add(setting2);
@@ -58,54 +99,6 @@ public class FragmentSettings extends DFragment {
 		lvSettings.setAdapter(adapter);
 
 		showView(lvSettings);
-	}
-
-	/**
-	 * Get notified when the Autoboost preferences are changed (and
-	 * enable/disable Autoboost accordingly)
-	 */
-	class AutoBoostSettingChanged implements SettingChangeObserver {
-
-		public void changed() {
-			Debugger d = new Debugger(c);
-			Prefs p = new Prefs(c);
-			Intent i = new Intent(c, AutoBoostBroadcast.class);
-			if (p.isAutoboostEnabled()) {
-				i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_ENABLE);
-				d.toast("Enabling autoboost");
-			} else {
-				i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_DISABLE);
-				d.toast("Autoboost disabled");
-			}
-			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				pi.send();
-			} catch (CanceledException e) {
-				Debugger.log("Can not start autobooster due to an exception.");
-				Debugger.log(e.getMessage());
-			}
-		}
-
-	}
-
-	/**
-	 * Get notified when the Notification icon preferences are changed (and
-	 * enable/disable the Notification icon accordingly)
-	 */
-	class NotificationIconSettingChanged implements SettingChangeObserver {
-
-		public void changed() {
-			Intent i = new Intent(getActivity(), NotificationIcon.class);
-			PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				pi.send();
-			} catch (CanceledException e) {
-				Debugger.log(e.getMessage());
-			}
-		}
-
 	}
 
 }
