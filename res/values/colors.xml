@@ -2,6 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Cake Stand: https://kuler.adobe.com/#themeID/2076092 -->
+    <!-- NEWEST: https://kuler.adobe.com/Stream-IN-color-theme-2901832/ -->
     <color name="lightGreen">#B2CFC0</color>
     <color name="pieRed">#BD4141</color>
     <color name="pieGreen">#719D98</color>
@@ -16,16 +17,24 @@
     <color name="subheader">#666666</color>
 
     <!-- Refactored colors follow: -->
-    <color name="main_bg">#5b5c5e</color>
+    <color name="main_bg_old">#5b5c5e</color>
+    <color name="main_bg">#6DBCDB</color>
     <color name="optimizeButtonBG">#ff4e51</color>
-    <color name="light_blue_header">#6dcff6</color>
+    <color name="light_blue_header">#5e7f9c</color>
     <color name="mainActionButtonBG">#5e7f9c</color>
     <color name="mainTextColor">#f4f5ed</color>
-    <color name="pieBg">#adadad</color>
-    <color name="pieOverlay">#5e7f9c</color>
+    
+    <!-- Pie -->
+    <color name="pieBg">#5e7f9c</color>
+    <color name="pieOverlay">#f2f6ff</color>
+    <color name="pieDropShadow">@color/solidBlack</color>
+    
     <color name="lightOragen">#ff9a65</color>
     <color name="lightGray">#adadad</color>
     <color name="solidBlack">#000000</color>
     <color name="regularBlue">#5e7f9c</color>
+    <color name="solidBlue">#2c3e50</color>
+    <color name="red">#fc4349</color>
+    <color name="white">#ffffff</color>
 
 </resources>
