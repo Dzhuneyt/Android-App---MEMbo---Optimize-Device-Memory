@@ -1,10 +1,7 @@
 package com.hasmobi.rambo.utils;
 
-import com.hasmobi.rambo.Widget;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

@@ -3,9 +3,6 @@ package com.hasmobi.rambo;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
-import com.hasmobi.rambo.utils.NotificationIcon;
-import com.hasmobi.rambo.utils.Prefs;
-
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;

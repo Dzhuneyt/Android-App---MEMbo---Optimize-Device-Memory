@@ -16,7 +16,6 @@ import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.SettingsAdapter;
 import com.hasmobi.rambo.adapters.placeholders.SettingsSingle;
 import com.hasmobi.rambo.supers.DFragment;
-import com.hasmobi.rambo.supers.SettingChangeObserver;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.NotificationIcon;

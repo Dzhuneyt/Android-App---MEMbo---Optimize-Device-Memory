@@ -1,7 +1,6 @@
 package com.hasmobi.rambo.utils.custom_views;
 
 import android.content.Context;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;

@@ -1,7 +1,5 @@
 package com.hasmobi.rambo.adapters.placeholders;
 
-import com.hasmobi.rambo.supers.SettingChangeObserver;
-
 public class SettingsSingle {
 
 	// A friendly name of the setting (localized)

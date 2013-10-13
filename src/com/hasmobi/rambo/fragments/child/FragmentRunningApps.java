@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,13 +43,23 @@ public class FragmentRunningApps extends DFragment {
 	public void onResume() {
 		super.onResume();
 		setupListView();
+
+		// If the ListView was previously populated, restore it for now
+		final ListView lv = (ListView) getView().findViewById(
+				R.id.lvRunningProcesses);
+		final TextView tvPlaceholder = (TextView) getView().findViewById(
+				R.id.tvRunningProcessesPlaceholder);
+		if (lv != null && tvPlaceholder != null) {
+			if (lv.getAdapter() != null && lv.getAdapter().getCount() > 0) {
+				tvPlaceholder.setVisibility(View.GONE);
+				lv.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	/**
 	 * An Async class that updates the running processes list, called via
 	 * setupListView()
-	 * 
-	 * @author hasMobi.com
 	 * 
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {

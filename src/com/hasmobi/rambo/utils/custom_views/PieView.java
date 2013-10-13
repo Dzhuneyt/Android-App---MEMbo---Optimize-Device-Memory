@@ -17,6 +17,11 @@ public class PieView extends View {
 
 	Paint brush, transparentPaint;
 
+	// Some styling
+	int bgColor = R.color.pieBg;
+	int overlaycolor = R.color.pieOverlay;
+	int shadowOffset = 3;
+
 	public PieView(Context context) {
 		super(context);
 		init();
@@ -44,9 +49,6 @@ public class PieView extends View {
 		if (freeRam == 0 || totalRam == 0)
 			return;
 
-		int bgColor = R.color.pieBg;
-		int overlaycolor = R.color.pieOverlay;
-
 		brush.setTextSize(30);
 		brush.setTextAlign(Paint.Align.CENTER);
 
@@ -55,13 +57,14 @@ public class PieView extends View {
 		canvas.drawColor(transparentPaint.getColor());
 
 		// Draw the shadow
-		mOvals.offset(3, 3);
+		mOvals.offset(shadowOffset, shadowOffset);
 		brush.setColor(getResources().getColor(R.color.solidBlack));
-		brush.setAlpha(100);
+		brush.setAlpha(150);
 		canvas.drawArc(mOvals, 0, 360, true, brush);
 		// Restore brush to its original settings
 		brush.setAlpha(255);
-		mOvals.offset(-3, -3);
+		mOvals.offset(shadowOffset - 2 * shadowOffset, shadowOffset - 2
+				* shadowOffset);
 
 		brush.setAntiAlias(true);
 		brush.setStyle(Paint.Style.FILL);
@@ -73,11 +76,6 @@ public class PieView extends View {
 		canvas.drawArc(mOvals, 0, 360, true, brush);
 		brush.setColor(getResources().getColor(bgColor));
 		canvas.drawArc(mOvals, -90, freePercent, true, brush);
-
-		int quadrant = 0;
-		long result = (freePercent / 90) + 1;
-		Debugger.log("result: " + result);
-
 	}
 
 	@Override

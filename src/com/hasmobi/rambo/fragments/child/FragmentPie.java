@@ -27,8 +27,6 @@ public class FragmentPie extends DFragment {
 	private Handler handler;
 	private Runnable r;
 
-	boolean FragmentVisible = false;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,11 +75,9 @@ public class FragmentPie extends DFragment {
 
 	@Override
 	public void onResume() {
-		this.FragmentVisible = true;
+		super.onResume();
 
 		setupInBackground();
-
-		super.onResume();
 	}
 
 	/**
@@ -99,8 +95,10 @@ public class FragmentPie extends DFragment {
 		handler = new Handler();
 		r = new Runnable() {
 			public void run() {
-				new freeRamUpdater();
-				handler.postDelayed(r, updateInterval);
+				if (fragmentVisible) {
+					new freeRamUpdater();
+					handler.postDelayed(r, updateInterval);
+				}
 			}
 		};
 		handler.post(r);
@@ -108,12 +106,10 @@ public class FragmentPie extends DFragment {
 
 	@Override
 	public void onPause() {
-		this.FragmentVisible = false;
+		super.onPause();
 
 		if (handler != null && r != null)
 			handler.removeCallbacks(r);
-
-		super.onPause();
 	}
 
 	/**
