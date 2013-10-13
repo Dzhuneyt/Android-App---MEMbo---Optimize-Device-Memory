@@ -26,30 +26,29 @@ import com.hasmobi.rambo.utils.Values;
 
 public class FragmentMainActions extends DFragment {
 
-	boolean fragmentActive = false;
-
 	ActiveAppsLabel ActiveAppsLabel = null;
-	AvailableMemoryLabel AvailableMemoryLabel = null;
+	TotalMemoryLabel AvailableMemoryLabel = null;
+	FreeMemoryLabel FreeMemoryLabel = null;
 
 	@Override
 	public void onResume() {
-		this.fragmentActive = true;
-
 		ActiveAppsLabel = new ActiveAppsLabel();
 		ActiveAppsLabel.start();
 
-		AvailableMemoryLabel = new AvailableMemoryLabel();
+		AvailableMemoryLabel = new TotalMemoryLabel();
 		AvailableMemoryLabel.start();
+
+		FreeMemoryLabel = new FreeMemoryLabel();
+		FreeMemoryLabel.start();
 
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		this.fragmentActive = false;
-
 		ActiveAppsLabel.stop();
 		AvailableMemoryLabel.stop();
+		FreeMemoryLabel.stop();
 
 		super.onPause();
 	}
@@ -58,6 +57,7 @@ public class FragmentMainActions extends DFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		Debugger.log("here");
 		// Inflate the layout for this fragment
 		View layout = inflater.inflate(R.xml.fragment_main_actions, null);
 
@@ -75,14 +75,8 @@ public class FragmentMainActions extends DFragment {
 			public void onClick(View v) {
 				Fragment newFragment = null;
 				switch (v.getId()) {
-				case R.id.actOpenPie:
-					newFragment = new FragmentPie();
-					break;
 				case R.id.actOpenRunningApps:
 					newFragment = new FragmentRunningApps();
-					break;
-				case R.id.actOpenSettings:
-					newFragment = new FragmentSettings();
 					break;
 				case R.id.actOpenWhitelist:
 					newFragment = new FragmentWhitelist();
@@ -106,36 +100,40 @@ public class FragmentMainActions extends DFragment {
 				.findViewById(R.id.actOpenRunningApps);
 		final Button bWhitelist = (Button) v
 				.findViewById(R.id.actOpenWhitelist);
-		final Button bSettings = (Button) v.findViewById(R.id.actOpenSettings);
-		final Button bPie = (Button) v.findViewById(R.id.actOpenPie);
 
 		bActiveApps.setOnClickListener(listener);
 		bWhitelist.setOnClickListener(listener);
-		bSettings.setOnClickListener(listener);
-		bPie.setOnClickListener(listener);
 	}
 
 	private void setupFonts(View layout) {
 		final Typeface face = Typeface.createFromAsset(c.getAssets(),
 				"notosansregular.ttf");
 
+		final Typeface bold = Typeface.createFromAsset(c.getAssets(),
+				"sttransmission_800_extrabold.otf");
+
 		// Setup fonts for the labels below the buttons
-		final TextView l1 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelPie);
 		final TextView l2 = (TextView) layout
 				.findViewById(R.id.tvMainActionsLabelRunningApps);
-		final TextView l3 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelSettings);
 		final TextView l4 = (TextView) layout
 				.findViewById(R.id.tvMainActionsLabelWhitelist);
-		if (l1 != null)
-			l1.setTypeface(face);
 		if (l2 != null)
 			l2.setTypeface(face);
-		if (l3 != null)
-			l3.setTypeface(face);
 		if (l4 != null)
 			l4.setTypeface(face);
+
+		final TextView l5 = (TextView) layout
+				.findViewById(R.id.tvMainActionsLabelTotalRam);
+		final TextView l6 = (TextView) layout
+				.findViewById(R.id.tvMainActionsLabelAvailableRam);
+		final TextView l7 = (TextView) layout
+				.findViewById(R.id.tvMainActionsLabelRunningApps);
+		if (l5 != null)
+			l5.setTypeface(bold);
+		if (l6 != null)
+			l6.setTypeface(bold);
+		if (l7 != null)
+			l7.setTypeface(bold);
 
 	}
 
@@ -157,7 +155,7 @@ public class FragmentMainActions extends DFragment {
 			r = new Runnable() {
 
 				public void run() {
-					if (fragmentActive) {
+					if (fragmentVisible) {
 
 						ActivityManager am = (ActivityManager) c
 								.getSystemService(Context.ACTIVITY_SERVICE);
@@ -213,7 +211,7 @@ public class FragmentMainActions extends DFragment {
 	 * percents) every N seconds and update a TextView
 	 * 
 	 */
-	private class AvailableMemoryLabel {
+	private class TotalMemoryLabel {
 		Handler h = null;
 		Runnable r = null;
 
@@ -221,23 +219,83 @@ public class FragmentMainActions extends DFragment {
 		 * Setup the Handler and Runnable in constructor. They are not runned
 		 * until you call start()
 		 */
-		public AvailableMemoryLabel() {
+		public TotalMemoryLabel() {
 			final RamManager rm = new RamManager(getActivity().getBaseContext());
 
 			h = new Handler();
 			r = new Runnable() {
 
 				public void run() {
-					if (fragmentActive) {
+					if (fragmentVisible) {
 
-						int freeRam = rm.getFreeRam();
 						int totalRam = rm.getTotalRam();
 
-						int freeRamPercent = freeRam * 100 / totalRam;
+						updateLabel(totalRam);
 
-						if (freeRamPercent > 0 && freeRamPercent <= 100) {
-							updateLabel(freeRamPercent);
-						}
+						h.postDelayed(this, 12000);
+					}
+				}
+
+			};
+
+		}
+
+		public void start() {
+			if (h == null) {
+				h = new Handler();
+			}
+			if (r != null) {
+				h.removeCallbacks(r);
+			}
+			h.post(r);
+		}
+
+		public void stop() {
+			if (h != null && r != null)
+				h.removeCallbacks(r);
+		}
+
+		private void updateLabel(int totalRam) {
+			try {
+				final TextView tvActiveApps = (TextView) getView()
+						.findViewById(R.id.tvMainActionsLabelTotalRam);
+				String label = getActivity().getResources().getString(
+						R.string.total_ram_label);
+				label = String.format(label, totalRam);
+				tvActiveApps.setText(label);
+			} catch (Exception e) {
+				Debugger.log("Can not update main actions label for total ram. Error: "
+						+ e.getMessage());
+			}
+		}
+
+	}
+
+	/**
+	 * A self contained class that will auto-update the available RAM (in
+	 * percents) every N seconds and update a TextView
+	 * 
+	 */
+	private class FreeMemoryLabel {
+		Handler h = null;
+		Runnable r = null;
+
+		/**
+		 * Setup the Handler and Runnable in constructor. They are not runned
+		 * until you call start()
+		 */
+		public FreeMemoryLabel() {
+			final RamManager rm = new RamManager(getActivity().getBaseContext());
+
+			h = new Handler();
+			r = new Runnable() {
+
+				public void run() {
+					if (fragmentVisible) {
+
+						int freeRam = rm.getFreeRam();
+
+						updateLabel(freeRam);
 
 						h.postDelayed(this, 3000);
 					}
@@ -262,16 +320,16 @@ public class FragmentMainActions extends DFragment {
 				h.removeCallbacks(r);
 		}
 
-		private void updateLabel(int freeRamPercent) {
+		private void updateLabel(int freeRam) {
 			try {
 				final TextView tvActiveApps = (TextView) getView()
-						.findViewById(R.id.tvMainActionsLabelPie);
+						.findViewById(R.id.tvMainActionsLabelAvailableRam);
 				String label = getActivity().getResources().getString(
-						R.string.available_percent_ram_label);
-				label = String.format(label, freeRamPercent);
+						R.string.free_ram_label);
+				label = String.format(label, freeRam);
 				tvActiveApps.setText(label);
 			} catch (Exception e) {
-				Debugger.log("Can not update main actions label for free ram percentage. Error: "
+				Debugger.log("Can not update main actions label for free ram. Error: "
 						+ e.getMessage());
 			}
 		}

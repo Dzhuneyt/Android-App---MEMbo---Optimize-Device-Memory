@@ -26,46 +26,30 @@
             android:gravity="center"
             android:orientation="vertical" >
             <TextView
+                android:id="@+id/tvMainActionsLabelTotalRam"
+                style="@style/MainActionLabel"
+                android:text="N mb total" />
+            <TextView
+                android:id="@+id/tvMainActionsLabelAvailableRam"
+                style="@style/MainActionLabel"
+                android:text="N mb available" />
+            <TextView
                 android:id="@+id/tvMainActionsLabelRunningApps"
                 style="@style/MainActionLabel"
-                android:text="23 apps" />
-            <TextView
-                android:id="@+id/tvMainActionsLabelPie"
-                style="@style/MainActionLabel"
-                android:text="23 apps" />
+                android:text="23 apps running" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llMainActionRow1"
         style="@style/MainActionRow2Elems" >
-        <LinearLayout style="@style/MainActionWrapper" >
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenRunningApps"
-                style="@style/MainActionButton"
-                android:text="@string/running_processes" />
-        </LinearLayout>
-        <LinearLayout style="@style/MainActionWrapper" >
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenPie"
-                style="@style/MainActionButton"
-                android:text="@string/memory_management" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/llMainActionRow2"
-        style="@style/MainActionRow2Elems" >
-        <LinearLayout style="@style/MainActionWrapper" >
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenWhitelist"
-                style="@style/MainActionButton"
-                android:text="@string/app_whitelist" />
-        </LinearLayout>
-        <LinearLayout style="@style/MainActionWrapper" >
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenSettings"
-                style="@style/MainActionButton"
-                android:text="@string/action_settings" />
-        </LinearLayout>
+        <com.hasmobi.rambo.utils.custom_views.MainActionButton
+            android:id="@+id/actOpenRunningApps"
+            style="@style/MainActionButton"
+            android:text="@string/running_processes" />
+        <com.hasmobi.rambo.utils.custom_views.MainActionButton
+            android:id="@+id/actOpenWhitelist"
+            style="@style/MainActionButton"
+            android:text="@string/app_whitelist" />
     </LinearLayout>
 
 </LinearLayout>
