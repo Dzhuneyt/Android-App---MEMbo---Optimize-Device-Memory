@@ -114,19 +114,12 @@ public class RamManager {
 			logSavedRam(savedRam);
 
 			// Notify user that optimization is completed
-			final Resources res = context.getResources();
-			if (res != null) {
-				if (!silent) {
-					String toDisplay = res
-							.getString(R.string.memory_optimized_toast);
-					toDisplay = String.format(toDisplay, killCount, savedRam);
+			if (!silent) {
+				String toDisplay = ResManager.getString(context,
+						R.string.memory_optimized_toast);
+				toDisplay = String.format(toDisplay, killCount, savedRam);
 
-					Toast.makeText(context, toDisplay, Toast.LENGTH_LONG)
-							.show();
-				}
-
-			} else {
-				log("Can not get resources with context.getResources()");
+				Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
 			}
 
 		} else {
@@ -146,8 +139,7 @@ public class RamManager {
 		}
 
 		// Should the device vibrate after killing?
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
+		final SharedPreferences prefs = Prefs.instance(context);
 		if (prefs.getBoolean("vibrate_after_optimize", true)) {
 			final Vibrator v = (Vibrator) context
 					.getSystemService(Context.VIBRATOR_SERVICE);
@@ -156,6 +148,8 @@ public class RamManager {
 		}
 
 		this.broadcast();
+
+		this.saveLastOptimizeTimestamp();
 	}
 
 	private void log(String s) {
@@ -239,5 +233,10 @@ public class RamManager {
 		context.sendBroadcast(i);
 
 		Debugger.log("sending broadcast that ram was cleared. onReceive should handle stuff");
+	}
+
+	private void saveLastOptimizeTimestamp() {
+		Prefs p = new Prefs(context);
+		p.saveLastOptimizeTimestamp(System.currentTimeMillis());
 	}
 }

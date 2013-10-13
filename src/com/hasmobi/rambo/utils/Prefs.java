@@ -64,4 +64,11 @@ public class Prefs {
 	public int getWidgetUpdateInterval() {
 		return 5;
 	}
+
+	public long getLastOptimizeTimestamp() {
+		return prefs.getLong("last_memory_optimizitaion_timestamp", 0);
+	}
+	public void saveLastOptimizeTimestamp(long timestamp) {
+		this.save("last_memory_optimizitaion_timestamp", timestamp);
+	}
 }
