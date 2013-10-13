@@ -17,7 +17,6 @@ import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.ResManager;
-import com.hasmobi.rambo.utils.Values;
 
 public class FragmentToolbar extends DFragment implements OnClickListener {
 

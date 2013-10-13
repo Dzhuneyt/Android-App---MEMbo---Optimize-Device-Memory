@@ -1,8 +1,6 @@
 package com.hasmobi.rambo.utils.custom_views;
 
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.utils.Debugger;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

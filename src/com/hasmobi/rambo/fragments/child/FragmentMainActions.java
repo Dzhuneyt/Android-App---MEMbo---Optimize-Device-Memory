@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +21,6 @@ import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.Values;
 
 public class FragmentMainActions extends DFragment {
 
