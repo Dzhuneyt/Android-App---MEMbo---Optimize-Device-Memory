@@ -79,9 +79,10 @@ public class FragmentWhitelist extends DFragment {
 
 			if (installedApps != null && installedApps.size() > 0) {
 				for (ApplicationInfo appInfo : installedApps) {
-					boolean systemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
-					if (!systemApp)
-						listOfApps.add(new SingleInstalledApp(appInfo));
+					// boolean systemApp = (appInfo.flags &
+					// ApplicationInfo.FLAG_SYSTEM) != 0;
+					// if (!systemApp)
+					listOfApps.add(new SingleInstalledApp(appInfo));
 
 					// Debugger.log(appInfo.packageName);
 					// Debugger.log(appInfo.loadLabel(pm) + "");

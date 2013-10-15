@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -151,6 +153,15 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 					d.toast(excluded ? ResManager.getString(context,
 							R.string.app_whitelist_removed) : ResManager
 							.getString(context, R.string.app_whitelisted));
+
+					try {
+						final Vibrator v = (Vibrator) context
+								.getSystemService(Context.VIBRATOR_SERVICE);
+						if (v != null)
+							v.vibrate(100);
+					} catch (Exception e) {
+
+					}
 				} else {
 					d.toast("Unable to whitelist/remove from whitelist");
 				}

@@ -1,6 +1,7 @@
 package com.hasmobi.rambo;
 
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
 import android.app.AlarmManager;
@@ -35,9 +36,12 @@ public class Widget extends AppWidgetProvider {
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.widget);
 
+			int percent = (rm.getFreeRam() * 100) / rm.getTotalRam();
+
+			String ramValue = String.valueOf(percent) + "%";
+
 			// Get the free/available RAM and set it to the TextViews
-			views.setTextViewText(R.id.tvWidgetRam,
-					String.valueOf(rm.getFreeRam() + "/" + rm.getTotalRam()));
+			views.setTextViewText(R.id.tvWidgetRam, ramValue);
 
 			// Setup a PendingIntent that clears the memory when started
 			Intent intent = new Intent(context, AutoBoostBroadcast.class);
@@ -93,7 +97,9 @@ public class Widget extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		if (action != null) {
-			if (action.equalsIgnoreCase(ACTION_UPDATE_WIDGETS)) {
+			Debugger.log("Received action: " + action);
+			if (action.equalsIgnoreCase(ACTION_UPDATE_WIDGETS)
+					|| action.equalsIgnoreCase(RamManager.ACTION_RAM_MANAGER)) {
 				// Manual or automatic widget update started (e.g. from
 				// scheduled
 				// AlarmManager)

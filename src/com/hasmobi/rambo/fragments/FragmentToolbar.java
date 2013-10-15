@@ -25,6 +25,14 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (ToolbarDataUpdater == null) {
+			ToolbarDataUpdater = new ToolbarDataUpdater();
+			ToolbarDataUpdater.start();
+		} else {
+			ToolbarDataUpdater.stop();
+			ToolbarDataUpdater.start();
+		}
 	}
 
 	@Override
@@ -39,7 +47,7 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 				"sttransmission_800_extrabold.otf");
 		Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
 				"notosansregular.ttf");
-		
+
 		if (bOptimize != null) {
 			bOptimize.setTypeface(bold);
 			bOptimize.setOnClickListener(this);
@@ -51,7 +59,6 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 		if (tvLeft != null)
 			tvLeft.setTypeface(bold);
 
-		
 		if (tvRight != null)
 			tvRight.setTypeface(face);
 
@@ -62,16 +69,26 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 	public void onPause() {
 		super.onPause();
 
-		if (ToolbarDataUpdater != null)
+		if (ToolbarDataUpdater != null) {
 			ToolbarDataUpdater.stop();
+		} else {
+			ToolbarDataUpdater.stop();
+			ToolbarDataUpdater.start();
+
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
+		Debugger.log("onResume");
+
 		if (ToolbarDataUpdater == null) {
 			ToolbarDataUpdater = new ToolbarDataUpdater();
+			ToolbarDataUpdater.start();
+		} else {
+			ToolbarDataUpdater.stop();
 			ToolbarDataUpdater.start();
 		}
 	}
@@ -110,17 +127,19 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 			r = new Runnable() {
 
 				public void run() {
-					if (fragmentVisible) {
 
-						totalRam = rm.getTotalRam();
-						freeRam = rm.getFreeRam();
+					h.postDelayed(this, 3000);
 
-						Prefs p = new Prefs(c);
-						lastUpdate = p.getLastOptimizeTimestamp();
+					totalRam = rm.getTotalRam();
+					freeRam = rm.getFreeRam();
 
+					Prefs p = new Prefs(c);
+					lastUpdate = p.getLastOptimizeTimestamp();
+
+					try {
 						updateLabel();
-
-						h.postDelayed(this, 3000);
+					} catch (Exception e) {
+						Debugger.log("Can not update labels in FragmentToolbar runnable");
 					}
 				}
 
@@ -135,7 +154,7 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 			if (r != null) {
 				h.removeCallbacks(r);
 			}
-			h.post(r);
+			h.postDelayed(r, 100);
 		}
 
 		public void stop() {
@@ -173,6 +192,10 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 						String lastOptimizeLabel = (String) DateUtils
 								.getRelativeDateTimeString(c, lastUpdate,
 										DateUtils.SECOND_IN_MILLIS, 0, 0);
+
+						lastOptimizeLabel = (String) DateUtils
+								.getRelativeTimeSpanString(lastUpdate,
+										System.currentTimeMillis(), 0);
 						label = String.format(label, lastOptimizeLabel);
 					}
 					tvToolbarRight.setText(label);

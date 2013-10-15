@@ -4,29 +4,41 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/lightGreen"
     android:clickable="true"
     android:gravity="center"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tvWidgetRam"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@color/solidBlue"
         android:gravity="center"
-        android:text="@string/loading"
-        android:background="@color/pieRed"
-        android:clickable="true"
-        android:textColor="#fff" />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvWidgetRam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/mainTextColor" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/bWidgetBoost"
+        style="@style/widget1x1button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/pieGreen"
+        android:background="@color/regularBlue"
         android:text="@string/boost"
-        android:textColor="#fff"
-        android:textSize="15dp" />
+        android:textColor="@color/mainTextColor" />
 
 </LinearLayout>

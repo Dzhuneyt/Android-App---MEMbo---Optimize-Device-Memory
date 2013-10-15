@@ -108,8 +108,9 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">33</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">none</item>
         <item name="android:textColor">@color/mainTextColor</item>
     </style>
 
@@ -118,7 +119,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/btn_blue_optimize</item>
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:padding">5dp</item>
@@ -197,7 +198,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/lightGray</item>
+        <item name="android:background">@color/main_bg</item>
         <item name="android:padding">10dp</item>
     </style>
 
@@ -220,6 +221,11 @@
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:text">@string/whitelist_app_add</item>
         <item name="android:background">@color/regularBlue</item>
+    </style>
+
+    <!-- Widgets: -->
+    <style name="widget1x1button">
+        <item name="android:textSize">10sp</item>
     </style>
 
 </resources>

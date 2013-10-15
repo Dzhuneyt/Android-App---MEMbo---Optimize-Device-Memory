@@ -40,10 +40,14 @@ public class FeedbackManager {
 		emailIntent
 				.putExtra(android.content.Intent.EXTRA_SUBJECT, emailSubject);
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailBody);
+		emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
-			c.startActivity(Intent.createChooser(emailIntent, c.getResources()
-					.getString(R.string.feedback)));
+			Intent i = Intent.createChooser(emailIntent, c.getResources()
+					.getString(R.string.feedback));
+			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			c.startActivity(i);
 		} catch (Exception e) {
+			Debugger.log(e.getMessage());
 			String message = c.getResources().getString(R.string.no_email_app);
 			Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
 		}
@@ -53,18 +57,25 @@ public class FeedbackManager {
 		log("Going to Google Play");
 		Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
 			// If Google Play app is installed
 			c.startActivity(goToMarket);
 		} catch (Exception e) {
+			Debugger.log("Can not open Google Play. Reason:" + e.getMessage());
+
 			try {
+				Intent i = new Intent(
+						Intent.ACTION_VIEW,
+						Uri.parse("https://play.google.com/store/apps/details?id="
+								+ c.getPackageName()));
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				// Alternatively, open it in the browser
-				c.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-						.parse("https://play.google.com/store/apps/details?id="
-								+ c.getPackageName())));
+				c.startActivity(i);
 			} catch (Exception ex) {
 				// Can't even open regular URLs in browser
-				log("Can't start browser");
+				log("Can't start browser for Google Playe. Reason: "
+						+ ex.getMessage());
 			}
 		}
 	}

@@ -62,7 +62,7 @@ public class Prefs {
 	 * Get the update interval for widgets in seconds (always 5 seconds for now)
 	 */
 	public int getWidgetUpdateInterval() {
-		return 5;
+		return 30;
 	}
 
 	public long getLastOptimizeTimestamp() {

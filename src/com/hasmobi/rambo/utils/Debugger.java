@@ -2,9 +2,14 @@ package com.hasmobi.rambo.utils;
 
 import java.util.Map;
 
+import com.hasmobi.rambo.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Debugger {
@@ -34,6 +39,15 @@ public class Debugger {
 			Log.d(Values.DEBUG_TAG, s);
 	}
 
+	public static void toast(Context c, String s) {
+		Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
+	}
+
+	public static void longToast(Context c, String s) {
+		// display in long period of time
+		Toast.makeText(c, s, Toast.LENGTH_LONG).show();
+	}
+
 	public void toast(String s) {
 		this.shortToast(s);
 	}
@@ -56,5 +70,28 @@ public class Debugger {
 	 */
 	public void canNotGoToGooglePlay() {
 		// longToast(context.getText(R.string.toast_can_not_open_googleplay));
+	}
+
+	public String getAppVersionName(Context c) {
+		String versionName = null;
+		try {
+			versionName = c.getPackageManager().getPackageInfo(
+					c.getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			Debugger.log(e.getMessage());
+		}
+
+		return versionName;
+	}
+
+	public int getAppVersionCode(Context c) {
+		int code = 0;
+		try {
+			code = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode;
+		} catch (NameNotFoundException e) {
+			Debugger.log(e.getMessage());
+		}
+
+		return code;
 	}
 }
