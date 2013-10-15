@@ -111,6 +111,7 @@ public class FragmentMainActions extends DFragment {
 					final FragmentTransaction ft = getFragmentManager()
 							.beginTransaction();
 					ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
+					ft.addToBackStack(null);
 					ft.commit();
 				} catch (Exception e) {
 					Debugger.log(e.getMessage());
@@ -131,21 +132,9 @@ public class FragmentMainActions extends DFragment {
 	}
 
 	private void setupFonts(View layout) {
-		final Typeface face = Typeface.createFromAsset(c.getAssets(),
-				"notosansregular.ttf");
 
 		final Typeface bold = Typeface.createFromAsset(c.getAssets(),
 				"sttransmission_800_extrabold.otf");
-
-		// Setup fonts for the labels below the buttons
-		final TextView l2 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelRunningApps);
-		final TextView l4 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelWhitelist);
-		if (l2 != null)
-			l2.setTypeface(face);
-		if (l4 != null)
-			l4.setTypeface(face);
 
 		final TextView l5 = (TextView) layout
 				.findViewById(R.id.tvMainActionsLabelTotalRam);

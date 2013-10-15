@@ -8,63 +8,27 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <RelativeLayout
+    <fragment
+        android:id="@+id/fHeader"
+        android:name="com.hasmobi.rambo.fragments.FragmentHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        tools:layout="@xml/fragment_header" />
 
-        <fragment
-            android:id="@+id/fHeader"
-            android:name="com.hasmobi.rambo.fragments.FragmentHeader"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/fToolbar"
-            tools:layout="@xml/fragment_header" />
-
-        <fragment
-            android:id="@+id/fToolbar"
-            android:name="com.hasmobi.rambo.fragments.FragmentToolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            tools:layout="@xml/fragment_toolbar" />
-    </RelativeLayout>
-
-    <LinearLayout
+    <fragment
+        android:id="@+id/fMain"
+        android:name="com.hasmobi.rambo.fragments.child.FragmentMainActions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+        tools:layout="@xml/fragment_main_actions" />
 
-        <fragment
-            android:id="@+id/fMain"
-            android:name="com.hasmobi.rambo.fragments.child.FragmentMainActions"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@xml/fragment_main_actions" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:orientation="vertical" >
-
-            <fragment
-                android:id="@+id/fPie"
-                android:name="com.hasmobi.rambo.fragments.child.FragmentPie"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                tools:layout="@xml/fragment_pie" />
-        </LinearLayout>
-    </LinearLayout>
+    <fragment
+        android:id="@+id/fToolbar"
+        android:name="com.hasmobi.rambo.fragments.FragmentToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@xml/fragment_toolbar" />
 
     <com.google.ads.AdView
         android:id="@+id/adView"

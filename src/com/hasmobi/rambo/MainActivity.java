@@ -1,13 +1,5 @@
 package com.hasmobi.rambo;
 
-import com.hasmobi.rambo.fragments.child.FragmentSettings;
-import com.hasmobi.rambo.supers.DFragmentActivity;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.ChangeLog;
-import com.hasmobi.rambo.utils.Debugger;
-import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.TermsOfUse;
-
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
@@ -16,6 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.hasmobi.rambo.fragments.child.FragmentSettings;
+import com.hasmobi.rambo.supers.DFragmentActivity;
+import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.ChangeLog;
+import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.TermsOfUse;
 
 public class MainActivity extends DFragmentActivity {
 
@@ -89,6 +89,7 @@ public class MainActivity extends DFragmentActivity {
 				final FragmentTransaction ft = getSupportFragmentManager()
 						.beginTransaction();
 				ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
+				ft.addToBackStack(null);
 				ft.commit();
 			} catch (Exception e) {
 				Debugger.log(e.getMessage());

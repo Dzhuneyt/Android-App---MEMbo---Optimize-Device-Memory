@@ -20,6 +20,14 @@
     </style>
   </head>
   <body>
+$ 1.8
+  % Version 1.8
+  _ Oct 15, 2013
+  ! Maintenance release
+  	* Landscape support
+  	* App icon slight change
+  	* [BUGFIX] Issue with bottom toolbar not updating on first start
+  	* Figures update faster after optimizing memory
 $ 1.7
   % Version 1.7
   _ Oct 12, 2013

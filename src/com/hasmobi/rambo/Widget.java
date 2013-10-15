@@ -1,9 +1,5 @@
 package com.hasmobi.rambo;
 
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.Debugger;
-import com.hasmobi.rambo.utils.Prefs;
-import com.hasmobi.rambo.utils.RamManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -12,6 +8,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+
+import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.Prefs;
+import com.hasmobi.rambo.utils.RamManager;
 
 public class Widget extends AppWidgetProvider {
 

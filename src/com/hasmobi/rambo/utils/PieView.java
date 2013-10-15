@@ -1,13 +1,13 @@
 package com.hasmobi.rambo.utils;
 
-import com.hasmobi.rambo.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.hasmobi.rambo.R;
 
 public class PieView extends ImageView {
 	RectF mOvals = null;

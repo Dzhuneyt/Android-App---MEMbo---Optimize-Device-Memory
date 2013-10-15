@@ -1,10 +1,5 @@
 package com.hasmobi.rambo;
 
-import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.Values;
-import com.hasmobi.rambo.utils.custom_views.PieView;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,6 +19,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.Values;
+import com.hasmobi.rambo.utils.custom_views.PieView;
 
 public class PieActivity extends Activity implements OnClickListener {
 

@@ -6,8 +6,6 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hasmobi.rambo.R;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -19,13 +17,14 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hasmobi.rambo.R;
+
 public class RamManager {
 
 	static public String ACTION_RAM_MANAGER = "ram_manager_run";
 
 	class ProcessToKill {
 		// A class object to keep processes to be killed
-		private int pid;
 		private String packageName;
 	}
 
@@ -84,7 +83,6 @@ public class RamManager {
 				// array (to be killed later).
 				ProcessToKill processToKill = new ProcessToKill();
 				processToKill.packageName = pid.processName;
-				processToKill.pid = pid.pid;
 
 				processesToKillArr.add(processToKill);
 

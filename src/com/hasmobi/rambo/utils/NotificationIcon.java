@@ -94,7 +94,6 @@ public class NotificationIcon extends BroadcastReceiver {
 		RamManager rm = new RamManager(c);
 		int totalRam = rm.getTotalRam();
 		int freeRam = rm.getFreeRam();
-		int takenRam = totalRam - freeRam;
 
 		final PieView pie = new PieView(c);
 		pie.setRam(totalRam, freeRam);

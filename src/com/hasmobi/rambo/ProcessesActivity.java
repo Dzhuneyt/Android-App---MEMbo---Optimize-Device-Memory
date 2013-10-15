@@ -3,21 +3,11 @@ package com.hasmobi.rambo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
-import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
-import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.Values;
-
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Debug.MemoryInfo;
 import android.app.ActionBar;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +19,10 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Debug.MemoryInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +35,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
+import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.Values;
 
 public class ProcessesActivity extends ListActivity {
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- regular dimens -->
+    <dimen name="apptitle">50dp</dimen>
+
+    <!-- Start activity -->
+
+    <dimen name="main_actions_pie_right_label">20dp</dimen>
+
+    <!-- Pie activity -->
+
+
+    <!-- Running processes -->
+
+</resources>

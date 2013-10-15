@@ -5,17 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.hasmobi.rambo.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
+
+import com.hasmobi.rambo.R;
 
 public class TermsOfUse {
 

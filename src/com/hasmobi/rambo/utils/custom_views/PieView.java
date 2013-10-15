@@ -1,12 +1,13 @@
 package com.hasmobi.rambo.utils.custom_views;
 
-import com.hasmobi.rambo.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.hasmobi.rambo.R;
 
 public class PieView extends View {
 	RectF mOvals = null;
@@ -18,7 +19,7 @@ public class PieView extends View {
 	// Some styling
 	int bgColor = R.color.pieBg;
 	int overlaycolor = R.color.pieOverlay;
-	int shadowOffset = 3;
+	int shadowOffset = 2;
 
 	public PieView(Context context) {
 		super(context);
@@ -57,7 +58,7 @@ public class PieView extends View {
 		// Draw the shadow
 		mOvals.offset(shadowOffset, shadowOffset);
 		brush.setColor(getResources().getColor(R.color.solidBlack));
-		brush.setAlpha(150);
+		brush.setAlpha(130);
 		canvas.drawArc(mOvals, 0, 360, true, brush);
 		// Restore brush to its original settings
 		brush.setAlpha(255);

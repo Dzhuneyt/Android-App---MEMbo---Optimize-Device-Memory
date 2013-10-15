@@ -1,12 +1,5 @@
 package com.hasmobi.rambo;
 
-import com.hasmobi.rambo.supers.DActivity;
-import com.hasmobi.rambo.utils.AppRating;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.Prefs;
-import com.hasmobi.rambo.utils.Values;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,6 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.hasmobi.rambo.supers.DActivity;
+import com.hasmobi.rambo.utils.AppRating;
+import com.hasmobi.rambo.utils.AutoBoostBroadcast;
+import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.Prefs;
+import com.hasmobi.rambo.utils.Values;
 
 public class StartActivity extends DActivity {
 

@@ -1,21 +1,21 @@
 package com.hasmobi.rambo;
 
-import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.Values;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.Values;
 
 public class AboutActivity extends Activity {
 	
