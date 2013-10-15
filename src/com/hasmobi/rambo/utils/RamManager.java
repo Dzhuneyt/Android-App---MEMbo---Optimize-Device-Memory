@@ -227,11 +227,12 @@ public class RamManager {
 	}
 
 	private void broadcast() {
-		Intent i = new Intent();
+		Intent i = new Intent(ACTION_RAM_MANAGER);
 		i.setAction(ACTION_RAM_MANAGER);
 		context.sendBroadcast(i);
 
-		Debugger.log("sending broadcast that ram was cleared. onReceive should handle stuff");
+		Debugger.log("Sending " + ACTION_RAM_MANAGER
+				+ " broadcast by RamManager");
 	}
 
 	private void saveLastOptimizeTimestamp() {

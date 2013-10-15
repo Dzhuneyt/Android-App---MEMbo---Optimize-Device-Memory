@@ -1,5 +1,7 @@
 package com.hasmobi.rambo.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,8 +84,6 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 
-		Debugger.log("onResume");
-
 		if (ToolbarDataUpdater == null) {
 			ToolbarDataUpdater = new ToolbarDataUpdater();
 			ToolbarDataUpdater.start();
@@ -107,6 +107,20 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 			break;
 		}
 
+	}
+
+	public void handleBroadcast(Context c, Intent i) {
+		if (fragmentVisible) {
+			if (ToolbarDataUpdater == null) {
+				ToolbarDataUpdater = new ToolbarDataUpdater();
+				ToolbarDataUpdater.start();
+			} else {
+				ToolbarDataUpdater.stop();
+				ToolbarDataUpdater.start();
+			}
+		}
+
+		super.handleBroadcast(c, i);
 	}
 
 	private class ToolbarDataUpdater {

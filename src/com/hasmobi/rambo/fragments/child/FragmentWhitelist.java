@@ -3,7 +3,10 @@ package com.hasmobi.rambo.fragments.child;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -24,13 +27,13 @@ import com.hasmobi.rambo.utils.SingleInstalledApp;
 public class FragmentWhitelist extends DFragment {
 	List<SingleProcess> listOfProcesses;
 
-	Context c;
+	BroadcastReceiver br = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		c = getActivity().getBaseContext();
+		init();
 	}
 
 	@Override
@@ -41,13 +44,43 @@ public class FragmentWhitelist extends DFragment {
 		return v;
 	}
 
+	private void registerIntents() {
+		if (br == null) {
+			br = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context c, Intent i) {
+					// app installed/uninstalled
+					setupListView();
+				}
+			};
+
+			c.registerReceiver(br, new IntentFilter(
+					"android.intent.action.PACKAGE_ADDED"));
+			c.registerReceiver(br, new IntentFilter(
+					"android.intent.action.PACKAGE_REMOVED"));
+		}
+	}
+
+	private void unregisterIntents() {
+		c.unregisterReceiver(br);
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		init();
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		unregisterIntents();
+	}
+
 	protected void init() {
+		registerIntents();
+
 		setupListView();
 	}
 
@@ -146,8 +179,10 @@ public class FragmentWhitelist extends DFragment {
 	 * Start an AsyncTask to update the list
 	 */
 	private void setupListView() {
-		if (fragmentVisible)
+		if (fragmentVisible) {
+			Debugger.log("Updating whitelist of apps");
 			new listUpdater().execute();
+		}
 	}
 
 }

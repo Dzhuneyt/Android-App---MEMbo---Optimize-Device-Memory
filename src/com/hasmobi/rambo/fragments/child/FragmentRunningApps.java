@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -55,6 +56,14 @@ public class FragmentRunningApps extends DFragment {
 		}
 	}
 
+	public void handleBroadcast(Context c, Intent i) {
+		if (fragmentVisible) {
+			setupListView();
+		}
+
+		super.handleBroadcast(c, i);
+	}
+
 	/**
 	 * An Async class that updates the running processes list, called via
 	 * setupListView()
@@ -62,17 +71,14 @@ public class FragmentRunningApps extends DFragment {
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {
 
-		private boolean oneTimeOnly = false;
-
 		List<SingleProcess> listOfProcesses = null;
 
-		public listUpdater(boolean oneTimeOnly) {
-			super();
-			this.oneTimeOnly = oneTimeOnly;
-
-		}
-
 		public listUpdater() {
+			try {
+				this.execute();
+			} catch (IllegalStateException e) {
+				Debugger.log(e.getMessage());
+			}
 		}
 
 		@Override
@@ -223,32 +229,27 @@ public class FragmentRunningApps extends DFragment {
 
 			}
 
-			if (!oneTimeOnly) {
-				Handler h = new Handler();
-				Runnable r = new Runnable() {
-					public void run() {
-						setupListView();
-					}
-				};
+			Handler h = new Handler();
+			Runnable r = new Runnable() {
+				public void run() {
+					setupListView();
+				}
+			};
 
-				// Update list every 20 seconds
-				h.postDelayed(r, 20000);
-			}
+			// Update list every 20 seconds
+			h.postDelayed(r, 20000);
 
 		}
-	}
-
-	private void log(String s) {
-		if (s != null && s.length() > 0)
-			Debugger.log(s);
 	}
 
 	/**
 	 * Start an AsyncTask to update the list
 	 */
 	private void setupListView() {
-		if (fragmentVisible)
-			new listUpdater().execute();
+		if (fragmentVisible) {
+			Debugger.log("Updating list of running apps");
+			new listUpdater();
+		}
 	}
 
 }

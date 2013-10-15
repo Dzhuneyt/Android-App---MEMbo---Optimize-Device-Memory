@@ -1,8 +1,8 @@
 package com.hasmobi.rambo.fragments.child;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -33,19 +33,14 @@ public class FragmentPie extends DFragment {
 
 		context = getActivity().getBaseContext();
 
-		appStartLogger();
-	}
-
-	private void setupInBackground() {
-		startUpdating();
+		pieStartCountLogger();
 	}
 
 	/**
 	 * Some utility checks and actions on each app start
 	 */
-	private void appStartLogger() {
-		final Prefs p = new Prefs(context);
-		final SharedPreferences prefs = p.instance();
+	private void pieStartCountLogger() {
+		final SharedPreferences prefs = Prefs.instance(context);
 
 		int pieStartCount = prefs.getInt("pie_start_count", 0);
 
@@ -77,7 +72,15 @@ public class FragmentPie extends DFragment {
 	public void onResume() {
 		super.onResume();
 
-		setupInBackground();
+		startUpdating();
+	}
+
+	public void handleBroadcast(Context c, Intent i) {
+		if (fragmentVisible) {
+			startUpdating();
+		}
+
+		super.handleBroadcast(c, i);
 	}
 
 	/**
@@ -92,11 +95,31 @@ public class FragmentPie extends DFragment {
 
 		final int updateInterval = Values.PIE_UPDATE_INTERVAL; // milliseconds
 
+		final RamManager ramManager = new RamManager(c);
+
 		handler = new Handler();
 		r = new Runnable() {
 			public void run() {
 				if (fragmentVisible) {
-					new freeRamUpdater();
+
+					totalRam = ramManager.getTotalRam();
+					freeRam = ramManager.getFreeRam();
+
+					// Redraw the pie chart
+					try {
+						PieView pie = (PieView) getView()
+								.findViewById(R.id.pie);
+						pie.setRam(totalRam, freeRam);
+					} catch (Exception e) {
+						Debugger.log("Can not update pie");
+					}
+
+					if (freeRam > 0 && totalRam > 0) {
+						// Do something with the updated values here if needed
+					} else {
+						Debugger.log("Free or Total RAM not set at the moment. One of them is zero");
+					}
+
 					handler.postDelayed(r, updateInterval);
 				}
 			}
@@ -110,54 +133,6 @@ public class FragmentPie extends DFragment {
 
 		if (handler != null && r != null)
 			handler.removeCallbacks(r);
-	}
-
-	/**
-	 * A class that gets the free and total RAM and sets them to the appropriate
-	 * TextViews.
-	 * 
-	 * @author hasMobi.com
-	 * 
-	 */
-	protected class freeRamUpdater extends AsyncTask<String, String, Void> {
-
-		private RamManager ramManager = null;
-
-		public freeRamUpdater() {
-			this.execute();
-		}
-
-		@Override
-		protected Void doInBackground(String... params) {
-			if (!isCancelled()) {
-				if (ramManager == null)
-					ramManager = new RamManager(context);
-
-				totalRam = ramManager.getTotalRam();
-				freeRam = ramManager.getFreeRam();
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			// Redraw the pie chart
-			try {
-				PieView pie = (PieView) getView().findViewById(R.id.pie);
-				pie.setRam(totalRam, freeRam);
-			} catch (Exception e) {
-				Debugger.log("Can not update pie");
-			}
-
-			if (freeRam > 0 && totalRam > 0) {
-				// Do something with the updated values here
-			} else {
-				Debugger.log("Free or Total RAM not set at the moment. One of them is zero");
-			}
-
-		}
-
 	}
 
 	@Override

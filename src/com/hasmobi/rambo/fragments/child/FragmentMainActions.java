@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,7 +56,6 @@ public class FragmentMainActions extends DFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		Debugger.log("here");
 		// Inflate the layout for this fragment
 		View layout = inflater.inflate(R.xml.fragment_main_actions, null);
 
@@ -64,6 +64,33 @@ public class FragmentMainActions extends DFragment {
 		setupFonts(layout);
 
 		return layout;
+	}
+
+	public void handleBroadcast(Context c, Intent i) {
+		if (fragmentVisible) {
+			if (ActiveAppsLabel == null) {
+				ActiveAppsLabel = new ActiveAppsLabel();
+			} else {
+				ActiveAppsLabel.stop();
+			}
+			ActiveAppsLabel.start();
+
+			if (AvailableMemoryLabel == null) {
+				AvailableMemoryLabel = new TotalMemoryLabel();
+			} else {
+				AvailableMemoryLabel.stop();
+			}
+			AvailableMemoryLabel.start();
+
+			if (FreeMemoryLabel == null) {
+				FreeMemoryLabel = new FreeMemoryLabel();
+			} else {
+				FreeMemoryLabel.stop();
+			}
+			FreeMemoryLabel.start();
+		}
+
+		super.handleBroadcast(c, i);
 	}
 
 	private void setupActionClickListeners(View v) {
