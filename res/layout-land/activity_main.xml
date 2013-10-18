@@ -8,27 +8,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fHeader"
-        android:name="com.hasmobi.rambo.fragments.FragmentHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@xml/fragment_header" />
+        android:orientation="vertical" />
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fMain"
-        android:name="com.hasmobi.rambo.fragments.child.FragmentMainActions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:layout="@xml/fragment_main_actions" />
+        android:layout_weight="1" />
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fToolbar"
-        android:name="com.hasmobi.rambo.fragments.FragmentToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@xml/fragment_toolbar" />
+        android:layout_height="wrap_content" />
 
     <com.google.ads.AdView
         android:id="@+id/adView"

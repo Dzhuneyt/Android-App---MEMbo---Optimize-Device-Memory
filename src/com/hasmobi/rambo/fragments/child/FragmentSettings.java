@@ -49,10 +49,10 @@ public class FragmentSettings extends DFragment {
 				Prefs p = new Prefs(c);
 				Intent i = new Intent(c, AutoBoostBroadcast.class);
 				if (p.isAutoboostEnabled()) {
-					i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_ENABLE);
+					i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_ENABLED);
 					d.toast(ResManager.getString(c, R.string.autoboost_enabled));
 				} else {
-					i.setAction(AutoBoostBroadcast.ACTION_AUTOBOOST_DISABLE);
+					i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_DISABLED);
 					d.toast(ResManager
 							.getString(c, R.string.autoboost_disabled));
 				}

@@ -5,16 +5,21 @@ import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.FrameLayout;
+import com.hasmobi.rambo.fragments.FragmentHeader;
+import com.hasmobi.rambo.fragments.FragmentToolbar;
+import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.fragments.child.FragmentSettings;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.ChangeLog;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.TermsOfUse;
 
 public class MainActivity extends DFragmentActivity {
@@ -28,11 +33,64 @@ public class MainActivity extends DFragmentActivity {
 			getActionBar().hide();
 		}
 
+		// Fix for orientation change on some devices where Fragments defined in
+		// the XML layout do not inflate a view on orientation change, so we
+		// need to use some other layout like LinearLayout and replace it with
+		// the Fragment on Acitity create
+		setupFragments();
+
 		sendNotification();
 
 		showChangelog();
 
 		showTOS();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		Prefs p = new Prefs(c);
+		if (p.isAutoboostEnabled()) {
+			Intent i = new Intent(c, AutoBoostBroadcast.class);
+			i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_ENABLED);
+			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			try {
+				pi.send();
+			} catch (CanceledException e) {
+				Debugger.log("Can not start autobooster due to an exception.");
+				Debugger.log(e.getMessage());
+			}
+		}
+	}
+
+	private void setupFragments() {
+		FragmentManager fm = getSupportFragmentManager();
+
+		FrameLayout fl = (FrameLayout) findViewById(R.id.fHeader);
+		fl.removeAllViews();
+		if (fm != null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.fHeader, new FragmentHeader());
+			ft.commit();
+		}
+
+		fl = (FrameLayout) findViewById(R.id.fMain);
+		fl.removeAllViews();
+		if (fm != null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.fMain, new FragmentMainActions());
+			ft.commit();
+		}
+
+		fl = (FrameLayout) findViewById(R.id.fToolbar);
+		fl.removeAllViews();
+		if (fm != null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.fToolbar, new FragmentToolbar());
+			ft.commit();
+		}
 	}
 
 	private void sendNotification() {

@@ -24,6 +24,9 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 	// at a scheduled interval
 	public static String ACTION_AUTOBOOST_DISABLE = "autoboost_disable";
 
+	public static String ACTION_SCREENON_AUTOBOOST_ENABLED = "screenon_autoboost_on";
+	public static String ACTION_SCREENON_AUTOBOOST_DISABLED = "screenon_autoboost_off";
+
 	// Intent filter/action that the OS sends when the system has booted on
 	// This is only sent by the system, so no activity should use it to
 	// broadcast (hence, its private status)
@@ -54,11 +57,17 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 
 				Prefs p = new Prefs(context);
 				if (p.isAutoboostEnabled()) {
-					this.enableAutoBoost(context);
+					screenOnAutoboost(context, true);
 				} else {
-					this.disableAutoBoost(context);
+					screenOnAutoboost(context, false);
 				}
 
+			} else if (action
+					.equalsIgnoreCase(ACTION_SCREENON_AUTOBOOST_ENABLED)) {
+				screenOnAutoboost(context, true);
+			} else if (action
+					.equalsIgnoreCase(ACTION_SCREENON_AUTOBOOST_DISABLED)) {
+				screenOnAutoboost(context, false);
 			}
 		}
 
@@ -94,5 +103,15 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 
 		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
 				(Values.AUTOBOOST_DELAY_SECONDS * 1000), pi);
+	}
+
+	private void screenOnAutoboost(Context context, boolean enabledOrDisable) {
+		// Start the autobooster that boosts on each device screen on
+		Intent i = new Intent(context, OnBootService.class);
+		if (enabledOrDisable) {
+			context.startService(i);
+		} else {
+			context.stopService(i);
+		}
 	}
 }

@@ -12,6 +12,7 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class RamManager {
 		private String packageName;
 	}
 
-	Context context;
+	Context context = null;
 
 	public RamManager(Context c) {
 		this.context = c;
@@ -57,8 +58,6 @@ public class RamManager {
 	}
 
 	public void killBgProcesses(boolean silent) {
-
-		silent = ((silent == true) ? true : false);
 
 		// Get all apps to exclude from the preferences
 		final SharedPreferences excludedList = context.getSharedPreferences(
