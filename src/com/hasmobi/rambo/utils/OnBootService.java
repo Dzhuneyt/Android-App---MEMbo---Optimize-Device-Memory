@@ -9,8 +9,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 
 public class OnBootService extends Service {
-	private static final String TAG = OnBootService.class.getSimpleName();
-	private BroadcastReceiver mPowerButtonReceiver = null;
+
+	private BroadcastReceiver broadcast = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -21,11 +21,33 @@ public class OnBootService extends Service {
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
 
-		Debugger.log("onStartCommand on OnBootService service");
+		Debugger.log(getClass().getSimpleName() + " onStartCommand()");
 
-		if (mPowerButtonReceiver == null) {
-			mPowerButtonReceiver = new ScreenOnBroadcastReceiver();
-			registerReceiver(mPowerButtonReceiver, new IntentFilter(
+		if (broadcast == null) {
+			broadcast = new BroadcastReceiver() {
+
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					Debugger.log("ScreenOnBroadcastReceiver->onReceive");
+
+					// check if screen is on
+					PowerManager pm = (PowerManager) context
+							.getSystemService(Context.POWER_SERVICE);
+					Boolean screenOn = pm.isScreenOn();
+
+					if (screenOn) {
+						Prefs p = new Prefs(context);
+						if (p.isAutoboostEnabled()) {
+							RamManager rm = new RamManager(context);
+							rm.killBgProcesses(false);
+						}
+
+						Debugger.log("Screen is on: " + screenOn.toString());
+					}
+				}
+
+			};
+			registerReceiver(broadcast, new IntentFilter(
 					Intent.ACTION_USER_PRESENT));
 		}
 		return Service.START_STICKY;
@@ -34,8 +56,6 @@ public class OnBootService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		Debugger.log("Starting OnBootService service");
 	}
 
 	// unregister the Receiver when the Service gets stopped (destroyed)
@@ -43,8 +63,8 @@ public class OnBootService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (mPowerButtonReceiver != null)
-			unregisterReceiver(mPowerButtonReceiver);
+		if (broadcast != null)
+			unregisterReceiver(broadcast);
 
 		Debugger.log("Stopping service OnBootService");
 	}
