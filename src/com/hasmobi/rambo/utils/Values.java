@@ -16,7 +16,7 @@ public abstract class Values {
 
 	public static final int notificationID = 10001;
 
-	public static final Boolean DEBUG_MODE = true;
+	public static final Boolean DEBUG_MODE = false;
 
 	public static final String FEEDBACK_EMAIL = "feedback@hasmobi.com";
 
