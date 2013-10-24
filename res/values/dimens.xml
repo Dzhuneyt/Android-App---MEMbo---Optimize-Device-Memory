@@ -30,8 +30,8 @@
 	<dimen name="mainActionDimen">19sp</dimen>
 	
 	<!-- Toolbar -->
-	<dimen name="toolbarLeftText">18sp</dimen>
-	<dimen name="toolbarRightText">11sp</dimen>
-	<dimen name="toolbarOptimizeButtonText">18sp</dimen>
+	<dimen name="toolbarLeftText">16sp</dimen>
+	<dimen name="toolbarRightText">10sp</dimen>
+	<dimen name="toolbarOptimizeButtonText">13sp</dimen>
 
 </resources>

@@ -41,7 +41,7 @@ public class MainActivity extends DFragmentActivity {
 
 		sendNotification();
 
-		this.enableAutoboost();
+		enableAutoboost();
 
 		showChangelog();
 
