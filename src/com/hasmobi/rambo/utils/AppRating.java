@@ -62,9 +62,8 @@ public class AppRating {
 		remindDialog.setContentView(R.layout.dialog_remind_to_rate);
 		TextView tvStartCount = (TextView) remindDialog
 				.findViewById(R.id.tvRemindStartCount);
-		String dialogContents = c.getResources().getString(
-				R.string.remind_rate_dialog_content);
-		tvStartCount.setText(dialogContents);
+		tvStartCount.setText(ResManager.getString(c,
+				R.string.remind_rate_dialog_content));
 		Button bOpenMarket = (Button) remindDialog
 				.findViewById(R.id.bOpenMarket);
 		TextView tvHidePermanently = (TextView) remindDialog

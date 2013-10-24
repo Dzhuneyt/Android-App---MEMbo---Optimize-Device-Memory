@@ -35,29 +35,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hasmobi.rambo.PieActivity"
-            android:label="@string/app_name" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hasmobi.rambo.StartActivity" />
-        </activity>
-        <activity
             android:name="com.hasmobi.rambo.ConfigActivity"
-            android:label="@string/title_activity_settings" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hasmobi.rambo.StartActivity" />
-        </activity>
-        <activity
-            android:name="com.hasmobi.rambo.ProcessesActivity"
-            android:label="@string/running_processes" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hasmobi.rambo.StartActivity" />
-        </activity>
-        <activity
-            android:name="com.hasmobi.rambo.AboutActivity"
-            android:label="@string/about" >
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hasmobi.rambo.StartActivity" />

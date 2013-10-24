@@ -54,12 +54,14 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 				this.disableAutoBoost(context);
 			} else if (action.equalsIgnoreCase(ACTION_BOOT_COMPLETED)) {
 				// on system boot
-
 				Prefs p = new Prefs(context);
-				if (p.isAutoboostEnabled()) {
-					screenOnAutoboost(context, true);
-				} else {
-					screenOnAutoboost(context, false);
+
+				if (p.isAutostartEnabled()) {
+					if (p.isAutoboostEnabled()) {
+						screenOnAutoboost(context, true);
+					} else {
+						screenOnAutoboost(context, false);
+					}
 				}
 
 			} else if (action

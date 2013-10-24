@@ -24,7 +24,9 @@ $ 1.9
   % Version 1.9
   _ Oct 21, 2013
   	* [BUGFIX] Orientation change doesn't crash the app
-  	* Constant autoboost now autoboosts on screen on instead of every 15 minutes
+  	* Table layout support (7 inch)
+  	* Screen on autoboost option
+  	* Localized to: Bulgarian
 $ 1.8
   % Version 1.8
   _ Oct 15, 2013

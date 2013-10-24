@@ -51,7 +51,11 @@ public class Prefs {
 	}
 
 	public boolean isAutoboostEnabled() {
-		return prefs.getBoolean("enable_autoboost", false);
+		return prefs.getBoolean("enable_autoboost", true);
+	}
+
+	public boolean isAutostartEnabled() {
+		return prefs.getBoolean("start_on_boot", false);
 	}
 
 	public boolean isNotificationIconEnabled() {

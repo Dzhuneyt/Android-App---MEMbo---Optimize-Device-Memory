@@ -107,10 +107,10 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 		boolean excluded = excluded_list.getBoolean(currentApp.ai.packageName,
 				false);
 
-		final String addToWhitelist = context.getResources().getString(
-				R.string.whitelist_app_add);
-		final String removeFromWhitelist = context.getResources().getString(
-				R.string.whitelist_app_remove);
+		final String addToWhitelist = ResManager.getString(context,
+				R.string.add_to_whitelist);
+		final String removeFromWhitelist = ResManager.getString(context,
+				R.string.remove_from_whitelist);
 
 		if (excluded) {
 			v.bWhitelist.setText(removeFromWhitelist);

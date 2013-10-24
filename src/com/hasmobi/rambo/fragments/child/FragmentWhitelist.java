@@ -54,15 +54,16 @@ public class FragmentWhitelist extends DFragment {
 				}
 			};
 
+			c.registerReceiver(br,
+					new IntentFilter(Intent.ACTION_PACKAGE_ADDED));
 			c.registerReceiver(br, new IntentFilter(
-					"android.intent.action.PACKAGE_ADDED"));
-			c.registerReceiver(br, new IntentFilter(
-					"android.intent.action.PACKAGE_REMOVED"));
-		}
+					Intent.ACTION_PACKAGE_REMOVED));
+		} 
 	}
 
 	private void unregisterIntents() {
-		c.unregisterReceiver(br);
+		if (br != null)
+			c.unregisterReceiver(br);
 	}
 
 	@Override
@@ -87,9 +88,6 @@ public class FragmentWhitelist extends DFragment {
 	/**
 	 * An Async class that updates the running processes list, called via
 	 * setupListView()
-	 * 
-	 * @author hasMobi.com
-	 * 
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {
 

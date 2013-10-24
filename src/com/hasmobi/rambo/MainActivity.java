@@ -4,7 +4,7 @@ import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -13,12 +13,12 @@ import android.widget.FrameLayout;
 import com.hasmobi.rambo.fragments.FragmentHeader;
 import com.hasmobi.rambo.fragments.FragmentToolbar;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
-import com.hasmobi.rambo.fragments.child.FragmentSettings;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.ChangeLog;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.TermsOfUse;
 
@@ -41,28 +41,27 @@ public class MainActivity extends DFragmentActivity {
 
 		sendNotification();
 
+		this.enableAutoboost();
+
 		showChangelog();
 
 		showTOS();
+
+		Handler h = new Handler();
+		Runnable r = new Runnable() {
+
+			public void run() {
+				openOptionsMenu();
+			}
+
+		};
+		// h.postDelayed(r, 10000);
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		Prefs p = new Prefs(c);
-		if (p.isAutoboostEnabled()) {
-			Intent i = new Intent(c, AutoBoostBroadcast.class);
-			i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_ENABLED);
-			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				pi.send();
-			} catch (CanceledException e) {
-				Debugger.log("Can not start autobooster due to an exception.");
-				Debugger.log(e.getMessage());
-			}
-		}
 	}
 
 	private void setupFragments() {
@@ -94,14 +93,22 @@ public class MainActivity extends DFragmentActivity {
 	}
 
 	private void sendNotification() {
-		Intent i = new Intent(c, AutoBoostBroadcast.class);
-		PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		try {
-			pi.send();
-		} catch (CanceledException e) {
-			Debugger.log("Can not start autobooster due to an exception.");
-			Debugger.log(e.getMessage());
+		NotificationIcon.notify(c);
+	}
+
+	private void enableAutoboost() {
+		final Prefs p = new Prefs(c);
+		if (p.isAutoboostEnabled()) {
+			final Intent i = new Intent(c, AutoBoostBroadcast.class);
+			i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_ENABLED);
+			final PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			try {
+				pi.send();
+			} catch (CanceledException e) {
+				Debugger.log("Can not start autobooster due to an exception.");
+				Debugger.log(e.getMessage());
+			}
 		}
 	}
 
@@ -142,18 +149,19 @@ public class MainActivity extends DFragmentActivity {
 			fm.goToGooglePlay();
 			return true;
 		case R.id.action_settings:
-			Fragment newFragment = new FragmentSettings();
-			try {
-				final FragmentTransaction ft = getSupportFragmentManager()
-						.beginTransaction();
-				ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
-				ft.addToBackStack(null);
-				ft.commit();
-			} catch (Exception e) {
-				Debugger.log(e.getMessage());
-				Debugger d = new Debugger(c);
-				d.toast("Can not open new Fragment. Please, contact us at feedback@hasmobi.com");
-			}
+			startActivity(new Intent(this, ConfigActivity.class));
+			// Fragment newFragment = new FragmentSettings();
+			// try {
+			// final FragmentTransaction ft = getSupportFragmentManager()
+			// .beginTransaction();
+			// ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
+			// ft.addToBackStack(null);
+			// ft.commit();
+			// } catch (Exception e) {
+			// Debugger.log(e.getMessage());
+			// Debugger d = new Debugger(c);
+			// d.toast("Can not open new Fragment. Please, contact us at feedback@hasmobi.com");
+			// }
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

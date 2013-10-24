@@ -115,7 +115,8 @@ public class RamManager {
 						R.string.memory_optimized_toast);
 				toDisplay = String.format(toDisplay, killCount, savedRam);
 
-				Toast.makeText(context, toDisplay, Toast.LENGTH_LONG).show();
+				Toast.makeText(context.getApplicationContext(), toDisplay,
+						Toast.LENGTH_LONG).show();
 			}
 
 		} else {
@@ -123,7 +124,7 @@ public class RamManager {
 			try {
 				if (!silent) {
 					Toast.makeText(
-							context,
+							context.getApplicationContext(),
 							context.getResources().getString(
 									R.string.no_apps_killed),
 							Toast.LENGTH_SHORT).show();
