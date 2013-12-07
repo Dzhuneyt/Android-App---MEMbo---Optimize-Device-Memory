@@ -55,11 +55,7 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 			bOptimize.setOnClickListener(this);
 		}
 
-		final TextView tvLeft = (TextView) v.findViewById(R.id.tvToolbarLeft);
 		final TextView tvRight = (TextView) v.findViewById(R.id.tvToolbarRight);
-
-		if (tvLeft != null)
-			tvLeft.setTypeface(bold);
 
 		if (tvRight != null)
 			tvRight.setTypeface(face);
@@ -109,6 +105,7 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 
 	}
 
+	@Override
 	public void handleBroadcast(Context c, Intent i) {
 		if (fragmentVisible) {
 			if (ToolbarDataUpdater == null) {
@@ -177,23 +174,8 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 		}
 
 		private void updateLabel() {
-			final TextView tvToolbarLeft = (TextView) getView().findViewById(
-					R.id.tvToolbarLeft);
 			final TextView tvToolbarRight = (TextView) getView().findViewById(
 					R.id.tvToolbarRight);
-
-			if (tvToolbarLeft != null) {
-				int freeRamPercent = (freeRam * 100) / totalRam;
-				try {
-					String label = ResManager.getString(c,
-							R.string.free_ram_percent);
-					label = String.format(label, freeRamPercent);
-					tvToolbarLeft.setText(label);
-				} catch (Exception e) {
-					Debugger.log("Can not update main actions label for free ram. Error: "
-							+ e.getMessage());
-				}
-			}
 
 			if (tvToolbarRight != null) {
 				try {

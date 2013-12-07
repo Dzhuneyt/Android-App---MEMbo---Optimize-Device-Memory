@@ -16,6 +16,8 @@ public class PieView extends View {
 
 	Paint brush, transparentPaint;
 
+	boolean drawShadow = false;
+
 	// Some styling
 	int bgColor = R.color.pieBg;
 	int overlaycolor = R.color.pieOverlay;
@@ -57,9 +59,11 @@ public class PieView extends View {
 
 		// Draw the shadow
 		mOvals.offset(shadowOffset, shadowOffset);
-		brush.setColor(getResources().getColor(R.color.solidBlack));
-		brush.setAlpha(130);
-		canvas.drawArc(mOvals, 0, 360, true, brush);
+		if (drawShadow) {
+			brush.setColor(getResources().getColor(R.color.solidBlack));
+			brush.setAlpha(130);
+			canvas.drawArc(mOvals, 0, 360, true, brush);
+		}
 		// Restore brush to its original settings
 		brush.setAlpha(255);
 		mOvals.offset(shadowOffset - 2 * shadowOffset, shadowOffset - 2

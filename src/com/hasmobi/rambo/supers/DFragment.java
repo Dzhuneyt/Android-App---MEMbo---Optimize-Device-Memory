@@ -12,6 +12,7 @@ import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
 
 public class DFragment extends Fragment {
+
 	public boolean fragmentVisible = false;
 
 	public Context c;

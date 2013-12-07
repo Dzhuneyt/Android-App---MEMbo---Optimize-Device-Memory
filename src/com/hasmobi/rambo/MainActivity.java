@@ -21,6 +21,7 @@ import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.TermsOfUse;
+import com.hasmobi.rambo.utils.Values;
 
 public class MainActivity extends DFragmentActivity {
 
@@ -55,7 +56,8 @@ public class MainActivity extends DFragmentActivity {
 			}
 
 		};
-		// h.postDelayed(r, 10000);
+		if (Values.DEBUG_MODE)
+			h.postDelayed(r, 10000);
 
 	}
 
@@ -90,6 +92,8 @@ public class MainActivity extends DFragmentActivity {
 			ft.add(R.id.fToolbar, new FragmentToolbar());
 			ft.commit();
 		}
+
+		// llMainActionRow1
 	}
 
 	private void sendNotification() {

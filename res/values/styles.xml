@@ -1,17 +1,15 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-	<style name="AppTheme" parent="android:Theme.Light" />
-
+	<style
+		name="AppTheme"
+		parent="android:Theme.Light" />
 	<style name="MainActivity">
 		<item name="android:background">@color/main_bg</item>
 	</style>
-
 	<!-- Header fragment -->
 	<style name="headerFragmentWrapper">
 		<item name="android:gravity">center_horizontal</item>
 		<item name="android:background">@color/white</item>
 	</style>
-
 	<style name="headerFragmentAppName">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -24,23 +22,43 @@
 		<item name="android:shadowDy">1</item>
 		<item name="android:shadowRadius">2</item>
 	</style>
-
+	<!-- Pie fragment -->
+	<style name="pieWrapper">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:gravity">center</item>
+		<item name="android:orientation">vertical</item>
+	</style>
 	<!-- Main actions fragment -->
 	<style name="mainActionsFragmentWrapper">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">fill_parent</item>
-		<item name="android:background">@color/main_bg</item>
+		<item name="android:weightSum">100</item>
 	</style>
-
-	<style name="MainActionRow2Elems">
+	<style name="mainActionsTop">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">0dp</item>
+		<item name="android:orientation">horizontal</item>
+		<item name="android:weightSum">100</item>
+		<item name="android:layout_weight">30</item>
+		<item name="android:background">@color/regularBlue</item>
+	</style>
+	<style name="mainActionsTopRight">
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">65</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center</item>
+		<item name="android:background">@color/transparentBlack</item>
+	</style>
+	<style name="mainActionsBottom">
 		<item name="android:gravity">center</item>
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">0dp</item>
 		<item name="android:layout_gravity">center</item>
 		<item name="android:orientation">vertical</item>
-		<item name="android:layout_weight">2</item>
+		<item name="android:layout_weight">70</item>
 	</style>
-
 	<style name="MainActionRow3Elems">
 		<item name="android:weightSum">3</item>
 		<item name="android:paddingLeft">5dp</item>
@@ -49,7 +67,6 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:orientation">horizontal</item>
 	</style>
-
 	<style name="MainActionWrapper">
 		<item name="android:orientation">vertical</item>
 		<item name="android:gravity">center_horizontal</item>
@@ -58,7 +75,6 @@
 		<item name="android:layout_margin">10dp</item>
 		<item name="android:layout_height">wrap_content</item>
 	</style>
-
 	<style name="MainActionButton">
 		<item name="android:textSize">@dimen/mainActionDimen</item>
 		<item name="android:layout_gravity">center_horizontal</item>
@@ -78,23 +94,32 @@
 	<!-- ^ Button ^ -->
 	<style name="MainActionLabel">
 		<item name="android:layout_marginTop">5dp</item>
-		<item name="android:layout_marginRight">@dimen/padding_medium</item>
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:paddingBottom">0dp</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:gravity">center</item>
-		<item name="android:textSize">@dimen/mainPieRightText</item>
+		<item name="android:textSize">@dimen/mainActionsLabel</item>
+	</style>
+	<style name="MainActionSubLabel">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingTop">2dp</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:textSize">@dimen/mainActionsSubLabel</item>
+		<item name="android:alpha">0.5</item>
 	</style>
 	<!-- ^ TextView ^ -->
-
-
 	<!-- Toolbar fragment -->
 	<style name="toolbarFragmentWrapper">
 		<item name="android:gravity">center_horizontal</item>
-		<item name="android:background">@color/solidBlue</item>
+		<item name="android:background">@color/regularBlue</item>
 	</style>
-
 	<style name="toolbarLeftTv">
 		<item name="android:layout_width">0dp</item>
 		<item name="android:layout_height">match_parent</item>
@@ -105,33 +130,28 @@
 		<item name="android:textSize">@dimen/toolbarLeftText</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
-
 	<style name="toolbarRightTv">
 		<item name="android:layout_width">0dp</item>
 		<item name="android:layout_height">match_parent</item>
-		<item name="android:layout_weight">33</item>
+		<item name="android:layout_weight">55</item>
 		<item name="android:gravity">center</item>
 		<item name="android:textSize">@dimen/toolbarRightText</item>
 		<item name="android:maxLines">3</item>
 		<item name="android:ellipsize">none</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
-
 	<style name="bOptimize">
-		<item name="android:layout_weight">34</item>
+		<item name="android:layout_weight">45</item>
 		<item name="android:layout_width">0dp</item>
 		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginLeft">10dp</item>
 		<item name="android:layout_gravity">center</item>
 		<item name="android:textSize">@dimen/toolbarOptimizeButtonText</item>
 		<item name="android:background">@drawable/btn_blue_optimize</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 		<item name="android:padding">5dp</item>
 		<item name="android:shadowColor">@color/solidBlack</item>
-		<item name="android:shadowDx">2</item>
-		<item name="android:shadowDy">2</item>
-		<item name="android:shadowRadius">3</item>
 	</style>
-
 	<!-- Running processes fragment -->
 	<style name="RunningProcessesFragmentWrapper">
 		<item name="android:layout_width">match_parent</item>
@@ -139,7 +159,6 @@
 		<item name="android:orientation">vertical</item>
 		<item name="android:background">@color/main_bg</item>
 	</style>
-
 	<style name="runningProcessesListView">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
@@ -148,7 +167,6 @@
 		<item name="android:visibility">gone</item>
 		<item name="android:background">@color/main_bg</item>
 	</style>
-
 	<style name="runningProcessesPlaceholder">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
@@ -158,7 +176,6 @@
 		<item name="android:textSize">30sp</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
-
 	<style name="llSingleProcessInflatedView">
 		<item name="android:orientation">horizontal</item>
 		<item name="android:gravity">center_vertical</item>
@@ -167,7 +184,6 @@
 		<item name="android:background">@color/main_bg</item>
 		<item name="android:padding">10dp</item>
 	</style>
-
 	<style name="tvRunningProcessesProcessName">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:singleLine">true</item>
@@ -176,7 +192,6 @@
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:textColor">@color/regularBlue</item>
 	</style>
-
 	<style name="tvRunningProcessesProcessMemory">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -185,7 +200,6 @@
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
-
 	<style name="bKillProcess">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:padding">5dp</item>
@@ -195,7 +209,6 @@
 		<item name="android:background">@color/regularBlue</item>
 		<item name="android:textSize">@dimen/normal_text</item>
 	</style>
-
 	<!-- Whitelist Fragment -->
 	<style name="llSingleInstalledAppInflatedView">
 		<item name="android:orientation">vertical</item>
@@ -205,7 +218,6 @@
 		<item name="android:background">@color/main_bg</item>
 		<item name="android:padding">10dp</item>
 	</style>
-
 	<style name="tvSingleInstalledAppName">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:singleLine">true</item>
@@ -215,7 +227,6 @@
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:textColor">@color/regularBlue</item>
 	</style>
-
 	<style name="bWhitelistBlacklistBtn">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:padding">5dp</item>
@@ -226,10 +237,8 @@
 		<item name="android:text">@string/add_to_whitelist</item>
 		<item name="android:background">@color/regularBlue</item>
 	</style>
-
 	<!-- Widgets: -->
 	<style name="widget1x1button">
 		<item name="android:textSize">10sp</item>
 	</style>
-
 </resources>

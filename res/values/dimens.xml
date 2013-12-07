@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
 	<!-- regular dimens -->
-
 	<dimen name="padding_small">8dp</dimen>
 	<dimen name="padding_medium">10dp</dimen>
 	<dimen name="padding_large">16dp</dimen>
 	<dimen name="ram_figures">14dp</dimen>
 	<dimen name="apptitle">65dp</dimen>
 	<dimen name="icon_logoright">35dp</dimen>
-	
 	<dimen name="normal_text">23dp</dimen>
-
 	<!-- Start activity -->
 	<dimen name="big_action_title">23dp</dimen>
 	<dimen name="big_action_icon">80dp</dimen>
-	<dimen name="mainPieRightText">22dp</dimen>
+	<dimen name="mainActionsLabel">15sp</dimen>
+	<dimen name="mainActionsSubLabel">11sp</dimen>
 	<dimen name="main_action_side_margin">15dp</dimen>
 	<dimen name="mainActionButtonTextSize">15sp</dimen>
-
 	<!-- Pie activity -->
 	<dimen name="optimize_button">20dp</dimen>
-
 	<!-- Running processes -->
 	<dimen name="single_process_title">28dp</dimen>
 	<dimen name="single_process_memory">18dp</dimen>
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="mainActionDimen">19sp</dimen>
-	
 	<!-- Toolbar -->
 	<dimen name="toolbarLeftText">16sp</dimen>
 	<dimen name="toolbarRightText">10sp</dimen>
 	<dimen name="toolbarOptimizeButtonText">13sp</dimen>
-
 </resources>

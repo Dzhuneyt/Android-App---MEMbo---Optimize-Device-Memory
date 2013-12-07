@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.widget.Toast;
 
 public class OnBootService extends Service {
 

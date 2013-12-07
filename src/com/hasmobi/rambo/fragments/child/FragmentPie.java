@@ -75,6 +75,7 @@ public class FragmentPie extends DFragment {
 		startUpdating();
 	}
 
+	@Override
 	public void handleBroadcast(Context c, Intent i) {
 		if (fragmentVisible) {
 			startUpdating();
@@ -139,8 +140,6 @@ public class FragmentPie extends DFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.xml.fragment_pie, null);
-
-		return v;
+		return inflater.inflate(R.xml.fragment_pie, null);
 	}
 }

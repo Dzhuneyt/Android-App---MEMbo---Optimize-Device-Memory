@@ -41,21 +41,34 @@ public class FragmentRunningApps extends DFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		setupListView();
 
-		// If the ListView was previously populated, restore it for now
-		final ListView lv = (ListView) getView().findViewById(
-				R.id.lvRunningProcesses);
-		final TextView tvPlaceholder = (TextView) getView().findViewById(
-				R.id.tvRunningProcessesPlaceholder);
-		if (lv != null && tvPlaceholder != null) {
-			if (lv.getAdapter() != null && lv.getAdapter().getCount() > 0) {
-				tvPlaceholder.setVisibility(View.GONE);
-				lv.setVisibility(View.VISIBLE);
+		View fragmentView = getView();
+
+		if (fragmentView == null) {
+			// Fragment hasn't inflated view yet
+			return;
+		}
+
+		try {
+			// If the ListView was previously populated, restore it for now
+			final ListView lv = (ListView) getView().findViewById(
+					R.id.lvRunningProcesses);
+			final TextView tvPlaceholder = (TextView) getView().findViewById(
+					R.id.tvRunningProcessesPlaceholder);
+			if (lv != null && tvPlaceholder != null) {
+				if (lv.getAdapter() != null && lv.getAdapter().getCount() > 0) {
+					tvPlaceholder.setVisibility(View.GONE);
+					lv.setVisibility(View.VISIBLE);
+				}
 			}
+		} catch (Exception e) {
+
 		}
 	}
 
+	@Override
 	public void handleBroadcast(Context c, Intent i) {
 		if (fragmentVisible) {
 			setupListView();
