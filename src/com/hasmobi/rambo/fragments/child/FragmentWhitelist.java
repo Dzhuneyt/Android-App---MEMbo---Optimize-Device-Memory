@@ -58,12 +58,15 @@ public class FragmentWhitelist extends DFragment {
 					new IntentFilter(Intent.ACTION_PACKAGE_ADDED));
 			c.registerReceiver(br, new IntentFilter(
 					Intent.ACTION_PACKAGE_REMOVED));
-		} 
+		}
 	}
 
 	private void unregisterIntents() {
-		if (br != null)
+		try {
 			c.unregisterReceiver(br);
+		} catch (RuntimeException e) {
+			Debugger.log(e.getMessage());
+		}
 	}
 
 	@Override
