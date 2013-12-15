@@ -36,9 +36,5 @@
 	<LinearLayout
 		android:id="@+id/llMainActionsBottom"
 		style="@style/mainActionsBottom">
-		<!-- <com.hasmobi.rambo.utils.custom_views.MainActionButton android:id="@+id/actOpenRunningApps" 
-			style="@style/MainActionButton" android:text="@string/running_processes" 
-			/> <com.hasmobi.rambo.utils.custom_views.MainActionButton android:id="@+id/actOpenWhitelist" 
-			style="@style/MainActionButton" android:text="@string/app_whitelist" /> -->
 	</LinearLayout>
 </LinearLayout>

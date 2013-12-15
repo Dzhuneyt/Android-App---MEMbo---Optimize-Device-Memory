@@ -1,57 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/mainActionsFragmentWrapper"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:weightSum="30" >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:orientation="vertical" >
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenRunningApps"
-                style="@style/MainActionButton"
-                android:text="@string/running_processes" />
-            <com.hasmobi.rambo.utils.custom_views.MainActionButton
-                android:id="@+id/actOpenWhitelist"
-                style="@style/MainActionButton"
-                android:text="@string/app_whitelist" />
-        </LinearLayout>
-
-        <fragment
-            android:name="com.hasmobi.rambo.fragments.child.FragmentPie"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            tools:layout="@xml/fragment_pie" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:orientation="vertical" >
-            <TextView
-                android:id="@+id/tvMainActionsLabelTotalRam"
-                style="@style/MainActionLabel"
-                android:text="N mb total" />
-            <TextView
-                android:id="@+id/tvMainActionsLabelAvailableRam"
-                style="@style/MainActionLabel"
-                android:text="N mb available" />
-            <TextView
-                android:id="@+id/tvMainActionsLabelRunningApps"
-                style="@style/MainActionLabel"
-                android:text="23 apps running" />
-        </LinearLayout>
-    </LinearLayout>
-
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	style="@style/mainActionsFragmentWrapper">
+	<LinearLayout
+		android:id="@+id/llMainActionsTop"
+		style="@style/mainActionsTop">
+		<LinearLayout style="@style/mainActionsTopRight">
+			<TextView
+				android:id="@+id/tvMainActionsLabelTotalRam"
+				style="@style/MainActionLabel"
+				android:text="Memory available: 35% (341 out of 512MB)" />
+			<TextView
+				android:id="@+id/tvSubLabelMBs"
+				style="@style/MainActionSubLabel"
+				android:text="Memory available: 35% (341 out of 512MB)" />
+			<TextView
+				android:id="@+id/tvMainActionsLabelRunningApps"
+				style="@style/MainActionLabel"
+				android:text="23 apps running" />
+			<TextView
+				android:id="@+id/tvSublabelSystemapps"
+				android:layout_marginBottom="10dp"
+				style="@style/MainActionSubLabel" />
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/llMainActionsBottom"
+		style="@style/mainActionsBottom">
+	</LinearLayout>
 </LinearLayout>

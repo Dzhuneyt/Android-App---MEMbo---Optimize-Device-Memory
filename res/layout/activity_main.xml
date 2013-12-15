@@ -9,11 +9,6 @@
 	android:orientation="vertical"
 	tools:context=".MainActivity">
 	<FrameLayout
-		android:id="@+id/fHeader"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical" />
-	<FrameLayout
 		android:id="@+id/fMain"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"

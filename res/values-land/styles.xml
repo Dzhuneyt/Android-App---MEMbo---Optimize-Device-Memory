@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-   <style name="MainActionButton">
-        <item name="android:textSize">@dimen/mainActionButtonTextSize</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:lines">2</item>
-        <item name="android:layout_marginRight">25dp</item>
-        <item name="android:layout_marginLeft">25dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textColor">@color/mainTextColor</item>
-        <item name="android:background">@drawable/old_unused_btn_blue</item>
-    </style>
-
+	<style name="MainActionButton">
+		<item name="android:textSize">@dimen/mainActionButtonTextSize</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:ellipsize">end</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center</item>
+		<item name="android:padding">5dp</item>
+		<item name="android:lines">2</item>
+		<item name="android:layout_marginRight">25dp</item>
+		<item name="android:layout_marginLeft">25dp</item>
+		<item name="android:layout_marginTop">10dp</item>
+		<item name="android:layout_marginBottom">10dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:background">@drawable/old_unused_btn_blue</item>
+	</style>
+	<!-- Main actions fragment -->
+	<style name="mainActionsFragmentWrapper">
+		<item name="android:orientation">horizontal</item>
+		<item name="android:layout_height">match_parent</item>
+	</style>
+	<style name="mainActionsTop">
+		<item name="android:orientation">vertical</item>
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">30</item>
+		<item name="android:weightSum">100</item>
+		<item name="android:background">@color/regularBlue</item>
+	</style>
+	<style name="mainActionsTopRight">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">100</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center</item>
+		<item name="android:background">@color/transparentBlack</item>
+	</style>
+	<style name="mainActionsBottom">
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">70</item>
+		<item name="android:gravity">center</item>
+	</style>
 </resources>

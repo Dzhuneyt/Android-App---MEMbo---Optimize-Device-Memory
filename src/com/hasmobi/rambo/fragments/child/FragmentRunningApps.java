@@ -44,30 +44,31 @@ public class FragmentRunningApps extends DFragment {
 	public void onResume() {
 		super.onResume();
 
-		setupListView();
-
 		View fragmentView = getView();
 
 		if (fragmentView == null) {
 			// Fragment hasn't inflated view yet
 			return;
+		} else {
+			showView(fragmentView
+					.findViewById(R.id.tvRunningProcessesPlaceholder));
+			hideView(fragmentView.findViewById(R.id.lvRunningProcesses));
+			setupListView();
 		}
 
-		try {
-			// If the ListView was previously populated, restore it for now
-			final ListView lv = (ListView) getView().findViewById(
-					R.id.lvRunningProcesses);
-			final TextView tvPlaceholder = (TextView) getView().findViewById(
-					R.id.tvRunningProcessesPlaceholder);
-			if (lv != null && tvPlaceholder != null) {
-				if (lv.getAdapter() != null && lv.getAdapter().getCount() > 0) {
-					tvPlaceholder.setVisibility(View.GONE);
-					lv.setVisibility(View.VISIBLE);
-				}
-			}
-		} catch (Exception e) {
-
-		}
+		/*
+		 * 
+		 * try { // If the ListView was previously populated, restore it for now
+		 * final ListView lv = (ListView) getView().findViewById(
+		 * R.id.lvRunningProcesses); final TextView tvPlaceholder = (TextView)
+		 * getView().findViewById( R.id.tvRunningProcessesPlaceholder); if (lv
+		 * != null && tvPlaceholder != null) { if (lv.getAdapter() != null &&
+		 * lv.getAdapter().getCount() > 0) {
+		 * tvPlaceholder.setVisibility(View.GONE);
+		 * lv.setVisibility(View.VISIBLE); } } } catch (Exception e) {
+		 * 
+		 * }
+		 */
 	}
 
 	@Override

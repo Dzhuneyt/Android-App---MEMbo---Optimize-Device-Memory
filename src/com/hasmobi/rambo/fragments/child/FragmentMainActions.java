@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -148,14 +149,17 @@ public class FragmentMainActions extends DFragment {
 		View layout = inflater.inflate(R.xml.fragment_main_actions, null);
 
 		FragmentManager fm = getActivity().getSupportFragmentManager();
-		if (fm != null) {
+
+		Fragment oldFragment = fm.findFragmentByTag("fragment_running_apps");
+		if (fm != null && oldFragment == null) {
 			// Show running apps at the bottom 3/4 part of the screen
 			LinearLayout v = (LinearLayout) layout
 					.findViewById(R.id.llMainActionsBottom);
 			if (v != null) {
 				v.removeAllViews();
 				FragmentTransaction ft = fm.beginTransaction();
-				ft.add(R.id.llMainActionsBottom, new FragmentRunningApps());
+				ft.add(R.id.llMainActionsBottom, new FragmentRunningApps(),
+						"fragment_running_apps");
 				ft.commit();
 			}
 

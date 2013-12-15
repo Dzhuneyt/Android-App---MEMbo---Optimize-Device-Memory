@@ -14,30 +14,22 @@
 	<string name="app_killed">"Приложението е затворено"</string>
 	<string name="app_whitelisted">"Приложението е добавено в изключения"</string>
 	<string name="app_whitelist_removed">"Приложението е премахнато от изключения"</string>
-	<string name="background_only_app">"Това е само фоново приложение. То няма видима
-		част. "</string>
-	<string name="cant_kill_whitelisted_app">"Не може да се затвори приложение от списъка с
-		изключения. Моля, първо го премахнете от там. "</string>
+	<string name="background_only_app">"Това е само фоново приложение. То няма видима част. "</string>
+	<string name="cant_kill_whitelisted_app">"Не може да се затвори приложение от списъка с изключения. Моля, първо го премахнете от там. "</string>
 	<string name="process_not_found">"Процесът не е намерен"</string>
-	<string name="no_running_processes">"Не могат да се заредят приложенията. Пробвайте да
-		стартирате приложението отново. "</string>
+	<string name="no_running_processes">"Не могат да се заредят приложенията. Пробвайте да стартирате приложението отново. "</string>
 	<string name="close">"Затвавяне"</string>
 	<!-- Remind to rate dialog follows -->
 	<string name="remind_rate_dialog_title">"Оценете това приложение"</string>
-	<string name="remind_rate_dialog_content">"Вашата подкрепа означава много за нас. Това ни
-		мотивира да добавяме нови функции и да подобряваме
-		приложението.\n\nАко то ви харесва, моля, оценете го с 5 звезди в
-		Google Play. "</string>
+	<string name="remind_rate_dialog_content">"Вашата подкрепа означава много за нас. Това ни мотивира да добавяме нови функции и да подобряваме приложението.\n\nАко то ви харесва, моля, оценете го с 5 звезди в Google Play. "</string>
 	<string name="open_market">"Отваряне на Google Play"</string>
-	<string name="already_rated">"Вече гласувах за приложението. Повече не ми
-		показвайте това съобщение."</string>
+	<string name="already_rated">"Вече гласувах за приложението. Повече не ми показвайте това съобщение."</string>
 	<!-- Notification strings below -->
 	<string name="notification_text">"Докоснете за да се оптимизира паметта"</string>
 	<string name="running_processes">"Активни приложения"</string>
 	<!-- Settings Activity -->
 	<string name="notification_icon_title">"Покажи в полето за известия"</string>
-	<string name="notification_icon_summary">"Показване на приложението и свободната памет в
-		полето за известия на телефона. "</string>
+	<string name="notification_icon_summary">"Показване на приложението и свободната памет в полето за известия на телефона."</string>
 	<string name="vibrate_after_optimize_title">"Вибриране"</string>
 	<string name="vibrate_after_optimize_summary">"Кратка вибрация след оптимизиране на паметта"</string>
 	<!-- Added in version code 6 -->
@@ -51,24 +43,19 @@
 	<string name="tap_on_pie_for_running_processes">"Tap on the pie to see all running processes "</string>
 	<string name="memoryclearedamount">"Спестена памет: %dMB"</string>
 	<string name="aboutText">"RAMbo Memory Management %s"</string>
-	<string name="aboutTextBody">"RAMbo is a free software, provided \"AS IS\".\nIf
-		you have any questions, don't hesitate to contact the author at
-		feedback@hasmobi.com\n\n\u00A9 2013 hasMobi.com "</string>
+	<string name="aboutTextBody">"RAMbo is a free software, provided \"AS IS\".\nIf you have any questions, don't hesitate to contact the author at feedback@hasmobi.com\n\n\u00A9 2013 hasMobi.com "</string>
 	<string name="reload">"Презареждане"</string>
 	<string name="memory_management">"Управление на паметта"</string>
 	<string name="settings">"Настройки"</string>
 	<string name="about">"Относно"</string>
 	<string name="quit">"Изход"</string>
 	<!-- Added in version code 8 -->
-	<string name="memory_optimized_toast">"Паметта е оптимизирана!\n%1$d приложения са
-		затворени. Освободени са %2$d MB памет. "</string>
+	<string name="memory_optimized_toast">"Паметта е оптимизирана!\n%1$d приложения са затворени. Освободени са %2$d MB памет."</string>
 	<string name="no_apps_killed">"Пълно оптимизиране на паметта е приключено!"</string>
 	<string name="settings_title_general">"Общи настройки"</string>
 	<string name="settings_title_advanced">"Разширени настройки"</string>
 	<string name="settings_title_enable_autoboost">"Оптимизиране на паметта при отключване"</string>
-	<string name="settings_summary_enable_autoboost">"Затваряне на фоновите приложения при отключване на
-		екрана/клавиатурата, с цел по-добра производителност точно когато ви
-		трябва. "</string>
+	<string name="settings_summary_enable_autoboost">"Затваряне на фоновите приложения при отключване на екрана/клавиатурата, с цел по-добра производителност точно когато ви трябва."</string>
 	<string name="toast_can_not_open_googleplay">"В момента не може да се отвори Google Play"</string>
 	<string name="app_whitelist">"Списък с изключения"</string>
 	<string name="active_apps_label">"%d активни приложения"</string>
@@ -93,8 +80,7 @@
 	<string name="autoboost_enabled">"Постоянна оптимизация включена"</string>
 	<string name="autoboost_disabled">"Постоянна оптимизация изключена"</string>
 	<string name="start_on_boot">"Стартиране на оптимизацията с устройството"</string>
-	<string name="start_on_boot_summary">"Стартиране на автоматичната оптимизация веднага
-		след стартиране на устройството. "</string>
+	<string name="start_on_boot_summary">"Стартиране на автоматичната оптимизация веднага след стартиране на устройството. "</string>
 	<!-- Notification icon -->
 	<string name="memory_usage">"Използвана памет"</string>
 	<!-- Changelog -->

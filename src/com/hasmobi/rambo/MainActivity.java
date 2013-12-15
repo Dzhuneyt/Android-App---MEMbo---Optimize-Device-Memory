@@ -72,13 +72,7 @@ public class MainActivity extends DFragmentActivity {
 	private void setupFragments() {
 		FragmentManager fm = getSupportFragmentManager();
 
-		FrameLayout fl = (FrameLayout) findViewById(R.id.fHeader);
-		fl.removeAllViews();
-		hideView(R.id.fHeader);
-		/*
-		 * if (fm != null) { FragmentTransaction ft = fm.beginTransaction();
-		 * ft.add(R.id.fHeader, new FragmentHeader()); ft.commit(); }
-		 */
+		FrameLayout fl;
 
 		fl = (FrameLayout) findViewById(R.id.fMain);
 		fl.removeAllViews();
