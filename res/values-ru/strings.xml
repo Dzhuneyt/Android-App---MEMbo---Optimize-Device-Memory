@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">"RAM-бо"</string>
+    <string name="app_name">"MEM-бо"</string>
     <string name="menu_settings">"Настройки"</string>
     <string name="total_ram_0">"Всего RAM: 0"</string>
     <string name="free_ram_0">"Бесплатные RAM: 0"</string>
