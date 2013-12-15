@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.InstalledAppAdapter;
-import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.adapters.SingleProcess;
 import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.SingleInstalledApp;

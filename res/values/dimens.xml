@@ -7,7 +7,7 @@
 	<dimen name="ram_figures">14dp</dimen>
 	<dimen name="apptitle">65dp</dimen>
 	<dimen name="icon_logoright">35dp</dimen>
-	<dimen name="normal_text">23dp</dimen>
+	<dimen name="normal_text">20dp</dimen>
 	<!-- Start activity -->
 	<dimen name="big_action_title">23dp</dimen>
 	<dimen name="big_action_icon">80dp</dimen>
@@ -18,13 +18,14 @@
 	<!-- Pie activity -->
 	<dimen name="optimize_button">20dp</dimen>
 	<!-- Running processes -->
-	<dimen name="single_process_title">28dp</dimen>
-	<dimen name="single_process_memory">18dp</dimen>
+	<dimen name="single_process_title">20dp</dimen>
+	<dimen name="single_process_memory">13dp</dimen>
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="mainActionDimen">19sp</dimen>
+	<dimen name="runningAppKill">40dp</dimen>
 	<!-- Toolbar -->
 	<dimen name="toolbarLeftText">16sp</dimen>
 	<dimen name="toolbarRightText">10sp</dimen>
-	<dimen name="toolbarOptimizeButtonText">13sp</dimen>
+	<dimen name="toolbarOptimizeButtonText">16sp</dimen>
 </resources>

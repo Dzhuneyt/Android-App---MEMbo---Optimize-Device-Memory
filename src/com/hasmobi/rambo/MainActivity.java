@@ -4,13 +4,13 @@ import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import com.hasmobi.rambo.fragments.FragmentHeader;
 import com.hasmobi.rambo.fragments.FragmentToolbar;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragmentActivity;
@@ -20,7 +20,9 @@ import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
+import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.TermsOfUse;
+import com.hasmobi.rambo.utils.TypefaceSpan;
 import com.hasmobi.rambo.utils.Values;
 
 public class MainActivity extends DFragmentActivity {
@@ -31,7 +33,18 @@ public class MainActivity extends DFragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		if (getActionBar() != null) {
-			getActionBar().hide();
+
+			// Apply a custom TypeFace to the ActionBar title
+			try {
+				SpannableString s = new SpannableString(ResManager.getString(c,
+						R.string.app_name));
+				s.setSpan(new TypefaceSpan(this, "notosansregular.ttf"), 0,
+						s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				getActionBar().setTitle(s);
+			} catch (Exception e) {
+				log("Can not apply typeface to ActionBar title");
+				log(e.getMessage());
+			}
 		}
 
 		// Fix for orientation change on some devices where Fragments defined in
@@ -46,18 +59,8 @@ public class MainActivity extends DFragmentActivity {
 
 		showChangelog();
 
-		showTOS();
-
-		Handler h = new Handler();
-		Runnable r = new Runnable() {
-
-			public void run() {
-				openOptionsMenu();
-			}
-
-		};
-		if (Values.DEBUG_MODE)
-			h.postDelayed(r, 10000);
+		if (!Values.DEBUG_MODE)
+			showTOS();
 
 	}
 
@@ -71,11 +74,11 @@ public class MainActivity extends DFragmentActivity {
 
 		FrameLayout fl = (FrameLayout) findViewById(R.id.fHeader);
 		fl.removeAllViews();
-		if (fm != null) {
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fHeader, new FragmentHeader());
-			ft.commit();
-		}
+		hideView(R.id.fHeader);
+		/*
+		 * if (fm != null) { FragmentTransaction ft = fm.beginTransaction();
+		 * ft.add(R.id.fHeader, new FragmentHeader()); ft.commit(); }
+		 */
 
 		fl = (FrameLayout) findViewById(R.id.fMain);
 		fl.removeAllViews();
@@ -110,8 +113,8 @@ public class MainActivity extends DFragmentActivity {
 			try {
 				pi.send();
 			} catch (CanceledException e) {
-				Debugger.log("Can not start autobooster due to an exception.");
-				Debugger.log(e.getMessage());
+				log("Can not start autobooster due to an exception.");
+				log(e.getMessage());
 			}
 		}
 	}

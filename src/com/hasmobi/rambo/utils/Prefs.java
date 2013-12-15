@@ -51,11 +51,11 @@ public class Prefs {
 	}
 
 	public boolean isAutoboostEnabled() {
-		return prefs.getBoolean("enable_autoboost", true);
+		return prefs.getBoolean("enable_autoboost", false);
 	}
 
 	public boolean isAutostartEnabled() {
-		return prefs.getBoolean("start_on_boot", false);
+		return prefs.getBoolean("start_on_boot", true);
 	}
 
 	public boolean isNotificationIconEnabled() {
@@ -63,7 +63,7 @@ public class Prefs {
 	}
 
 	/**
-	 * Get the update interval for widgets in seconds (always 5 seconds for now)
+	 * Get the update interval for widgets in seconds
 	 */
 	public int getWidgetUpdateInterval() {
 		return 30;
@@ -72,6 +72,7 @@ public class Prefs {
 	public long getLastOptimizeTimestamp() {
 		return prefs.getLong("last_memory_optimizitaion_timestamp", 0);
 	}
+
 	public void saveLastOptimizeTimestamp(long timestamp) {
 		this.save("last_memory_optimizitaion_timestamp", timestamp);
 	}

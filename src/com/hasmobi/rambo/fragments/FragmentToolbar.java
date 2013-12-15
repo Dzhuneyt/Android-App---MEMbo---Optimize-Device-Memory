@@ -25,19 +25,6 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 	ToolbarDataUpdater ToolbarDataUpdater = null;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (ToolbarDataUpdater == null) {
-			ToolbarDataUpdater = new ToolbarDataUpdater();
-			ToolbarDataUpdater.start();
-		} else {
-			ToolbarDataUpdater.stop();
-			ToolbarDataUpdater.start();
-		}
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.xml.fragment_toolbar, null);
@@ -46,7 +33,7 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 
 		// Setup fonts
 		Typeface bold = Typeface.createFromAsset(getActivity().getAssets(),
-				"sttransmission_800_extrabold.otf");
+				"comfortaa-regular.ttf");
 		Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
 				"notosansregular.ttf");
 
@@ -59,6 +46,14 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 
 		if (tvRight != null)
 			tvRight.setTypeface(face);
+
+		if (ToolbarDataUpdater == null) {
+			ToolbarDataUpdater = new ToolbarDataUpdater();
+			ToolbarDataUpdater.start();
+		} else {
+			ToolbarDataUpdater.stop();
+			ToolbarDataUpdater.start();
+		}
 
 		return v;
 	}
@@ -124,7 +119,6 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 		Handler h = null;
 		Runnable r = null;
 
-		int totalRam = 0, freeRam = 0;
 		long lastUpdate = 0; // timestamp
 
 		/**
@@ -132,25 +126,42 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 		 * you call start()
 		 */
 		public ToolbarDataUpdater() {
-			final RamManager rm = new RamManager(getActivity().getBaseContext());
+			Prefs p = new Prefs(c);
+			lastUpdate = p.getLastOptimizeTimestamp();
 
 			h = new Handler();
 			r = new Runnable() {
-
 				public void run() {
+					h.postDelayed(this, 1000);
 
-					h.postDelayed(this, 3000);
+					final TextView tvToolbarRight = (TextView) getView()
+							.findViewById(R.id.tvToolbarRight);
 
-					totalRam = rm.getTotalRam();
-					freeRam = rm.getFreeRam();
+					if (tvToolbarRight != null) {
+						try {
+							String label = ResManager.getString(c,
+									R.string.last_optimized_toolbar);
+							if (lastUpdate == 0) {
+								label = String
+										.format(label, ResManager.getString(c,
+												R.string.never));
+							} else {
+								String lastOptimizeLabel = (String) DateUtils
+										.getRelativeDateTimeString(c,
+												lastUpdate,
+												DateUtils.SECOND_IN_MILLIS, 0,
+												0);
 
-					Prefs p = new Prefs(c);
-					lastUpdate = p.getLastOptimizeTimestamp();
-
-					try {
-						updateLabel();
-					} catch (Exception e) {
-						Debugger.log("Can not update labels in FragmentToolbar runnable");
+								lastOptimizeLabel = (String) DateUtils
+										.getRelativeTimeSpanString(lastUpdate,
+												System.currentTimeMillis(), 0);
+								label = String.format(label, lastOptimizeLabel);
+							}
+							tvToolbarRight.setText(label);
+						} catch (Exception e) {
+							log("Can not update toolbar");
+							log(e.getMessage());
+						}
 					}
 				}
 
@@ -173,34 +184,5 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 				h.removeCallbacks(r);
 		}
 
-		private void updateLabel() {
-			final TextView tvToolbarRight = (TextView) getView().findViewById(
-					R.id.tvToolbarRight);
-
-			if (tvToolbarRight != null) {
-				try {
-					String label = ResManager.getString(c,
-							R.string.last_optimized_toolbar);
-					if (lastUpdate == 0) {
-						label = String.format(label,
-								ResManager.getString(c, R.string.never));
-					} else {
-						String lastOptimizeLabel = (String) DateUtils
-								.getRelativeDateTimeString(c, lastUpdate,
-										DateUtils.SECOND_IN_MILLIS, 0, 0);
-
-						lastOptimizeLabel = (String) DateUtils
-								.getRelativeTimeSpanString(lastUpdate,
-										System.currentTimeMillis(), 0);
-						label = String.format(label, lastOptimizeLabel);
-					}
-					tvToolbarRight.setText(label);
-				} catch (Exception e) {
-					Debugger.log("Can not update main actions label for free ram. Error: "
-							+ e.getMessage());
-				}
-			}
-
-		}
 	}
 }

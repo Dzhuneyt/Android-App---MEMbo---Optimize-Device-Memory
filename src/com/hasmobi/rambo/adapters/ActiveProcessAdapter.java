@@ -1,34 +1,70 @@
 package com.hasmobi.rambo.adapters;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.ResManager;
 
 public class ActiveProcessAdapter extends ArrayAdapter<String> {
 
 	private final Activity context;
-	private final List<SingleProcess> objects;
+	private List<SingleProcess> objects = null;
 
-	public ActiveProcessAdapter(Activity context, List objects) {
-		super(context, R.layout.single_process_layout_inflater, objects);
+	SharedPreferences excluded_list;
+
+	public ActiveProcessAdapter(Activity context, List objList) {
+		super(context, R.layout.single_process_layout_inflater, objList);
 		this.context = context;
+
+		if (objList != null) {
+			this.objects = objList;
+		} else {
+			this.objects = new ArrayList<SingleProcess>();
+		}
+
+		excluded_list = context.getSharedPreferences("excluded_list", 0);
+
+		sort();
+	}
+
+	public int getCount() {
+		return this.objects != null ? this.objects.size() : 0;
+	}
+
+	public void add(SingleProcess object) {
+		objects.add(object);
+		this.sort();
+	}
+
+	public void resetValues(List objects) {
 		this.objects = objects;
+		this.sort();
+	}
+
+	public void sort() {
+		if (this.objects == null || this.objects.size() <= 0)
+			return;
 
 		Comparator<SingleProcess> myComparator = new Comparator<SingleProcess>() {
 			public int compare(SingleProcess first, SingleProcess second) {
@@ -61,8 +97,10 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 			sqView.icon = (ImageView) rowView.findViewById(R.id.app_icon);
 			sqView.memory = (TextView) rowView.findViewById(R.id.tvMemory);
 
-			sqView.killButton = (Button) rowView
+			sqView.killButton = (ImageButton) rowView
 					.findViewById(R.id.bKillProcess);
+			sqView.whiteListButton = (ImageButton) rowView
+					.findViewById(R.id.bWhitelist);
 
 			// Cache the view objects in the tag,
 			// so they can be re-accessed later
@@ -74,6 +112,9 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 
 		// Get the process data
 		final SingleProcess currentApp = objects.get(position);
+
+		boolean inWhitelist = excluded_list.getBoolean(
+				currentApp.ai.packageName, false);
 
 		// Transfer the data to the view
 		sqView.name.setText(currentApp.name); // App name
@@ -89,7 +130,7 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 		sqView.killButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				String pkg = currentApp.appInfo.processName;
+				String pkg = currentApp.ai.processName;
 				if (pkg != null && pkg.length() > 0) {
 
 					// Kill the app's process
@@ -106,6 +147,78 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 					// Notify the ListView that the data list was changed
 					notifyDataSetChanged();
 				}
+			}
+
+		});
+
+		// Initial state of the "whitelist" button
+		if (inWhitelist) {
+			sqView.whiteListButton.setImageResource(R.drawable.lock);
+		} else {
+			sqView.whiteListButton.setImageResource(R.drawable.unlock);
+		}
+
+		sqView.whiteListButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View view) {
+				// Whitelist/Blacklist the clicked package and update its button
+				// label
+				boolean inWhitelist = excluded_list.getBoolean(
+						currentApp.ai.packageName, false);
+
+				SharedPreferences.Editor edit = excluded_list.edit();
+
+				Debugger d = new Debugger(context);
+
+				String toastMessage = null;
+
+				try {
+					if (inWhitelist) {
+						edit.remove(currentApp.ai.packageName);
+						((ImageButton) view)
+								.setImageResource(R.drawable.unlock);
+
+						toastMessage = ResManager.getString(context,
+								R.string.app_whitelist_removed);
+					} else {
+						edit.putBoolean(currentApp.ai.packageName, true);
+						((ImageButton) view).setImageResource(R.drawable.lock);
+
+						toastMessage = ResManager.getString(context,
+								R.string.app_whitelisted);
+					}
+				} catch (Exception e) {
+					Debugger.log("Can not whitelist/blacklist package");
+					Debugger.log(e.getMessage());
+					d.longToast("This app can not be "
+							+ (inWhitelist ? "removed from blacklist"
+									: "added to blacklist")
+							+ ". Please contact us at feedback@hasmobi.com if this error persists.");
+				}
+
+				if (edit.commit()) {
+					d.toast(toastMessage);
+					/*
+					 * d.toast(excluded ? ResManager.getString(context,
+					 * R.string.app_whitelist_removed) : ResManager
+					 * .getString(context, R.string.app_whitelisted));
+					 */
+
+					try {
+						final Vibrator v = (Vibrator) context
+								.getSystemService(Context.VIBRATOR_SERVICE);
+						if (v != null)
+							v.vibrate(100);
+					} catch (Exception e) {
+					}
+				} else {
+					d.toast("Unable to whitelist/remove from whitelist");
+				}
+
+				excluded_list = context
+						.getSharedPreferences("excluded_list", 0);
+
+				notifyDataSetChanged();
 			}
 
 		});
@@ -128,7 +241,8 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 		protected LinearLayout processWrapper;
 		protected ImageView icon;
 		protected TextView memory;
-		protected Button killButton;
+		protected ImageButton killButton;
+		protected ImageButton whiteListButton;
 	}
 
 }

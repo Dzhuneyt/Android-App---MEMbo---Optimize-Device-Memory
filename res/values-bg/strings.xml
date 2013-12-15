@@ -57,7 +57,7 @@
 	</string>
 
 	<!-- Notification strings below -->
-	<string name="notification_text">Мигновено затваряне на фонови приложения</string>
+	<string name="notification_text">Докоснете за мигновено оптимизиране</string>
 	<string name="notification_title">Докосни за оптимизиране на паметта</string>
 	<string name="running_processes">Активни Приложения</string>
 

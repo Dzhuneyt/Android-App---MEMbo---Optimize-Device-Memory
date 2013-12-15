@@ -9,5 +9,5 @@
 	<!-- Toolbar -->
 	<dimen name="toolbarLeftText">24sp</dimen>
 	<dimen name="toolbarRightText">18sp</dimen>
-	<dimen name="toolbarOptimizeButtonText">25sp</dimen>
+	<dimen name="toolbarOptimizeButtonText">29sp</dimen>
 </resources>

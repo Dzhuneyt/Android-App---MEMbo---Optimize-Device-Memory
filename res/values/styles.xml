@@ -1,7 +1,32 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<style
 		name="AppTheme"
-		parent="android:Theme.Light" />
+		parent="android:Theme.Light">
+		<item name="android:actionBarStyle">@style/MyActionBar</item>
+	</style>
+	<!-- -->
+	<!-- -->
+	<!-- ActionBar Styles follow -->
+	<!-- -->
+	<!-- -->
+	<!-- Custom ActionBar Style -->
+	<style
+		name="MyActionBar"
+		parent="android:style/Widget.Holo.Light.ActionBar">
+		<item name="android:background">@color/actionBarBg</item>
+		<item name="android:titleTextStyle">@style/actionBarTitleStyle</item>
+	</style>
+	<!-- Custom ActionBar Title Style -->
+	<style
+		name="actionBarTitleStyle"
+		parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<!-- -->
+	<!-- -->
+	<!-- Activity and fragment specific styles follow -->
+	<!-- -->
+	<!-- -->
 	<style name="MainActivity">
 		<item name="android:background">@color/main_bg</item>
 	</style>
@@ -89,7 +114,7 @@
 		<item name="android:layout_marginTop">5dp</item>
 		<item name="android:layout_marginBottom">5dp</item>
 		<item name="android:textColor">@color/mainTextColor</item>
-		<item name="android:background">@drawable/btn_blue</item>
+		<item name="android:background">@drawable/old_unused_btn_blue</item>
 	</style>
 	<!-- ^ Button ^ -->
 	<style name="MainActionLabel">
@@ -131,9 +156,8 @@
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
 	<style name="toolbarRightTv">
-		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
-		<item name="android:layout_weight">55</item>
 		<item name="android:gravity">center</item>
 		<item name="android:textSize">@dimen/toolbarRightText</item>
 		<item name="android:maxLines">3</item>
@@ -141,16 +165,17 @@
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
 	<style name="bOptimize">
-		<item name="android:layout_weight">45</item>
-		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_marginLeft">10dp</item>
-		<item name="android:layout_gravity">center</item>
+		<item name="android:gravity">center</item>
 		<item name="android:textSize">@dimen/toolbarOptimizeButtonText</item>
-		<item name="android:background">@drawable/btn_blue_optimize</item>
+		<item name="android:background">@drawable/btn_optimize</item>
 		<item name="android:textColor">@color/mainTextColor</item>
-		<item name="android:padding">5dp</item>
-		<item name="android:shadowColor">@color/solidBlack</item>
+		<item name="android:paddingLeft">15dp</item>
+		<item name="android:paddingRight">15dp</item>
+		<item name="android:paddingTop">5dp</item>
+		<item name="android:paddingBottom">5dp</item>
 	</style>
 	<!-- Running processes fragment -->
 	<style name="RunningProcessesFragmentWrapper">
@@ -201,13 +226,14 @@
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
 	<style name="bKillProcess">
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:padding">5dp</item>
+		<item name="android:layout_width">@dimen/runningAppKill</item>
+		<item name="android:layout_height">@dimen/runningAppKill</item>
+		<item name="android:padding">10dp</item>
 		<item name="android:layout_marginRight">5dp</item>
-		<item name="android:layout_height">wrap_content</item>
 		<item name="android:textColor">@color/mainTextColor</item>
-		<item name="android:background">@color/regularBlue</item>
+		<item name="android:background">@drawable/btn_kill</item>
 		<item name="android:textSize">@dimen/normal_text</item>
+		<item name="android:scaleType">fitCenter</item>
 	</style>
 	<!-- Whitelist Fragment -->
 	<style name="llSingleInstalledAppInflatedView">

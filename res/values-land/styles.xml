@@ -15,7 +15,7 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textColor">@color/mainTextColor</item>
-        <item name="android:background">@drawable/btn_blue</item>
+        <item name="android:background">@drawable/old_unused_btn_blue</item>
     </style>
 
 </resources>

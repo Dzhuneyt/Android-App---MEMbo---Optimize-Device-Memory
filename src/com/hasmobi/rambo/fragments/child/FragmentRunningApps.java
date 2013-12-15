@@ -24,13 +24,15 @@ import android.widget.TextView;
 
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
-import com.hasmobi.rambo.adapters.placeholders.SingleProcess;
+import com.hasmobi.rambo.adapters.SingleProcess;
 import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.Values;
 
 public class FragmentRunningApps extends DFragment {
+
+	private boolean updateInProgress = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,19 +88,40 @@ public class FragmentRunningApps extends DFragment {
 
 		List<SingleProcess> listOfProcesses = null;
 
+		ActiveProcessAdapter adapter = null;
+
+		SingleProcess currentProcess = null;
+
+		boolean lvAdapterSet = false;
+
+		// publishEvery controls how often should the AsyncTask call
+		// publishProgress(), which causes the ListView's adapter to be filled
+		// with the new values we got this far
+		int publishEvery = 5, counter = 0;
+
 		public listUpdater() {
+
 			try {
 				this.execute();
+				updateInProgress = true;
 			} catch (IllegalStateException e) {
 				Debugger.log(e.getMessage());
 			}
 		}
 
 		@Override
-		protected Void doInBackground(Void... v) {
-			if (isCancelled()) {
-				return null;
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if (adapter == null) {
+				adapter = new ActiveProcessAdapter(getActivity(), null);
 			}
+		}
+
+		@Override
+		protected Void doInBackground(Void... v) {
+			if (isCancelled())
+				return null;
 
 			// Get the excluded apps list
 			final SharedPreferences excluded_list = c.getSharedPreferences(
@@ -107,26 +130,24 @@ public class FragmentRunningApps extends DFragment {
 					.getSystemService(Context.ACTIVITY_SERVICE);
 			PackageManager pm = c.getPackageManager();
 
-			// This will hold all processes and their infos
-			listOfProcesses = new ArrayList<SingleProcess>();
-
-			ApplicationInfo ai = null;
-
-			List<RunningAppProcessInfo> runningProcesses = am
+			final List<RunningAppProcessInfo> runningProcesses = am
 					.getRunningAppProcesses();
 			if (runningProcesses.size() == 0) {
 				// Something went wrong, start a new AsyncTask
-				if (Values.DEBUG_MODE) {
-					log("No running processes found. Restarting AsyncTask.");
-				}
+				log("No running processes found. Restarting AsyncTask.");
+				cancel(true);
 				setupListView();
-				this.cancel(true);
 				return null;
 			} else {
 				// There are some running processes
 
 				RamManager rm = new RamManager(c);
 				int totalTakenRam = (rm.getTotalRam() - rm.getFreeRam());
+
+				if (listOfProcesses == null) {
+					// This will hold all processes and their infos
+					listOfProcesses = new ArrayList<SingleProcess>();
+				}
 
 				// Get current package and exclude it from the list
 				String currentAppPackageName = "";
@@ -135,7 +156,11 @@ public class FragmentRunningApps extends DFragment {
 				} catch (Exception e) {
 				}
 
-				// First get the total Pss assigned to all running processes
+				// First get the total PSS (private-shared-dirty memory)
+				// assigned to all running processes.
+				// Then (below) get the PSS used by each process and compare it
+				// to the total usage, so we have a more realistic measure of
+				// the proportion of the memory used by each process
 				float totalPss = 0;
 				for (RunningAppProcessInfo pid : runningProcesses) {
 					if (!pid.processName
@@ -146,53 +171,70 @@ public class FragmentRunningApps extends DFragment {
 					}
 				}
 
-				// Then loop through all running processes, get info for each
-				// and weigh its individual PSS to the total PSS. This way, we
-				// get a realistic estimate of what portion of the total used
-				// RAM this app takes.
+				ApplicationInfo ai = null; // cache
+
+				// Weigh each individual running process' PSS usage to the total
+				// PSS usage and use the resulting percentage to estimate how
+				// much MB of the total used RAM this process uses
 				for (RunningAppProcessInfo pid : runningProcesses) {
 
-					ai = null; // Fail safe
-					try {
-						// Get all the information the system has on this app
-						ai = pm.getApplicationInfo(pid.processName, 0);
-					} catch (NameNotFoundException e) {
-						// Can't get app details
-						log(e.getMessage());
-						ai = null;
-					}
+					if (!pid.processName
+							.equalsIgnoreCase(currentAppPackageName)) {
+						// Don't include our app in the list
 
-					if (ai != null
-							&& !pid.processName
-									.equalsIgnoreCase(currentAppPackageName)) {
-						float totalMemoryUsage = 0;
-						try {
-							final MemoryInfo memoryInfoArray = am
-									.getProcessMemoryInfo(new int[] { pid.pid })[0];
-							// Calculate total memory used by the app
-							float appPss = memoryInfoArray.getTotalPss();
-
-							float weightedPss = (appPss * 100) / totalPss;
-							totalMemoryUsage = weightedPss * totalTakenRam
-									/ 100;
-						} catch (Exception e) {
-							log("Unable to get memory usage for "
-									+ ai.packageName);
-							log(e.getMessage());
+						if (listOfProcesses == null) {
+							// This will hold all processes and their infos
+							listOfProcesses = new ArrayList<SingleProcess>();
 						}
-						// Get the localized app name
-						final String appName = (String) pm
-								.getApplicationLabel(ai);
-						// Get app icon
-						final Drawable appIcon = pm.getApplicationIcon(ai);
-						// Is the app in the do-not-kill list
-						final boolean isWhitelisted = excluded_list.getBoolean(
-								ai.packageName, false);
 
-						// Add the app info to the array adapter
-						listOfProcesses.add(new SingleProcess(ai, appName,
-								isWhitelisted, appIcon, totalMemoryUsage));
+						try {
+							// Get all the information the system has on this
+							// package
+							ai = pm.getApplicationInfo(pid.processName, 0);
+						} catch (NameNotFoundException e) {
+							// Can't get app details
+							log(e.getMessage());
+							ai = null;
+						}
 
+						if (ai != null) {
+							float appMemoryUsageMB = 0;
+							try {
+								// Calculate total memory used by the app
+								float appPssUsage = am
+										.getProcessMemoryInfo(new int[] { pid.pid })[0]
+										.getTotalPss();
+
+								float appPssUsagePercent = (appPssUsage * 100)
+										/ totalPss;
+								appMemoryUsageMB = appPssUsagePercent
+										* totalTakenRam / 100;
+							} catch (Exception e) {
+								log("Unable to get memory usage for "
+										+ ai.packageName);
+								log(e.getMessage());
+							}
+							// Get the localized app name
+							final String appName = (String) pm
+									.getApplicationLabel(ai);
+							// Get app icon
+							final Drawable appIcon = pm.getApplicationIcon(ai);
+							// Is the app in the do-not-kill list
+							final boolean isWhitelisted = excluded_list
+									.getBoolean(ai.packageName, false);
+
+							currentProcess = new SingleProcess(ai, appName,
+									isWhitelisted, appIcon, appMemoryUsageMB);
+
+							// Add the app info to the array adapter
+							listOfProcesses.add(currentProcess);
+
+							counter++;
+							if (counter == publishEvery) {
+								counter = 0;
+								this.publishProgress((Void) null);
+							}
+						}
 					}
 
 				}
@@ -201,7 +243,38 @@ public class FragmentRunningApps extends DFragment {
 		}
 
 		@Override
-		protected void onPostExecute(Void nothing) {
+		protected void onProgressUpdate(Void... values) {
+			super.onProgressUpdate(values);
+
+			updateList();
+		}
+
+		@Override
+		protected void onPostExecute(Void v) {
+			updateInProgress = false;
+
+			if (!fragmentVisible) {
+				return;
+			}
+
+			// One last update of the ListView, just in case we have elements
+			// leftover from doInBackground
+			updateList();
+
+			Handler h = new Handler();
+			Runnable r = new Runnable() {
+				public void run() {
+					setupListView();
+				}
+			};
+
+			// Update list every 20 seconds
+			h.postDelayed(r, 30000);
+
+		}
+
+		private void updateList() {
+
 			if (!fragmentVisible)
 				return;
 
@@ -221,37 +294,30 @@ public class FragmentRunningApps extends DFragment {
 			final View v = lv.getChildAt(0);
 			final int top = (v == null) ? 0 : v.getTop();
 
-			if (listOfProcesses.size() > 0) {
-				// Populate the actual ListView
-
-				ActiveProcessAdapter adapter = new ActiveProcessAdapter(
-						getActivity(), listOfProcesses);
-
+			if (!lvAdapterSet) {
 				lv.setAdapter(adapter);
-
-				tvPlaceholder.setVisibility(View.GONE);
-				lv.setVisibility(View.VISIBLE);
-
-				// Restore scroll position
-				try {
-					lv.setSelectionFromTop(index, top);
-				} catch (Exception e) {
-				}
-			} else {
-				Debugger.log("No running processes found");
-
+				lvAdapterSet = true;
 			}
 
-			Handler h = new Handler();
-			Runnable r = new Runnable() {
-				public void run() {
-					setupListView();
+			if (listOfProcesses != null && listOfProcesses.size() > 0) {
+
+				ArrayList<SingleProcess> copy = new ArrayList<SingleProcess>(
+						listOfProcesses);
+				listOfProcesses.clear();
+
+				for (SingleProcess process : copy) {
+					adapter.add(process);
 				}
-			};
+			}
 
-			// Update list every 20 seconds
-			h.postDelayed(r, 20000);
+			tvPlaceholder.setVisibility(View.GONE);
+			lv.setVisibility(View.VISIBLE);
 
+			// Restore scroll position
+			try {
+				lv.setSelectionFromTop(index, top);
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -261,7 +327,9 @@ public class FragmentRunningApps extends DFragment {
 	private void setupListView() {
 		if (fragmentVisible) {
 			Debugger.log("Updating list of running apps");
-			new listUpdater();
+
+			if (!updateInProgress)
+				new listUpdater();
 		}
 	}
 

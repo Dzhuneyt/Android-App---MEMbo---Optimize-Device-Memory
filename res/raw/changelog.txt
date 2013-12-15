@@ -20,6 +20,12 @@
     </style>
   </head>
   <body>
+$ 1.10
+  % Version 1.10
+  _ Dec 15, 2013
+  	* [BUGFIX] Can not unregister receiver
+  	* UI changes: simplified (almost everything is in a single screen)
+  	* Notification icon change
 $ 1.9
   % Version 1.9
   _ Oct 21, 2013

@@ -153,7 +153,6 @@ public class FragmentMainActions extends DFragment {
 			LinearLayout v = (LinearLayout) layout
 					.findViewById(R.id.llMainActionsBottom);
 			if (v != null) {
-				log("replacing fragment");
 				v.removeAllViews();
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.add(R.id.llMainActionsBottom, new FragmentRunningApps());

@@ -1,4 +1,4 @@
-package com.hasmobi.rambo.adapters.placeholders;
+package com.hasmobi.rambo.adapters;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
@@ -9,7 +9,7 @@ public class SingleProcess {
 	public boolean whitelisted = false;
 	public Drawable icon;
 	public float memoryUsage;
-	public ApplicationInfo appInfo;
+	public ApplicationInfo ai;
 
 	public SingleProcess(String name, boolean whitelisted, Drawable icon) {
 		this.name = name;
@@ -27,7 +27,7 @@ public class SingleProcess {
 
 	public SingleProcess(ApplicationInfo ai, String appName,
 			boolean isWhitelisted, Drawable appIcon, float totalMemoryUsage) {
-		this.appInfo = ai;
+		this.ai = ai;
 		this.name = appName;
 		this.whitelisted = isWhitelisted;
 		this.icon = appIcon;

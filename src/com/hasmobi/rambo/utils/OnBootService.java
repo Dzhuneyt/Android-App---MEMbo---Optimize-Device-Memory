@@ -31,7 +31,7 @@ public class OnBootService extends Service {
 
 				@Override
 				public void onReceive(final Context context, Intent intent) {
-					Debugger.log("ScreenOnBroadcastReceiver->onReceive");
+					Debugger.log("OnBootService->onReceive (received broadcast)");
 
 					// check if screen is on
 					PowerManager pm = (PowerManager) context

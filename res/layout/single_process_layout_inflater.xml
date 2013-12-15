@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llProcessWrapper"
-    style="@style/llSingleProcessInflatedView" >
-
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dip"
-        android:scaleType="fitCenter" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/tvRunningProcessesProcessName" />
-
-        <TextView
-            android:id="@+id/tvMemory"
-            style="@style/tvRunningProcessesProcessMemory" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bKillProcess"
-        style="@style/bKillProcess"
-        android:text="@string/kill_app" />
-
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/llProcessWrapper"
+	style="@style/llSingleProcessInflatedView">
+	<ImageView
+		android:contentDescription="App icon"
+		android:id="@+id/app_icon"
+		android:layout_width="@android:dimen/app_icon_size"
+		android:layout_height="@android:dimen/app_icon_size"
+		android:layout_gravity="center_vertical"
+		android:layout_marginRight="10dip"
+		android:scaleType="fitCenter" />
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/tvName"
+			style="@style/tvRunningProcessesProcessName" />
+		<TextView
+			android:id="@+id/tvMemory"
+			style="@style/tvRunningProcessesProcessMemory" />
+	</LinearLayout>
+	<ImageButton
+		android:contentDescription="@string/kill_app"
+		android:id="@+id/bWhitelist"
+		android:src="@drawable/lock"
+		style="@style/bKillProcess" />
+	<ImageButton
+		android:contentDescription="@string/kill_app"
+		android:id="@+id/bKillProcess"
+		android:src="@drawable/remove"
+		style="@style/bKillProcess" />
 </LinearLayout>
