@@ -1,114 +1,108 @@
 <resources>
-
-	<string name="menu_settings">Настройки</string>
-	<string name="total_ram_0">Total RAM: 0</string>
-	<string name="free_ram_0">Free RAM: 0</string>
-	<string name="taken_ram_0">Taken RAM: 0</string>
-	<string name="ram_cleared">Паметта е оптимизирана.</string>
-	<string name="apps_killed">Затворени са %d приложения</string>
-	<string name="quick_optimize">Бърза Оптимизация</string>
-	<string name="optimizing">Оптимизиране&#8230;</string>
-	<string name="instant_optimize">Оптимизиране</string>
-	<string name="title_activity_settings">Настройки</string>
-	<string name="loading">Зареждане&#8230;</string>
-	<string name="boost">Изчисти!</string>
-	<string name="switch_to">Отвори</string>
-	<string name="kill_app">Спри</string>
-	<string name="remove_from_whitelist">Премахни от изключения</string>
-	<string name="add_to_whitelist">Добави към изключения</string>
-	<string name="app_info">Инфо за приложение</string>
-	<string name="app_killed">Приложението е затворено</string>
-	<string name="app_whitelisted">Добавено към "бял списък"</string>
-	<string name="app_whitelist_removed">Премахнато от "бял списък"</string>
-	<string name="background_only_app">Това приложение няма активен компонент. То работи
-		само на фонов режим.</string>
-	<string name="cant_kill_whitelisted_app">Приложението не може да се затвори. Първо го
-		премахнете от "бял списък".</string>
-	<string name="process_not_found">Приложението не е активно</string>
-	<string name="no_running_processes">Активните процеси не могат да бъдат заредени.
-		Пробвайте да обновите списъка.</string>
-	<string name="updating">Обновяване&#8230;</string>
-	<string name="list_updated">Списъкът е обновен</string>
-	<string name="close">Затвори</string>
-
-	<plurals name="ram_update_intervals">
-		<item quantity="one">Обновява се всяка секунда</item>
-		<item quantity="other">Обновява се на всеки %d секунди</item>
-	</plurals>
-
-	<!-- First start Welcome dialog -->
-	<string name="welcome_dialog_title">Добре дошли</string>
-	<string name="welcome_dialog_text">Добре дошли в RAMbo. Ето кратко описание на
-		функциите:\n\n1."Пица" - Показва визуално колко свободна памет има
-		устройството Ви. Докоснете "пицата" за да видите активните приложения.
-		Задръжте на някое приложение от списъка за допълнителни
-		опции.\n\n2.Изберете "Бърза Оптимизация за да затворите всички ненужни
-		приложения. (Бележка: Приложения във "белия списък" няма да бъдат
-		затворени)\n\n3. Натиснете бутона "Меню" за да видите допълнителни
-		опции и настройки.</string>
-
+	<string name="app_name">"MEMbo"</string>
+	<string name="menu_settings">"Настройки"</string>
+	<string name="instant_optimize">"Оптимизиране"</string>
+	<string name="title_activity_settings">"Настройки"</string>
+	<string name="loading">"Зареждане..."</string>
+	<string name="boost">"Ускори!"</string>
+	<string name="remove_from_whitelist">"Премахване от изключения"</string>
+	<string name="add_to_whitelist">"Добавяне в изключения"</string>
+	<!-- Planned for future use -->
+	<string name="switch_to">"Превключи към..."</string>
+	<string name="kill_app">"Затвори"</string>
+	<string name="app_info">"Информация за приложение"</string>
+	<string name="app_killed">"Приложението е затворено"</string>
+	<string name="app_whitelisted">"Приложението е добавено в изключения"</string>
+	<string name="app_whitelist_removed">"Приложението е премахнато от изключения"</string>
+	<string name="background_only_app">"Това е само фоново приложение. То няма видима
+		част. "</string>
+	<string name="cant_kill_whitelisted_app">"Не може да се затвори приложение от списъка с
+		изключения. Моля, първо го премахнете от там. "</string>
+	<string name="process_not_found">"Процесът не е намерен"</string>
+	<string name="no_running_processes">"Не могат да се заредят приложенията. Пробвайте да
+		стартирате приложението отново. "</string>
+	<string name="close">"Затвавяне"</string>
 	<!-- Remind to rate dialog follows -->
-	<string name="remind_rate_dialog_title">Оценете RAMbo</string>
-	<string name="remind_rate_dialog_content">Вашата подкрепа означава много за нас. Тя ни
-		мотивира да разработваме нови функции и обновления.\n\nАко
-		приложението ви харесва, моля оценете го с 5 звезди в Google Play.	</string>
-	<string name="open_market">Отвори Google Play</string>
-	<string name="already_rated">Вече гласувах. Не показвай това съобщение повече.
-	</string>
-
+	<string name="remind_rate_dialog_title">"Оценете това приложение"</string>
+	<string name="remind_rate_dialog_content">"Вашата подкрепа означава много за нас. Това ни
+		мотивира да добавяме нови функции и да подобряваме
+		приложението.\n\nАко то ви харесва, моля, оценете го с 5 звезди в
+		Google Play. "</string>
+	<string name="open_market">"Отваряне на Google Play"</string>
+	<string name="already_rated">"Вече гласувах за приложението. Повече не ми
+		показвайте това съобщение."</string>
 	<!-- Notification strings below -->
-	<string name="notification_text">Докоснете за мигновено оптимизиране</string>
-	<string name="notification_title">Докосни за оптимизиране на паметта</string>
-	<string name="running_processes">Активни Приложения</string>
-
+	<string name="notification_text">"Докоснете за да се оптимизира паметта"</string>
+	<string name="running_processes">"Активни приложения"</string>
 	<!-- Settings Activity -->
-	<string name="notification_icon_title">Покажи иконка в зоната за известия</string>
-	<string name="notification_icon_summary">Иконка в зоната за известия за бързо оптимизиране
-		на паметта</string>
-	<string name="pie_update_interval_title">Интервал за обновления</string>
-	<string name="pie_update_interval_summary">Колко често да се обновява свободната памет (в
-		секунди)</string>
-	<string name="widget_update_interval_title">Интервал за Обновяване на Widget</string>
-	<string name="widget_update_interval_summary">Колко често да се обновяват widgets (в минути)
-	</string>
-	<string name="vibrate_after_optimize_title">Известие чрез вибрация</string>
-	<string name="vibrate_after_optimize_summary">Кратка вибрация след оптимизиране на паметта
-	</string>
-
+	<string name="notification_icon_title">"Покажи в полето за известия"</string>
+	<string name="notification_icon_summary">"Показване на приложението и свободната памет в
+		полето за известия на телефона. "</string>
+	<string name="vibrate_after_optimize_title">"Вибриране"</string>
+	<string name="vibrate_after_optimize_summary">"Кратка вибрация след оптимизиране на паметта"</string>
 	<!-- Added in version code 6 -->
-	<string name="free">Свободна:</string>
-	<string name="taken">Заета:</string>
-	<string name="total">Общо RAM:</string>
-
+	<string name="free">"Свободна:"</string>
+	<string name="taken">"Заета:"</string>
+	<string name="total">"Общо RAM:"</string>
 	<!-- Added in version code 7 -->
-	<string name="update_app">Обнови приложението</string>
-	<string name="feedback">Дайте ни съвет</string>
-	<string name="no_email_app">Не е открито приложение за email</string>
-	<string name="tap_on_pie_for_running_processes">Изберете "пицата" за още опции</string>
-	<string name="memoryclearedamount">Спестена памет: %dMB</string>
-	<string name="reload">Обнови</string>
-	<string name="memory_management">Управление на паметта</string>
-	<string name="settings">Настройки</string>
-	<string name="about">Относно</string>
-	<string name="quit">Изход</string>
-
+	<string name="update_app">"Актуализиране на приложението"</string>
+	<string name="feedback">"Отзиви и препоръки"</string>
+	<string name="no_email_app">"Не е намерено приложение за пращане на имейли"</string>
+	<string name="tap_on_pie_for_running_processes">"Tap on the pie to see all running processes "</string>
+	<string name="memoryclearedamount">"Спестена памет: %dMB"</string>
+	<string name="aboutText">"RAMbo Memory Management %s"</string>
+	<string name="aboutTextBody">"RAMbo is a free software, provided \"AS IS\".\nIf
+		you have any questions, don't hesitate to contact the author at
+		feedback@hasmobi.com\n\n\u00A9 2013 hasMobi.com "</string>
+	<string name="reload">"Презареждане"</string>
+	<string name="memory_management">"Управление на паметта"</string>
+	<string name="settings">"Настройки"</string>
+	<string name="about">"Относно"</string>
+	<string name="quit">"Изход"</string>
 	<!-- Added in version code 8 -->
-	<string name="memory_optimized_toast">Оптимизирането приключи успешно!\nБяха затворени
-		%1$d приложения.\nОсвободени са %2$d MB памет.
-	</string>
-
-	<!-- Added in version code 10 -->
-	<string name="app_name">МЕМбо</string>
-	<string name="app_whitelist">"Бял списък"</string>
-	<string name="last_optimized_toolbar">Оптимизирано:\n %s</string>
-	<string name="n_apps_placeholder">%d активни приложения</string>
-	<string name="total_ram_label">%dMB общо</string>
-	<string name="free_ram_label">%dMB свободни</string>
-	<string name="free_ram_percent">%d%% свободни</string>
-	<string name="users_n_mb_ram">Използва %s</string>
-	<string name="never">никога</string>
+	<string name="memory_optimized_toast">"Паметта е оптимизирана!\n%1$d приложения са
+		затворени. Освободени са %2$d MB памет. "</string>
+	<string name="no_apps_killed">"Пълно оптимизиране на паметта е приключено!"</string>
+	<string name="settings_title_general">"Общи настройки"</string>
+	<string name="settings_title_advanced">"Разширени настройки"</string>
+	<string name="settings_title_enable_autoboost">"Оптимизиране на паметта при отключване"</string>
+	<string name="settings_summary_enable_autoboost">"Затваряне на фоновите приложения при отключване на
+		екрана/клавиатурата, с цел по-добра производителност точно когато ви
+		трябва. "</string>
+	<string name="toast_can_not_open_googleplay">"В момента не може да се отвори Google Play"</string>
+	<string name="app_whitelist">"Списък с изключения"</string>
+	<string name="active_apps_label">"%d активни приложения"</string>
+	<string name="whitelisted_apps_label">"%d приложения в белия списък"</string>
+	<string name="n_apps_placeholder">"%d активни приложения"</string>
+	<string name="main_actions_used_free_ram">"%1$d%% свободна памет"</string>
+	<string name="main_actions_sublabel_mbs">"(%1$d от %2$dMB)"</string>
+	<string name="main_actions_sublabel_systemapps">"(%d от които са системни)"</string>
+	<string name="total_ram_label">"%dMB общо"</string>
+	<string name="free_ram_label">"%dMB свободна"</string>
+	<string name="free_ram_percent">"%d%% свободна"</string>
+	<string name="last_optimized_toolbar">"Оптимизация:\n%s"</string>
+	<string name="never">"никога"</string>
+	<string name="available_percent_ram_label">"%dMB свободна памет"</string>
+	<string name="manage_settings_label">"Управление"</string>
+	<string name="users_n_mb_ram">"Използва %s"</string>
+	<!-- Settings fragment -->
+	<string name="enable">"Активиране"</string>
+	<string name="disable">"Изключване"</string>
+	<string name="sett_name_autoboost">"Постоянна оптимизация"</string>
+	<string name="sett_name_notif_icon">"Иконка за уведомление"</string>
+	<string name="autoboost_enabled">"Постоянна оптимизация включена"</string>
+	<string name="autoboost_disabled">"Постоянна оптимизация изключена"</string>
+	<string name="start_on_boot">"Стартиране на оптимизацията с устройството"</string>
+	<string name="start_on_boot_summary">"Стартиране на автоматичната оптимизация веднага
+		след стартиране на устройството. "</string>
 	<!-- Notification icon -->
-	<string name="memory_usage">Използвана памет</string>
-
-
+	<string name="memory_usage">"Използвана памет"</string>
+	<!-- Changelog -->
+	<string name="changelog_full_title">"Промени"</string>
+	<string name="changelog_title">"Какво ново"</string>
+	<string name="changelog_ok_button">"ОК"</string>
+	<string name="changelog_show_full">"още..."</string>
+	<!-- TOS -->
+	<string name="tos_dialog_title">"Условия за ползване"</string>
+	<string name="tos_accept_button">"Приемам"</string>
 </resources>
