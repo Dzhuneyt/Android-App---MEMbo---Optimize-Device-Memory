@@ -25,6 +25,6 @@
 		ads:adUnitId="a1507c306fdcc36"
 		ads:loadAdOnCreate="true"
 		ads:testDevices="TEST_EMULATOR, A8CBBC91149E6975F4D95A9B210F5BDC"
-		android:background="#00000000"
+		android:background="@android:color/transparent"
 		android:visibility="visible" />
 </LinearLayout>
