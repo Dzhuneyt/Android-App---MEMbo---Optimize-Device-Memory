@@ -10,7 +10,13 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.hasmobi.rambo.fragments.FragmentToolbar;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragmentActivity;
@@ -23,9 +29,11 @@ import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.TypefaceSpan;
-import com.hasmobi.rambo.utils.Values;
 
 public class MainActivity extends DFragmentActivity {
+
+	private InterstitialAd onBackPressedInterestial = null;
+	private AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +67,69 @@ public class MainActivity extends DFragmentActivity {
 
 		showChangelog();
 
-		if (!Values.DEBUG_MODE)
-			showTOS();
+		showTOS();
+
+		// Look up the AdView as a resource and load a request.
+		this.adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice(
+						"B3EEABB8EE11C2BE770B684D95219ECB|A8CBBC91149E6975F4D95A9B210F5BDC")
+				.addTestDevice("A8CBBC91149E6975F4D95A9B210F5BDC")
+				.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB").build();
+		if (adView != null) {
+			// Hide the ad block while it loads
+			adView.setVisibility(View.GONE);
+
+			adView.loadAd(adRequest);
+
+			adView.setAdListener(new AdListener() {
+				@Override
+				public void onAdLoaded() {
+					adView.setVisibility(View.VISIBLE);
+				}
+			});
+		}
+
+		onBackPressedInterestial = new InterstitialAd(c);
+		onBackPressedInterestial.setAdUnitId("a1507c306fdcc36");
+		onBackPressedInterestial.loadAd(adRequest);
 
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
+
+		if (adView != null) {
+			adView.resume();
+			adView.setVisibility(View.VISIBLE);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adView != null) {
+			adView.destroy();
+		}
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adView != null) {
+			adView.pause();
+		}
+		super.onPause();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (onBackPressedInterestial != null
+				&& onBackPressedInterestial.isLoaded())
+			onBackPressedInterestial.show();
+
+		super.onBackPressed();
 	}
 
 	private void setupFragments() {
@@ -89,8 +152,6 @@ public class MainActivity extends DFragmentActivity {
 			ft.add(R.id.fToolbar, new FragmentToolbar());
 			ft.commit();
 		}
-
-		// llMainActionRow1
 	}
 
 	private void sendNotification() {

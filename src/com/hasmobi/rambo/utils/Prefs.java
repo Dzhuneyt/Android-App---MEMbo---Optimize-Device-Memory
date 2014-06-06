@@ -50,16 +50,28 @@ public class Prefs {
 		return prefs.getBoolean("already_rated_app", false);
 	}
 
+	/**
+	 * Check if the "screen on autoboost" is enabled
+	 * @return
+	 */
 	public boolean isAutoboostEnabled() {
 		return prefs.getBoolean("enable_autoboost", false);
 	}
 
+	/**
+	 * Check if the autostart of the app on device boot is enabled
+	 * @return
+	 */
 	public boolean isAutostartEnabled() {
 		return prefs.getBoolean("start_on_boot", true);
 	}
 
+	/**
+	 * Has the user checked to enable the apps- Notification icon?
+	 * @return
+	 */
 	public boolean isNotificationIconEnabled() {
-		return prefs.getBoolean("notification_icon", false);
+		return prefs.getBoolean("notification_icon", true);
 	}
 
 	/**
@@ -69,10 +81,18 @@ public class Prefs {
 		return 30;
 	}
 
+	/**
+	 * Get a generic timestamp of when was the last optimization
+	 * @return
+	 */
 	public long getLastOptimizeTimestamp() {
 		return prefs.getLong("last_memory_optimizitaion_timestamp", 0);
 	}
 
+	/**
+	 * Save a generic timestamp of when was the last optimization
+	 * @param timestamp
+	 */
 	public void saveLastOptimizeTimestamp(long timestamp) {
 		this.save("last_memory_optimizitaion_timestamp", timestamp);
 	}

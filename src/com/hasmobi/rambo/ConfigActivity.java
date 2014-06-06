@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.NotificationIcon;
@@ -29,6 +31,18 @@ public class ConfigActivity extends PreferenceActivity implements
 		addPreferencesFromResource(R.xml.fragmented_preferences);
 		if (getActionBar() != null) {
 			getActionBar().hide();
+		}
+
+		// Look up the AdView as a resource and load a request.
+		AdView adView = (AdView) findViewById(R.id.adView);
+		if (adView != null) {
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+					.addTestDevice(
+							"B3EEABB8EE11C2BE770B684D95219ECB|A8CBBC91149E6975F4D95A9B210F5BDC")
+					.addTestDevice("A8CBBC91149E6975F4D95A9B210F5BDC")
+					.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB").build();
+			adView.loadAd(adRequest);
 		}
 
 	}

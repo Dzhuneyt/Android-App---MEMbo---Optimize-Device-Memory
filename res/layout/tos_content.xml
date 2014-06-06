@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:background="@color/main_bg"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+	<ScrollView
+		android:layout_weight="1"
+		android:layout_width="match_parent"
+		android:layout_height="0dp">
+		<TextView
+			android:id="@+id/tvTosHolder"
+			android:text="TOS content"
+			android:textColor="@color/mainTextColor"
+			android:padding="@dimen/padding_small"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+	</ScrollView>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:orientation="vertical"
+		android:layout_height="wrap_content">
+		<CheckBox
+			android:checked="true"
+			android:id="@+id/cbAnalyticsAgree"
+			android:layout_margin="@dimen/padding_small"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/mainTextColor"
+			android:text="@string/analytics_tos_agree" />
+		<Button
+			android:id="@+id/bAcceptTos"
+			style="@style/bStandard"
+			android:text="Accept"
+			android:gravity="center"
+			android:layout_gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+</LinearLayout>

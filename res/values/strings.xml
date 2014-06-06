@@ -110,4 +110,5 @@
 	<!-- TOS -->
 	<string name="tos_dialog_title">Terms of Use</string>
 	<string name="tos_accept_button">I accept</string>
+	<string name="analytics_tos_agree">I agree to provide anonymous usage statistics</string>
 </resources>

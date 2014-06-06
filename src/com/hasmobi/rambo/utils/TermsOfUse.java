@@ -5,30 +5,54 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.view.ContextThemeWrapper;
-import android.webkit.WebView;
+import android.content.res.Resources.NotFoundException;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.Spanned;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.supers.DFragmentActivity;
 
 public class TermsOfUse {
 
+	public static final String PREF_NAME_ANALYTICS = "tos_analytics_accepted";
+
 	static String PREF_NAME = "last_tos_accept_version_code";
 
-	Activity c;
+	DFragmentActivity c;
 
 	Context context;
 
-	public TermsOfUse(Activity c) {
+	private String TOS_DIALOG_FRAGMENT_NAME = "fragment_tos_dialog";
+
+	public TermsOfUse(DFragmentActivity c) {
 		this.c = c;
 		this.context = c.getBaseContext();
 	}
 
+	/**
+	 * Check if the TOS for the current version code of the app have been
+	 * accepted already
+	 * 
+	 * @return
+	 */
 	public boolean accepted() {
 		SharedPreferences p = Prefs.instance(c);
 		int lastAcceptedVersion = p.getInt(PREF_NAME, 0);
@@ -58,71 +82,162 @@ public class TermsOfUse {
 		return false;
 	}
 
+	/**
+	 * Shows the TOS dialog (using an AsyncTask while loading the TOS content so
+	 * the UI thread is not blocked)
+	 */
 	public void show() {
-		WebView wv = new WebView(c);
+		DialogFragment d = new TosDialogFragment();
 
-		// wv.setBackgroundColor(Color.BLACK);
-		wv.loadDataWithBaseURL(null, this.getTosContent(), "text/html",
-				"UTF-8", null);
+		FragmentManager fm = c.getSupportFragmentManager();
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				new ContextThemeWrapper(c, android.R.style.Theme_Dialog));
-		builder.setTitle(
-				ResManager.getString(context, R.string.tos_dialog_title))
-				.setView(wv).setCancelable(false)
-				// OK button
-				.setPositiveButton(
-						ResManager.getString(context,
-								R.string.tos_accept_button),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								int currentVerCode = 0;
-								try {
-									currentVerCode = c.getPackageManager()
-											.getPackageInfo(c.getPackageName(),
-													0).versionCode;
-								} catch (NameNotFoundException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+		if (fm != null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			Fragment prev = fm.findFragmentByTag(TOS_DIALOG_FRAGMENT_NAME);
 
-								// Mark the TOS as accepted for this app
-								// version, but later app versions will show the
-								// TOS again
-								if (currentVerCode > 0)
-									markAccepted(currentVerCode);
-							}
-						});
-		AlertDialog dialog = builder.create();
-		dialog.show();
-	}
-
-	public void markAccepted(int acceptAppVersion) {
-		Prefs p = new Prefs(context);
-		p.save(PREF_NAME, acceptAppVersion);
-	}
-
-	private String getTosContent() {
-		// read changelog.txt file
-		StringBuffer sb = new StringBuffer();
-		try {
-			InputStream ins = c.getResources().openRawResource(R.raw.tos);
-			BufferedReader br = new BufferedReader(new InputStreamReader(ins));
-
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				line = line.trim();
-				sb.append(line + "\n");
+			if (prev != null) {
+				ft.remove(prev);
 			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			ft.addToBackStack(null);
+
+			// Create and show the TOS dialog.
+			d.show(ft, TOS_DIALOG_FRAGMENT_NAME);
+		}
+	}
+
+	static public class TosDialogFragment extends DialogFragment implements
+			OnClickListener {
+		// Becomes true when the TOS dialog is accepted with a
+		// checked "I accept to provide anonymous usage statistics"
+		boolean analyticsAccepted = false;
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
 		}
 
-		Debugger.log(sb.toString().length() + " length of the string");
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			final View v = inflater.inflate(R.layout.tos_content, null, false);
 
-		return sb.toString();
+			getDialog().setCanceledOnTouchOutside(false);
+			this.setCancelable(false);
 
+			getDialog().setTitle("Terms of Use");
+
+			new Thread(new Runnable() {
+				public void run() {
+					String rawTosContent = getTosContent();
+					if (rawTosContent.length() > 0) {
+						final Spanned tosContent = Html.fromHtml(rawTosContent);
+						getActivity().runOnUiThread(new Runnable() {
+							public void run() {
+								final TextView tvTosHolder = (TextView) v
+										.findViewById(R.id.tvTosHolder);
+								tvTosHolder.setText(tosContent);
+							}
+						});
+					}
+				}
+			}).start();
+
+			Button bAccept = (Button) v.findViewById(R.id.bAcceptTos);
+			if (bAccept != null)
+				bAccept.setOnClickListener(this);
+
+			return v;
+		}
+
+		/**
+		 * Read the raw txt file with the TOS as a String
+		 * 
+		 * @return String
+		 */
+		private String getTosContent() {
+			// read tos.txt raw file
+			StringBuffer sb = new StringBuffer();
+			try {
+				InputStream ins = getActivity().getResources().openRawResource(
+						R.raw.tos);
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						ins));
+
+				String line = null;
+				while ((line = br.readLine()) != null) {
+					line = line.trim();
+					sb.append(line + "\n");
+				}
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+			}
+
+			return sb.toString();
+
+		}
+
+		public void onClick(View clicked) {
+			switch (clicked.getId()) {
+			case R.id.bAcceptTos: // "TOS accepted" button clicked
+
+				if (getView() == null)
+					return;
+
+				// See if the user agrees to share his
+				// anonymous usage statistic with us (Google
+				// Analytics) and save it in
+				// SharedPreferences
+				CheckBox cbAnalytics = (CheckBox) getView().findViewById(
+						R.id.cbAnalyticsAgree);
+				analyticsAccepted = cbAnalytics.isChecked();
+
+				if (cbAnalytics != null) {
+					getActivity().getSharedPreferences("settings", 0).edit()
+							.putBoolean(PREF_NAME_ANALYTICS, analyticsAccepted)
+							.commit();
+
+					if (analyticsAccepted) {
+						// Initialize Google Analytics tracking
+						// for the first time, now that the user
+						// agreed to participate
+						GoogleAnalytics analytics = GoogleAnalytics
+								.getInstance(getActivity());
+
+						if (Values.DEBUG_MODE)
+							analytics.setDryRun(true);
+
+						Tracker t = analytics.newTracker(R.xml.global_tracker);
+						t.setScreenName(getActivity().getClass()
+								.getSimpleName());
+
+						// Send a screen view.
+						t.send(new HitBuilders.AppViewBuilder().build());
+					}
+				}
+
+				final int currentAppVersionCode = Values
+						.getCurrentAppVersionCode(getActivity());
+				markAccepted(currentAppVersionCode);
+
+				// Close the TOS dialog
+				dismiss();
+				break;
+			}
+
+		}
+
+		/**
+		 * Mark the TOS associated with the provided version code as accepted
+		 * (writes a flag in SharedPreferences)
+		 * 
+		 * @param acceptAppVersion
+		 */
+		public void markAccepted(int acceptAppVersion) {
+			Prefs p = new Prefs(getActivity());
+			p.save(PREF_NAME, acceptAppVersion);
+		}
 	}
 }

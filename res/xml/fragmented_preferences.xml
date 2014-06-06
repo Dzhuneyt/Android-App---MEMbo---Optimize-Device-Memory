@@ -2,7 +2,7 @@
 
     <PreferenceCategory android:title="@string/settings_title_general" >
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="start_on_boot"
             android:summary="@string/start_on_boot_summary"
             android:title="@string/start_on_boot" />
@@ -12,7 +12,7 @@
             android:summary="@string/settings_summary_enable_autoboost"
             android:title="@string/settings_title_enable_autoboost" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="notification_icon"
             android:summary="@string/notification_icon_summary"
             android:title="@string/notification_icon_title" />

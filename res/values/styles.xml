@@ -22,6 +22,15 @@
 		parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
 		<item name="android:textColor">@color/mainTextColor</item>
 	</style>
+	<!-- General styles -->
+	<style name="bStandard">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:background">@color/light_blue_header</item>
+		<item name="android:layout_margin">5dp</item>
+		<item name="android:padding">15dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
 	<!-- -->
 	<!-- -->
 	<!-- Activity and fragment specific styles follow -->

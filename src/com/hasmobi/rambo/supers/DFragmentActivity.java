@@ -6,12 +6,20 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.utils.Debugger;
+import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.Values;
 
 public class DFragmentActivity extends FragmentActivity {
 
 	public Context c;
+
+	Tracker t;
+	boolean analyticsEnabled = false;
 
 	@Override
 	protected void onCreate(Bundle b) {
@@ -19,6 +27,30 @@ public class DFragmentActivity extends FragmentActivity {
 		c = getBaseContext();
 
 		Debugger.log(getClass().getSimpleName() + " onCreate()");
+
+		GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+
+		if(Values.DEBUG_MODE)
+			analytics.setDryRun(true);
+
+		this.t = analytics.newTracker(R.xml.global_tracker);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		try {
+			analyticsEnabled = this.getSharedPreferences("settings", 0)
+					.getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
+		} catch (Exception e) {
+		}
+		if (!Values.DEBUG_MODE && analyticsEnabled && t!=null) {
+			t.setScreenName(getClass().getSimpleName());
+			
+			 // Send a screen view.
+			t.send(new HitBuilders.AppViewBuilder().build());
+		}
 	}
 
 	public boolean hideView(int res) {

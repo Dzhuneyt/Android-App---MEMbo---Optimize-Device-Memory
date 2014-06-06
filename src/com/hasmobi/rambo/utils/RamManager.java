@@ -23,17 +23,28 @@ public class RamManager {
 
 	static public String ACTION_RAM_MANAGER = "ram_manager_run";
 
-	class ProcessToKill {
+	private class ProcessToKill {
 		// A class object to keep processes to be killed
 		private String packageName;
 	}
 
 	Context context = null;
+	Prefs prefs;
 
+	/**
+	 * Initialize this class
+	 * @param c - Activity or Context object
+	 */
 	public RamManager(Context c) {
 		this.context = c;
+		this.prefs = new Prefs(c);
 	}
 
+	/**
+	 * Kill a single background activity by its package name
+	 * 
+	 * @param packageName
+	 */
 	public void killPackage(String packageName) {
 		ActivityManager am = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
@@ -56,6 +67,12 @@ public class RamManager {
 		this.killBgProcesses(false);
 	}
 
+	/**
+	 * Kill all background apps available to be killed.
+	 * 
+	 * @param silent
+	 *            - Whether or not to display a Toast and vibrate after killing
+	 */
 	public void killBgProcesses(boolean silent) {
 
 		// Get all apps to exclude from the preferences
@@ -135,8 +152,8 @@ public class RamManager {
 		}
 
 		// Should the device vibrate after killing?
-		final SharedPreferences prefs = Prefs.instance(context);
-		if (prefs.getBoolean("vibrate_after_optimize", true)) {
+		final SharedPreferences p = prefs.instance();
+		if (p.getBoolean("vibrate_after_optimize", true)) {
 			final Vibrator v = (Vibrator) context
 					.getSystemService(Context.VIBRATOR_SERVICE);
 			if (v != null && !silent)
@@ -145,7 +162,7 @@ public class RamManager {
 
 		this.broadcast();
 
-		this.saveLastOptimizeTimestamp();
+		prefs.saveLastOptimizeTimestamp(System.currentTimeMillis());
 	}
 
 	private void log(String s) {
@@ -223,6 +240,11 @@ public class RamManager {
 		return tm;
 	}
 
+	/**
+	 * Issues a generic app-wide broadcast when a full memory optimization is
+	 * done. Useful for Widgets or other classes that depend on this action to
+	 * capture and update accordingly
+	 */
 	private void broadcast() {
 		Intent i = new Intent(ACTION_RAM_MANAGER);
 		i.setAction(ACTION_RAM_MANAGER);
@@ -230,10 +252,5 @@ public class RamManager {
 
 		Debugger.log("Sending " + ACTION_RAM_MANAGER
 				+ " broadcast by RamManager");
-	}
-
-	private void saveLastOptimizeTimestamp() {
-		Prefs p = new Prefs(context);
-		p.saveLastOptimizeTimestamp(System.currentTimeMillis());
 	}
 }

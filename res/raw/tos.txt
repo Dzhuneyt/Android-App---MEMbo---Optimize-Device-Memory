@@ -1,26 +1,3 @@
-<html>
-  <head>
-    <style type='text/css'>
-      a            { color:#a0a0e0 }
-      div.title    { 
-          color:#C0F0C0; 
-          font-size:1.2em; 
-          font-weight:bold; 
-          margin-top:1em; 
-          margin-bottom:0.5em; 
-          text-align:center }
-      div.subtitle { 
-          color:#C0F0C0; 
-          font-size:0.8em; 
-          margin-bottom:1em; 
-          text-align:center }
-      div.freetext { color:#F0F0F0 }
-      div.description{ margin-left: 1em; margin-right: 1em; }
-      div.list     { color:#C0C0F0 }
-    </style>
-  </head>
-  <body>
-  
   <p>These are the Terms of Use for using this mobile app. By downloading, accessing and/or using this mobile application (the "Application") owned by hasMobi.com you signify that you have read, understand and agree to be bound by all of the terms and conditions as set forth in this Terms of Use Agreement ("Agreement").</p>
   
   <p>The following app is licensed, not sold to you.</p>
@@ -40,6 +17,3 @@
   <p><b>TERMINATION</b></p>
   
   <p>The developer may terminate use of the Application at any time by giving notice of termination to you. Upon any termination, (a) the rights and licenses granted to you herein shall terminate; (b) you must cease all use of the Software.</p>
-  
-  </body>
-</html>

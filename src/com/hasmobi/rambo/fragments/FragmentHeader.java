@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragment;
+import com.hasmobi.rambo.utils.Debugger;
 
 public class FragmentHeader extends DFragment implements OnClickListener {
 
@@ -27,12 +28,16 @@ public class FragmentHeader extends DFragment implements OnClickListener {
 
 		// Setup app name click handling
 		TextView tvAppName = (TextView) v.findViewById(R.id.tvAppNameHeader);
-		tvAppName.setOnClickListener(this);
+		if (tvAppName != null) {
+			tvAppName.setOnClickListener(this);
 
-		// Setup header font
-		final Typeface face = Typeface.createFromAsset(getActivity()
-				.getAssets(), "sttransmission_800_extrabold.otf");
-		tvAppName.setTypeface(face);
+			// Setup header font
+			final Typeface face = Typeface.createFromAsset(getActivity()
+					.getAssets(), "sttransmission_800_extrabold.otf");
+			tvAppName.setTypeface(face);
+		} else {
+			Debugger.log("Can not get view R.id.tvAppNameHeader");
+		}
 
 		return v;
 	}
@@ -42,8 +47,7 @@ public class FragmentHeader extends DFragment implements OnClickListener {
 		case R.id.tvAppNameHeader:
 			final FragmentTransaction ft = getFragmentManager()
 					.beginTransaction();
-			ft.replace(R.id.fMain, new FragmentMainActions(), "NewFragmentTag");
-			ft.commit();
+			ft.replace(R.id.fMain, new FragmentMainActions(), "fMain").commit();
 			break;
 		}
 
