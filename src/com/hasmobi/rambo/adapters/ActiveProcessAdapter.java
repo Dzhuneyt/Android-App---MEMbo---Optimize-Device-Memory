@@ -20,7 +20,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
@@ -168,7 +170,7 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 
 				SharedPreferences.Editor edit = excluded_list.edit();
 
-				Debugger d = new Debugger(context);
+				DDebug d = new DDebug(context);
 
 				String toastMessage = null;
 
@@ -188,21 +190,16 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 								R.string.app_whitelisted);
 					}
 				} catch (Exception e) {
-					Debugger.log("Can not whitelist/blacklist package");
-					Debugger.log(e.getMessage());
-					d.longToast("This app can not be "
+					DDebug.log(null, "Can not whitelist/blacklist package", e);
+					d.toast("This app can not be "
 							+ (inWhitelist ? "removed from blacklist"
 									: "added to blacklist")
-							+ ". Please contact us at feedback@hasmobi.com if this error persists.");
+							+ ". Please contact us at feedback@hasmobi.com if this error persists.",
+							Toast.LENGTH_LONG);
 				}
 
 				if (edit.commit()) {
 					d.toast(toastMessage);
-					/*
-					 * d.toast(excluded ? ResManager.getString(context,
-					 * R.string.app_whitelist_removed) : ResManager
-					 * .getString(context, R.string.app_whitelisted));
-					 */
 
 					try {
 						final Vibrator v = (Vibrator) context
@@ -212,6 +209,7 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 					} catch (Exception e) {
 					}
 				} else {
+					d = new DDebug(context);
 					d.toast("Unable to whitelist/remove from whitelist");
 				}
 

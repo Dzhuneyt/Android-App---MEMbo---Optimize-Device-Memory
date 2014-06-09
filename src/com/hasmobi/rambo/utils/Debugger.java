@@ -35,29 +35,6 @@ public class Debugger {
 			Log.d(Values.DEBUG_TAG, s);
 	}
 
-	public static void toast(Context c, String s) {
-		Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
-	}
-
-	public static void longToast(Context c, String s) {
-		// display in long period of time
-		Toast.makeText(c, s, Toast.LENGTH_LONG).show();
-	}
-
-	public void toast(String s) {
-		this.shortToast(s);
-	}
-
-	public void shortToast(String s) {
-		// display in short period of time
-		Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-	}
-
-	public void longToast(String s) {
-		// display in long period of time
-		Toast.makeText(context, s, Toast.LENGTH_LONG).show();
-	}
-
 	/**
 	 * Called when the app tries to open Google Play Marketplace (e.g. the user
 	 * choose to rate the app), but it fails. The app then tries to open the

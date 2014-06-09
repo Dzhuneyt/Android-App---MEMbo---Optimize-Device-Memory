@@ -5,10 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +16,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hasmobi.lib.DDebug;
+import com.hasmobi.lib.DHardware;
+import com.hasmobi.lib.DResources;
+import com.hasmobi.lib.DView;
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.SingleInstalledApp;
 
@@ -73,9 +75,8 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 
 		if (rowView == null) {
 			// Get a new instance of the row layout view
-			LayoutInflater inflater = context.getLayoutInflater();
-			rowView = inflater.inflate(
-					R.layout.single_installed_app_layout_inflater, null);
+			rowView = DView.inflateView(context,
+					R.layout.single_installed_app_layout_inflater);
 
 			// Hold the view objects in an object,
 			// so they don't need to be re-fetched
@@ -107,9 +108,9 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 		boolean excluded = excluded_list.getBoolean(currentApp.ai.packageName,
 				false);
 
-		final String addToWhitelist = ResManager.getString(context,
+		final String addToWhitelist = DResources.getString(context,
 				R.string.add_to_whitelist);
-		final String removeFromWhitelist = ResManager.getString(context,
+		final String removeFromWhitelist = DResources.getString(context,
 				R.string.remove_from_whitelist);
 
 		if (excluded) {
@@ -128,7 +129,7 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 						currentApp.ai.packageName, false);
 				SharedPreferences.Editor edit = excluded_list.edit();
 
-				Debugger d = new Debugger(context);
+				DDebug d = new DDebug(context);
 
 				try {
 					if (excluded) {
@@ -139,26 +140,31 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 						((Button) view).setText(removeFromWhitelist);
 					}
 				} catch (Exception e) {
-					Debugger.log("Can not whitelist/blacklist package");
-					Debugger.log(e.getMessage());
-					d.longToast("This app can not be "
+					DDebug.log(this.getClass().toString(),
+							"Can not whitelist/blacklist package", e);
+					d.toast("This app can not be "
 							+ (excluded ? "removed from blacklist"
 									: "added to blacklist")
-							+ ". Please contact us at feedback@hasmobi.com if this error persists.");
+							+ ". Please contact us at feedback@hasmobi.com if this error persists.",
+							Toast.LENGTH_LONG);
 				}
 
 				boolean success = edit.commit();
 
 				if (success) {
-					d.toast(excluded ? ResManager.getString(context,
-							R.string.app_whitelist_removed) : ResManager
+					if (excluded) {
+						d.toast(DResources.getString(context,
+								R.string.app_whitelist_removed));
+					} else {
+						d.toast(DResources.getString(context,
+								R.string.app_whitelisted));
+					}
+					d.toast(excluded ? DResources.getString(context,
+							R.string.app_whitelist_removed) : DResources
 							.getString(context, R.string.app_whitelisted));
 
 					try {
-						final Vibrator v = (Vibrator) context
-								.getSystemService(Context.VIBRATOR_SERVICE);
-						if (v != null)
-							v.vibrate(100);
+						DHardware.vibrate(context, 100);
 					} catch (Exception e) {
 
 					}

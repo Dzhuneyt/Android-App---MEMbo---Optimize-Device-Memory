@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hasmobi.lib.DApp;
+import com.hasmobi.lib.DException;
 import com.hasmobi.rambo.R;
 
 public class AppRating {
@@ -81,7 +83,11 @@ public class AppRating {
 					break;
 				case R.id.bOpenMarket:
 
-					goToGooglePlay();
+					try {
+						DApp.openGooglePlayStore(c);
+					} catch (DException e) {
+						e.printStackTrace();
+					}
 
 					break;
 				}

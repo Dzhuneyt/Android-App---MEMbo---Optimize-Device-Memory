@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.hasmobi.lib.DApp;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 
@@ -218,7 +219,7 @@ public class TermsOfUse {
 					}
 				}
 
-				final int currentAppVersionCode = Values
+				final int currentAppVersionCode = DApp
 						.getCurrentAppVersionCode(getActivity());
 				markAccepted(currentAppVersionCode);
 
