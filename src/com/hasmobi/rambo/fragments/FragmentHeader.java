@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragment;
@@ -36,7 +37,7 @@ public class FragmentHeader extends DFragment implements OnClickListener {
 					.getAssets(), "sttransmission_800_extrabold.otf");
 			tvAppName.setTypeface(face);
 		} else {
-			Debugger.log("Can not get view R.id.tvAppNameHeader");
+			DDebug.log(getClass().toString(), "Can not get view R.id.tvAppNameHeader");
 		}
 
 		return v;

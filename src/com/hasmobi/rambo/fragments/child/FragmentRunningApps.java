@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
 import com.hasmobi.rambo.adapters.SingleProcess;
@@ -106,7 +107,7 @@ public class FragmentRunningApps extends DFragment {
 				this.execute();
 				updateInProgress = true;
 			} catch (IllegalStateException e) {
-				Debugger.log(e.getMessage());
+				DDebug.log(getClass().toString(), "listUpdater()", e);
 			}
 		}
 
@@ -262,8 +263,8 @@ public class FragmentRunningApps extends DFragment {
 			// leftover from doInBackground
 			updateList();
 
-			Handler h = new Handler();
-			Runnable r = new Runnable() {
+			final Handler h = new Handler();
+			final Runnable r = new Runnable() {
 				public void run() {
 					setupListView();
 				}
@@ -327,7 +328,7 @@ public class FragmentRunningApps extends DFragment {
 	 */
 	private void setupListView() {
 		if (fragmentVisible) {
-			Debugger.log("Updating list of running apps");
+			DDebug.log(getClass().toString(), "Updating list of running apps");
 
 			if (!updateInProgress)
 				new listUpdater();

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.Debugger;
@@ -65,7 +66,7 @@ public class FragmentPie extends DFragment {
 			excludedList.putBoolean(defaultExcluded[i], true);
 		}
 		excludedList.commit();
-		Debugger.log("Default exclude list populated");
+		DDebug.log(getClass().toString(), "Default exclude list populated");
 	}
 
 	@Override
@@ -112,13 +113,14 @@ public class FragmentPie extends DFragment {
 								.findViewById(R.id.pie);
 						pie.setRam(totalRam, freeRam);
 					} catch (Exception e) {
-						Debugger.log("Can not update pie");
+						DDebug.log(getClass().toString(), "Can not update pie");
 					}
 
 					if (freeRam > 0 && totalRam > 0) {
 						// Do something with the updated values here if needed
 					} else {
-						Debugger.log("Free or Total RAM not set at the moment. One of them is zero");
+						DDebug.log(getClass().toString(),
+								"Free or Total RAM not set at the moment. One of them is zero");
 					}
 
 					handler.postDelayed(r, updateInterval);

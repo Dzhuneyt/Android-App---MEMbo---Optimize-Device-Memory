@@ -2,6 +2,8 @@ package com.hasmobi.rambo.utils;
 
 import java.util.Map;
 
+import com.hasmobi.lib.DDebug;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -20,19 +22,14 @@ public class Debugger {
 		final SharedPreferences excludedList = context.getSharedPreferences(
 				"excluded_list", 0);
 		final Map<String, ?> appsToExclude = excludedList.getAll();
-		log("CURRENTLY EXCLUDED APPS LIST START:");
+		DDebug.log(null, "CURRENTLY EXCLUDED APPS LIST START:");
 		for (Map.Entry<String, ?> entry : appsToExclude.entrySet()) {
 			if (entry.getValue().equals(true)) {
-				log(entry.getKey());
+				DDebug.log(null, entry.getKey());
 			}
 
 		}
-		log("END OF CURRENTLY EXCLUDED APPS LIST");
-	}
-
-	public static void log(String s) {
-		if (Values.DEBUG_MODE)
-			Log.d(Values.DEBUG_TAG, s);
+		DDebug.log(null, "END OF CURRENTLY EXCLUDED APPS LIST");
 	}
 
 	/**
@@ -51,20 +48,9 @@ public class Debugger {
 			versionName = c.getPackageManager().getPackageInfo(
 					c.getPackageName(), 0).versionName;
 		} catch (NameNotFoundException e) {
-			Debugger.log(e.getMessage());
+			DDebug.log(null, e.getMessage(), e);
 		}
 
 		return versionName;
-	}
-
-	public int getAppVersionCode(Context c) {
-		int code = 0;
-		try {
-			code = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {
-			Debugger.log(e.getMessage());
-		}
-
-		return code;
 	}
 }

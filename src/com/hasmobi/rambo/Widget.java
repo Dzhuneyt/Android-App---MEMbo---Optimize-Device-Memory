@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.Prefs;
@@ -98,7 +99,7 @@ public class Widget extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		if (action != null) {
-			Debugger.log("Received action: " + action);
+			DDebug.log(getClass().toString(), "Received action: " + action);
 			if (action.equalsIgnoreCase(ACTION_UPDATE_WIDGETS)
 					|| action.equalsIgnoreCase(RamManager.ACTION_RAM_MANAGER)) {
 				// Manual or automatic widget update started (e.g. from

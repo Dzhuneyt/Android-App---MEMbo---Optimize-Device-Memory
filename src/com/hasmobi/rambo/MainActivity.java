@@ -17,12 +17,14 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.hasmobi.lib.DApp;
+import com.hasmobi.lib.DDebug;
+import com.hasmobi.lib.DException;
 import com.hasmobi.rambo.fragments.FragmentToolbar;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.ChangeLog;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
@@ -180,7 +182,8 @@ public class MainActivity extends DFragmentActivity {
 			if (cl.firstRun())
 				cl.getLogDialog().show();
 		} catch (Exception e) {
-			Debugger.log("Can not display changelog dialog for some reason");
+			DDebug.log(getClass().toString(),
+					"Can not display changelog dialog for some reason", e);
 		}
 	}
 
@@ -208,22 +211,16 @@ public class MainActivity extends DFragmentActivity {
 			fm.feedbackDialog();
 			return true;
 		case R.id.action_update:
-			fm.goToGooglePlay();
+			try {
+				DApp.openGooglePlayStore(c);
+			} catch (DException e) {
+				DDebug.log(getClass().toString(),
+						"Can not open Google Play store", e);
+				DDebug.toast(c, "Google Play store not installed on device");
+			}
 			return true;
 		case R.id.action_settings:
 			startActivity(new Intent(this, ConfigActivity.class));
-			// Fragment newFragment = new FragmentSettings();
-			// try {
-			// final FragmentTransaction ft = getSupportFragmentManager()
-			// .beginTransaction();
-			// ft.replace(R.id.fMain, newFragment, "ReplacementFragment");
-			// ft.addToBackStack(null);
-			// ft.commit();
-			// } catch (Exception e) {
-			// Debugger.log(e.getMessage());
-			// Debugger d = new Debugger(c);
-			// d.toast("Can not open new Fragment. Please, contact us at feedback@hasmobi.com");
-			// }
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

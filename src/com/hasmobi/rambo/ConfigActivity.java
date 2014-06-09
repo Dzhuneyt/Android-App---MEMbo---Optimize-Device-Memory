@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.NotificationIcon;
@@ -92,8 +93,8 @@ public class ConfigActivity extends PreferenceActivity implements
 			try {
 				pi.send();
 			} catch (CanceledException e) {
-				Debugger.log("Can not start autobooster due to an exception.");
-				Debugger.log(e.getMessage());
+				DDebug.log(getClass().toString(),
+						"Can not start autobooster due to an exception.", e);
 			}
 		} else if (s.equalsIgnoreCase("notification_icon")) {
 			Intent i = new Intent(c, NotificationIcon.class);
@@ -102,7 +103,8 @@ public class ConfigActivity extends PreferenceActivity implements
 			try {
 				pi.send();
 			} catch (CanceledException e) {
-				Debugger.log(e.getMessage());
+				DDebug.log(getClass().toString(),
+						"Can not start notification due to an exception.", e);
 			}
 		}
 	}

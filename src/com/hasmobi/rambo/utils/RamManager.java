@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 
 public class RamManager {
@@ -33,7 +34,9 @@ public class RamManager {
 
 	/**
 	 * Initialize this class
-	 * @param c - Activity or Context object
+	 * 
+	 * @param c
+	 *            - Activity or Context object
 	 */
 	public RamManager(Context c) {
 		this.context = c;
@@ -250,7 +253,7 @@ public class RamManager {
 		i.setAction(ACTION_RAM_MANAGER);
 		context.sendBroadcast(i);
 
-		Debugger.log("Sending " + ACTION_RAM_MANAGER
-				+ " broadcast by RamManager");
+		DDebug.log(getClass().toString(), "Sending " + ACTION_RAM_MANAGER
+				+ " broadcast by " + this.getClass().getSimpleName());
 	}
 }

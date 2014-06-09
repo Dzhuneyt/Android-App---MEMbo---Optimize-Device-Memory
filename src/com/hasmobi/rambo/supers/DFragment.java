@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
 
@@ -54,7 +55,7 @@ public class DFragment extends Fragment {
 	public void onPause() {
 		fragmentVisible = false;
 
-		Debugger.log(getClass().getSimpleName() + " onPause()");
+		DDebug.log(getClass().toString(), "onPause()");
 		if (broadcast != null)
 			c.unregisterReceiver(broadcast);
 
@@ -79,7 +80,7 @@ public class DFragment extends Fragment {
 
 		super.onResume();
 
-		Debugger.log(getClass().getSimpleName() + " onResume()");
+		DDebug.log(getClass().toString(), "onResume()");
 
 		// Log the fragment view event to Google Analytics
 		// this.tracker.set(Fields.SCREEN_NAME, getClass().getSimpleName());
@@ -87,7 +88,7 @@ public class DFragment extends Fragment {
 	}
 
 	public void handleBroadcast(Context c, Intent i) {
-		Debugger.log(getClass().getSimpleName() + " handle broadcast");
+		DDebug.log(getClass().toString(), "handleBroadcast()");
 	}
 
 	public void hideView(View v) {
@@ -101,7 +102,7 @@ public class DFragment extends Fragment {
 	}
 
 	public void log(String s) {
-		Debugger.log(s);
+		DDebug.log(getClass().toString(), s);
 	}
 
 }

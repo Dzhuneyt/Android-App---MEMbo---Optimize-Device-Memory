@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.InstalledAppAdapter;
 import com.hasmobi.rambo.adapters.SingleProcess;
@@ -65,7 +66,7 @@ public class FragmentWhitelist extends DFragment {
 		try {
 			c.unregisterReceiver(br);
 		} catch (RuntimeException e) {
-			Debugger.log(e.getMessage());
+			DDebug.log(getClass().toString(), "unregisterIntents()", e);
 		}
 	}
 
@@ -108,7 +109,7 @@ public class FragmentWhitelist extends DFragment {
 			try {
 				installedApps = pm.getInstalledApplications(0);
 			} catch (Exception e) {
-				Debugger.log(e.getMessage());
+				DDebug.log(getClass().toString(), "listUpdater async task", e);
 			}
 
 			if (installedApps != null && installedApps.size() > 0) {
@@ -168,7 +169,7 @@ public class FragmentWhitelist extends DFragment {
 
 				}
 			} else {
-				Debugger.log("No running processes found");
+				DDebug.log(getClass().toString(), "No running processes found");
 				if (tvPlaceholder != null)
 					tvPlaceholder.setText("No installed apps");
 			}
@@ -181,7 +182,7 @@ public class FragmentWhitelist extends DFragment {
 	 */
 	private void setupListView() {
 		if (fragmentVisible) {
-			Debugger.log("Updating whitelist of apps");
+			DDebug.log(getClass().toString(), "Updating whitelist of apps");
 			new listUpdater().execute();
 		}
 	}

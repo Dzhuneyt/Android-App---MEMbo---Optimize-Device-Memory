@@ -9,6 +9,7 @@ import android.view.View;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.TermsOfUse;
@@ -26,7 +27,7 @@ public class DFragmentActivity extends FragmentActivity {
 		super.onCreate(b);
 		c = getBaseContext();
 
-		Debugger.log(getClass().getSimpleName() + " onCreate()");
+		DDebug.log(getClass().toString(), "onCreate()");
 
 		GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 

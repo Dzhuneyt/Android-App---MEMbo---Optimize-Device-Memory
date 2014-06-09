@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 
 public class FeedbackManager {
@@ -47,40 +46,10 @@ public class FeedbackManager {
 			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			c.startActivity(i);
 		} catch (Exception e) {
-			Debugger.log(e.getMessage());
+			DDebug.log(null, e.getMessage(), e);
 			String message = c.getResources().getString(R.string.no_email_app);
 			Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	public void goToGooglePlay() {
-		log("Going to Google Play");
-		Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
-		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-		goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		try {
-			// If Google Play app is installed
-			c.startActivity(goToMarket);
-		} catch (Exception e) {
-			Debugger.log("Can not open Google Play. Reason:" + e.getMessage());
-
-			try {
-				Intent i = new Intent(
-						Intent.ACTION_VIEW,
-						Uri.parse("https://play.google.com/store/apps/details?id="
-								+ c.getPackageName()));
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				// Alternatively, open it in the browser
-				c.startActivity(i);
-			} catch (Exception ex) {
-				// Can't even open regular URLs in browser
-				log("Can't start browser for Google Playe. Reason: "
-						+ ex.getMessage());
-			}
-		}
-	}
-
-	private void log(String s) {
-		Log.d(Values.DEBUG_TAG, s);
-	}
 }

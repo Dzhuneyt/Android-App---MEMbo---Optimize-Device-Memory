@@ -1,5 +1,7 @@
 package com.hasmobi.rambo.utils;
 
+import com.hasmobi.lib.DDebug;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,14 +26,15 @@ public class OnBootService extends Service {
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
 
-		Debugger.log(getClass().getSimpleName() + " onStartCommand()");
+		DDebug.log(getClass().toString(), "onStartCommand()");
 
 		if (broadcast == null) {
 			broadcast = new BroadcastReceiver() {
 
 				@Override
 				public void onReceive(final Context context, Intent intent) {
-					Debugger.log("OnBootService->onReceive (received broadcast)");
+					DDebug.log(getClass().toString(),
+							"OnBootService->onReceive (received broadcast)");
 
 					// check if screen is on
 					PowerManager pm = (PowerManager) context
@@ -53,7 +56,8 @@ public class OnBootService extends Service {
 
 						}
 
-						Debugger.log("Screen is on: " + screenOn.toString());
+						DDebug.log(this.getClass().toString(), "Screen is on: "
+								+ screenOn.toString());
 					}
 				}
 
@@ -77,6 +81,6 @@ public class OnBootService extends Service {
 		if (broadcast != null)
 			unregisterReceiver(broadcast);
 
-		Debugger.log("Stopping service OnBootService");
+		DDebug.log(getClass().toString(), "Stopping service OnBootService");
 	}
 }
