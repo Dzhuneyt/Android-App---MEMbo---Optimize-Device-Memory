@@ -2,13 +2,11 @@ package com.hasmobi.rambo.utils;
 
 import java.util.Map;
 
-import com.hasmobi.lib.DDebug;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
-import android.widget.Toast;
+
+import com.hasmobi.lib.DDebug;
 
 public class Debugger {
 

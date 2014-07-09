@@ -11,7 +11,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.Values;
 
@@ -19,7 +18,7 @@ public class DFragmentActivity extends FragmentActivity {
 
 	public Context c;
 
-	Tracker t;
+	public Tracker t;
 	boolean analyticsEnabled = false;
 
 	@Override
@@ -31,7 +30,7 @@ public class DFragmentActivity extends FragmentActivity {
 
 		GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 
-		if(Values.DEBUG_MODE)
+		if (Values.DEBUG_MODE)
 			analytics.setDryRun(true);
 
 		this.t = analytics.newTracker(R.xml.global_tracker);
@@ -46,10 +45,10 @@ public class DFragmentActivity extends FragmentActivity {
 					.getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
 		} catch (Exception e) {
 		}
-		if (!Values.DEBUG_MODE && analyticsEnabled && t!=null) {
+		if (!Values.DEBUG_MODE && analyticsEnabled && t != null) {
 			t.setScreenName(getClass().getSimpleName());
-			
-			 // Send a screen view.
+
+			// Send a screen view.
 			t.send(new HitBuilders.AppViewBuilder().build());
 		}
 	}

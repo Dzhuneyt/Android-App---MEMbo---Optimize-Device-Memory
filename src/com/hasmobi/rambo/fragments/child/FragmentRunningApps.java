@@ -27,9 +27,7 @@ import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.adapters.ActiveProcessAdapter;
 import com.hasmobi.rambo.adapters.SingleProcess;
 import com.hasmobi.rambo.supers.DFragment;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.Values;
 
 public class FragmentRunningApps extends DFragment {
 

@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.supers.DFragment;
+import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.ResManager;
+import com.hasmobi.rambo.utils.Values;
 
 public class FragmentToolbar extends DFragment implements OnClickListener {
 
@@ -40,11 +45,11 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 
 				if (tvToolbarRight != null) {
 					try {
-						String label = ResManager.getString(c,
+						String label = DResources.getString(c,
 								R.string.last_optimized_toolbar);
 						if (lastUpdate == 0) {
 							label = String.format(label,
-									ResManager.getString(c, R.string.never));
+									DResources.getString(c, R.string.never));
 						} else {
 							String lastOptimizeLabel = (String) DateUtils
 									.getRelativeDateTimeString(c, lastUpdate,
@@ -117,7 +122,22 @@ public class FragmentToolbar extends DFragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.bOptimize:
 			RamManager rm = new RamManager(c);
-			rm.killBgProcesses();
+			int killedApps = rm.killBgProcesses();
+
+			try {
+				Tracker t = ((DFragmentActivity) this.getActivity()).t;
+				t.send(new HitBuilders.EventBuilder()
+						.setCategory(Values.ANALYTICS_CATEGORY_RAM)
+						.setAction(Values.ANALYTICS_ACTION_OPTIMIZE)
+						.setValue(killedApps)
+						.set(Values.ANALYTICS_LABEL_OPTIMIZED_APPS,
+								String.valueOf(killedApps))
+						.set(Values.ANALYTICS_LABEL_CONTEXT,
+								Values.ANALYTICS_CONTEXTS_FOOTER_BUTTON)
+						.build());
+			} catch (Exception e) {
+				Log.d(getClass().toString(), null, e);
+			}
 			break;
 		}
 

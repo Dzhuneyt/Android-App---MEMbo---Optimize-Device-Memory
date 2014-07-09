@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v4.util.LruCache;
+import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 

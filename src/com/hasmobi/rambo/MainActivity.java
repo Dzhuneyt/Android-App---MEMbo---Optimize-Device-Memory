@@ -3,6 +3,7 @@ package com.hasmobi.rambo;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,25 +13,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdRequest.Builder;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.hasmobi.lib.DApp;
 import com.hasmobi.lib.DDebug;
 import com.hasmobi.lib.DException;
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.fragments.FragmentToolbar;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
+import com.hasmobi.rambo.fragments.child.FragmentMainActionsNew;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.ChangeLog;
 import com.hasmobi.rambo.utils.FeedbackManager;
 import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
-import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.TypefaceSpan;
+import com.hasmobi.rambo.utils.Values;
 
 public class MainActivity extends DFragmentActivity {
 
@@ -46,7 +52,7 @@ public class MainActivity extends DFragmentActivity {
 
 			// Apply a custom TypeFace to the ActionBar title
 			try {
-				SpannableString s = new SpannableString(ResManager.getString(c,
+				SpannableString s = new SpannableString(DResources.getString(c,
 						R.string.app_name));
 				s.setSpan(new TypefaceSpan(this, "notosansregular.ttf"), 0,
 						s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -60,42 +66,20 @@ public class MainActivity extends DFragmentActivity {
 		// Fix for orientation change on some devices where Fragments defined in
 		// the XML layout do not inflate a view on orientation change, so we
 		// need to use some other layout like LinearLayout and replace it with
-		// the Fragment on Acitity create
+		// the Fragment on Activity create
 		setupFragments();
 
-		sendNotification();
+		// Start the Notification icon if enabled in Settings
+		NotificationIcon.notify(c);
 
+		// Enables/disables the screen-on autobooster if needed
 		enableAutoboost();
 
 		showChangelog();
 
-		showTOS();
+		new TermsOfUse(this).showIfNeeded();
 
-		// Look up the AdView as a resource and load a request.
-		this.adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice(
-						"B3EEABB8EE11C2BE770B684D95219ECB|A8CBBC91149E6975F4D95A9B210F5BDC")
-				.addTestDevice("A8CBBC91149E6975F4D95A9B210F5BDC")
-				.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB").build();
-		if (adView != null) {
-			// Hide the ad block while it loads
-			adView.setVisibility(View.GONE);
-
-			adView.loadAd(adRequest);
-
-			adView.setAdListener(new AdListener() {
-				@Override
-				public void onAdLoaded() {
-					adView.setVisibility(View.VISIBLE);
-				}
-			});
-		}
-
-		onBackPressedInterestial = new InterstitialAd(c);
-		onBackPressedInterestial.setAdUnitId("a1507c306fdcc36");
-		onBackPressedInterestial.loadAd(adRequest);
+		loadAds();
 
 	}
 
@@ -134,21 +118,76 @@ public class MainActivity extends DFragmentActivity {
 		super.onBackPressed();
 	}
 
+	/**
+	 * Prepare/setup/load the Admob ad request and interestial
+	 */
+	private void loadAds() {
+		// Look up the AdView as a resource and load a request.
+		final LinearLayout adHolder = (LinearLayout) this
+				.findViewById(R.id.adHolder);
+
+		final Builder adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("A8CBBC91149E6975F4D95A9B210F5BDC")
+				.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
+
+		AdRequest ar = adRequest.build();
+
+		if (adHolder != null) {
+			adHolder.setVisibility(View.GONE);
+			adHolder.removeAllViews();
+
+			// Prepare the AdView
+			AdView av = new AdView(this);
+			if (av != null) {
+				av.setAdSize(AdSize.SMART_BANNER);
+				av.setAdUnitId(Values.ADMOB_AD_UNIT_ID);
+				av.setBackgroundColor(Color.TRANSPARENT);
+				av.setVisibility(View.GONE);
+				adHolder.addView(av);
+
+				this.adView = av;
+
+				adView.loadAd(ar);
+
+				adView.setAdListener(new AdListener() {
+					@Override
+					public void onAdLoaded() {
+						adHolder.setVisibility(View.VISIBLE);
+					}
+				});
+			}
+		}
+
+		onBackPressedInterestial = new InterstitialAd(c);
+		onBackPressedInterestial.setAdUnitId(Values.ADMOB_AD_UNIT_ID);
+		onBackPressedInterestial.loadAd(ar);
+	}
+
+	/**
+	 * Initial setup and loading of fragments programmatically so they fill
+	 * their wrapping FrameLayout elements. This is done, because on some
+	 * devices declaring fragments using their fully qualified class name in XML
+	 * doesn't work
+	 */
 	private void setupFragments() {
 		FragmentManager fm = getSupportFragmentManager();
 
-		FrameLayout fl;
+		FrameLayout fl = (FrameLayout) findViewById(R.id.fMain);
+		if (fl != null)
+			fl.removeAllViews();
 
-		fl = (FrameLayout) findViewById(R.id.fMain);
-		fl.removeAllViews();
 		if (fm != null) {
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fMain, new FragmentMainActions());
+			ft.add(R.id.fMain, new FragmentMainActionsNew());
 			ft.commit();
 		}
 
 		fl = (FrameLayout) findViewById(R.id.fToolbar);
-		fl.removeAllViews();
+
+		if (fl != null)
+			fl.removeAllViews();
+
 		if (fm != null) {
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.fToolbar, new FragmentToolbar());
@@ -156,10 +195,10 @@ public class MainActivity extends DFragmentActivity {
 		}
 	}
 
-	private void sendNotification() {
-		NotificationIcon.notify(c);
-	}
-
+	/**
+	 * Enables/disables the autobooster that runs every time the screen is
+	 * turned on or the keyboard is unlocked, depending on the Setting
+	 */
 	private void enableAutoboost() {
 		final Prefs p = new Prefs(c);
 		if (p.isAutoboostEnabled()) {
@@ -176,6 +215,10 @@ public class MainActivity extends DFragmentActivity {
 		}
 	}
 
+	/**
+	 * Show the Change Log dialog with "Ok", "More..." buttons if needed (only
+	 * on first start per each app version code)
+	 */
 	private void showChangelog() {
 		try {
 			ChangeLog cl = new ChangeLog(this);
@@ -187,13 +230,6 @@ public class MainActivity extends DFragmentActivity {
 		}
 	}
 
-	private void showTOS() {
-		TermsOfUse tos = new TermsOfUse(this);
-
-		if (!tos.accepted())
-			tos.show();
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -203,12 +239,11 @@ public class MainActivity extends DFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		FeedbackManager fm = new FeedbackManager(c);
 
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.action_feedback:
-			fm.feedbackDialog();
+			new FeedbackManager(c).sendNewFeedbackEmail();
 			return true;
 		case R.id.action_update:
 			try {

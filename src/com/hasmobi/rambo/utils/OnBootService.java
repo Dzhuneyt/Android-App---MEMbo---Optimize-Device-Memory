@@ -1,7 +1,5 @@
 package com.hasmobi.rambo.utils;
 
-import com.hasmobi.lib.DDebug;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+
+import com.hasmobi.lib.DDebug;
 
 public class OnBootService extends Service {
 

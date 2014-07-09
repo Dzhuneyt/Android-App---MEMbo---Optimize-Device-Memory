@@ -10,18 +10,26 @@ import android.util.Log;
 public class AutoBoostBroadcast extends BroadcastReceiver {
 
 	// Broadcast action that kills apps immediately - once
-	public static String ACTION_BOOST = "boost";
+	public static String ACTION_BOOST_ONETIME = "boost";
 
 	// Broadcast action that kills apps immediately - once, without displaying a
 	// Toast afterwards
 	public static String ACTION_BOOST_SILENT = "silent_boost";
 
-	// Broadcast action that enables autoboost - a feature that will kill apps
-	// at a scheduled interval
+	/**
+	 * Broadcast action that enables autoboost - a feature that will kill apps
+	 * at a scheduled interval
+	 * 
+	 * @deprecated
+	 */
 	public static String ACTION_AUTOBOOST_ENABLE = "autoboost_enable";
 
-	// Broadcast action that disables autoboost - a feature that will kill apps
-	// at a scheduled interval
+	/**
+	 * Broadcast action that disables autoboost - a feature that will kill apps
+	 * at a scheduled interval
+	 * 
+	 * @deprecated
+	 */
 	public static String ACTION_AUTOBOOST_DISABLE = "autoboost_disable";
 
 	public static String ACTION_SCREENON_AUTOBOOST_ENABLED = "screenon_autoboost_on";
@@ -40,7 +48,7 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 		String action = intent.getAction();
 
 		if (action != null) {
-			if (action.equalsIgnoreCase(ACTION_BOOST)) {
+			if (action.equalsIgnoreCase(ACTION_BOOST_ONETIME)) {
 				// kill apps now - once
 				this.optimize(context, false);
 			} else if (action.equalsIgnoreCase(ACTION_BOOST_SILENT)) {
@@ -48,20 +56,16 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 				this.optimize(context, true);
 			} else if (action.equalsIgnoreCase(ACTION_AUTOBOOST_ENABLE)) {
 				// enable autoboost
-				this.enableAutoBoost(context);
+				this.scheduledAutoBoost(context, true);
 			} else if (action.equalsIgnoreCase(ACTION_AUTOBOOST_DISABLE)) {
 				// disable autoboost
-				this.disableAutoBoost(context);
+				this.scheduledAutoBoost(context, false);
 			} else if (action.equalsIgnoreCase(ACTION_BOOT_COMPLETED)) {
 				// on system boot
 				Prefs p = new Prefs(context);
 
 				if (p.isAutostartEnabled()) {
-					if (p.isAutoboostEnabled()) {
-						screenOnAutoboost(context, true);
-					} else {
-						screenOnAutoboost(context, false);
-					}
+					screenOnAutoboost(context, p.isAutoboostEnabled());
 				}
 
 			} else if (action
@@ -80,9 +84,19 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 		rm.killBgProcesses(silent);
 	}
 
-	private void disableAutoBoost(Context context) {
+	/**
+	 * Enables/disables a scheduled autobooster that will boost every X seconds
+	 * (defined in Values.AUTOBOOST_DELAY_SECONDS). Currently not implemented.
+	 * To be implemented in a better way using a Service, since right now it
+	 * dies along with the activity.
+	 * 
+	 * @param context
+	 * @param newState
+	 * @deprecated
+	 */
+	private void scheduledAutoBoost(Context context, boolean newState) {
 		Intent autoBoostIntent = new Intent(context, AutoBoostBroadcast.class);
-		autoBoostIntent.setAction(ACTION_BOOST);
+		autoBoostIntent.setAction(ACTION_BOOST_ONETIME);
 
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0,
 				autoBoostIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -90,23 +104,24 @@ public class AutoBoostBroadcast extends BroadcastReceiver {
 		AlarmManager am = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 
-		am.cancel(pi);
+		if (newState) {
+			am.setRepeating(AlarmManager.RTC_WAKEUP,
+					System.currentTimeMillis(),
+					(Values.AUTOBOOST_DELAY_SECONDS * 1000), pi);
+		} else {
+			am.cancel(pi);
+		}
 	}
 
-	private void enableAutoBoost(Context context) {
-		Intent autoBoostIntent = new Intent(context, AutoBoostBroadcast.class);
-		autoBoostIntent.setAction(ACTION_BOOST_SILENT);
-
-		PendingIntent pi = PendingIntent.getBroadcast(context, 0,
-				autoBoostIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-				(Values.AUTOBOOST_DELAY_SECONDS * 1000), pi);
-	}
-
+	/**
+	 * Starts/stops the service that runs in the background and triggers a
+	 * memory boost every time the device screen is turned on (or the keyboard
+	 * is unlocked)
+	 * 
+	 * @param context
+	 * @param enabledOrDisable
+	 *            - the new state of the service - true=start, false=stop
+	 */
 	private void screenOnAutoboost(Context context, boolean enabledOrDisable) {
 		// Start the autobooster that boosts on each device screen on
 		Intent i = new Intent(context, OnBootService.class);

@@ -11,10 +11,16 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View.MeasureSpec;
 import android.widget.RemoteViews;
 
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.R;
 
 public class NotificationIcon extends BroadcastReceiver {
 
+	/**
+	 * Starts/stops the Notification icon of the app, depending on the setting
+	 * 
+	 * @param c
+	 */
 	static public void notify(Context c) {
 		Prefs p = new Prefs(c);
 		if (p.isNotificationIconEnabled()) {
@@ -24,18 +30,24 @@ public class NotificationIcon extends BroadcastReceiver {
 		}
 	}
 
-	static public boolean startNotification(Context c) {
+	/**
+	 * Starts the notification icon (no check is done)
+	 * 
+	 * @param c
+	 * @return
+	 */
+	static public void startNotification(Context c) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
 				.setSmallIcon(R.drawable.notify_icon)
-				.setContentTitle(ResManager.getString(c, R.string.memory_usage))
+				.setContentTitle(DResources.getString(c, R.string.memory_usage))
 				.setContentText(
-						ResManager.getString(c, R.string.notification_text));
+						DResources.getString(c, R.string.notification_text));
 
 		mBuilder.setAutoCancel(false);
 		mBuilder.setOngoing(true);
 
 		Intent clearMemoryIntent = new Intent(c, AutoBoostBroadcast.class);
-		clearMemoryIntent.setAction(AutoBoostBroadcast.ACTION_BOOST);
+		clearMemoryIntent.setAction(AutoBoostBroadcast.ACTION_BOOST_ONETIME);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(c, 0,
 				clearMemoryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -62,8 +74,6 @@ public class NotificationIcon extends BroadcastReceiver {
 
 		alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 5000,
 				pi);
-
-		return true;
 	}
 
 	/**
@@ -72,15 +82,15 @@ public class NotificationIcon extends BroadcastReceiver {
 	static public boolean startNotificationNew(Context c) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
 				.setSmallIcon(R.drawable.notify_icon)
-				.setContentTitle(ResManager.getString(c, R.string.memory_usage))
+				.setContentTitle(DResources.getString(c, R.string.memory_usage))
 				.setContentText(
-						ResManager.getString(c, R.string.notification_text));
+						DResources.getString(c, R.string.notification_text));
 
 		mBuilder.setAutoCancel(false);
 		mBuilder.setOngoing(true);
 
 		Intent clearMemoryIntent = new Intent(c, AutoBoostBroadcast.class);
-		clearMemoryIntent.setAction(AutoBoostBroadcast.ACTION_BOOST);
+		clearMemoryIntent.setAction(AutoBoostBroadcast.ACTION_BOOST_ONETIME);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(c, 0,
 				clearMemoryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

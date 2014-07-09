@@ -7,7 +7,6 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -176,27 +175,6 @@ public class FragmentMainActions extends DFragment {
 		}
 
 		super.handleBroadcast(c, i);
-	}
-
-	/**
-	 * @deprecated - We use the standard fonts now
-	 * @param layout
-	 */
-	@Deprecated
-	private void setupFonts(View layout) {
-
-		final Typeface bold = Typeface.createFromAsset(c.getAssets(),
-				"sttransmission_800_extrabold.otf");
-
-		final TextView l5 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelTotalRam);
-		final TextView l7 = (TextView) layout
-				.findViewById(R.id.tvMainActionsLabelRunningApps);
-		if (l5 != null)
-			l5.setTypeface(bold);
-		if (l7 != null)
-			l7.setTypeface(bold);
-
 	}
 
 }

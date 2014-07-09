@@ -18,8 +18,8 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -81,6 +81,14 @@ public class TermsOfUse {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Show the TOS dialog if not shown and accepted already
+	 */
+	public void showIfNeeded() {
+		if (!this.accepted())
+			this.show();
 	}
 
 	/**

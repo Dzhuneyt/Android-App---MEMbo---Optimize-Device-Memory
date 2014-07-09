@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,10 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hasmobi.lib.DDebug;
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.ResManager;
 
 public class ActiveProcessAdapter extends ArrayAdapter<String> {
 
@@ -180,13 +178,13 @@ public class ActiveProcessAdapter extends ArrayAdapter<String> {
 						((ImageButton) view)
 								.setImageResource(R.drawable.unlock);
 
-						toastMessage = ResManager.getString(context,
+						toastMessage = DResources.getString(context,
 								R.string.app_whitelist_removed);
 					} else {
 						edit.putBoolean(currentApp.ai.packageName, true);
 						((ImageButton) view).setImageResource(R.drawable.lock);
 
-						toastMessage = ResManager.getString(context,
+						toastMessage = DResources.getString(context,
 								R.string.app_whitelisted);
 					}
 				} catch (Exception e) {

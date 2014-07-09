@@ -13,7 +13,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.NotificationIcon;
 import com.hasmobi.rambo.utils.Prefs;
 

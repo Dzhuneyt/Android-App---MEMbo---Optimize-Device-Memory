@@ -13,7 +13,6 @@ import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.supers.DFragment;
-import com.hasmobi.rambo.utils.Debugger;
 
 public class FragmentHeader extends DFragment implements OnClickListener {
 

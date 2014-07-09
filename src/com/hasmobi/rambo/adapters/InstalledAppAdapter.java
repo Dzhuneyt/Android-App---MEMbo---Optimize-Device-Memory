@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.hasmobi.lib.DHardware;
 import com.hasmobi.lib.DResources;
 import com.hasmobi.lib.DView;
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.utils.ResManager;
 import com.hasmobi.rambo.utils.SingleInstalledApp;
 
 public class InstalledAppAdapter extends ArrayAdapter<String> {

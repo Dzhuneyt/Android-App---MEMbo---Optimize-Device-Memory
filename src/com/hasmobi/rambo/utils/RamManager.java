@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.hasmobi.lib.DDebug;
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.R;
 
 public class RamManager {
@@ -66,8 +67,8 @@ public class RamManager {
 		this.broadcast();
 	}
 
-	public void killBgProcesses() {
-		this.killBgProcesses(false);
+	public int killBgProcesses() {
+		return this.killBgProcesses(false);
 	}
 
 	/**
@@ -75,8 +76,11 @@ public class RamManager {
 	 * 
 	 * @param silent
 	 *            - Whether or not to display a Toast and vibrate after killing
+	 * @return 
 	 */
-	public void killBgProcesses(boolean silent) {
+	public int killBgProcesses(boolean silent) {
+
+		int killCount = 0;
 
 		// Get all apps to exclude from the preferences
 		final SharedPreferences excludedList = context.getSharedPreferences(
@@ -109,8 +113,6 @@ public class RamManager {
 
 		if (processesToKillArr.size() > 0) {
 
-			int killCount = 0;
-
 			final int oldFreeRam = new RamManager(context).getFreeRam();
 
 			for (ProcessToKill p : processesToKillArr) {
@@ -130,7 +132,7 @@ public class RamManager {
 
 			// Notify user that optimization is completed
 			if (!silent) {
-				String toDisplay = ResManager.getString(context,
+				String toDisplay = DResources.getString(context,
 						R.string.memory_optimized_toast);
 				toDisplay = String.format(toDisplay, killCount, savedRam);
 
@@ -166,6 +168,8 @@ public class RamManager {
 		this.broadcast();
 
 		prefs.saveLastOptimizeTimestamp(System.currentTimeMillis());
+
+		return killCount;
 	}
 
 	private void log(String s) {

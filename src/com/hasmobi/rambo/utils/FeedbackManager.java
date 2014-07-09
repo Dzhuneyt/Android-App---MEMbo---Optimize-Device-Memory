@@ -17,7 +17,7 @@ public class FeedbackManager {
 		this.c = c;
 	}
 
-	public void feedbackDialog() {
+	public void sendNewFeedbackEmail() {
 		String versionName = "n/a";
 		int versionCode = 0;
 		try {

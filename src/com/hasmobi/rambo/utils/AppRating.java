@@ -2,8 +2,6 @@ package com.hasmobi.rambo.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -11,6 +9,7 @@ import android.widget.TextView;
 
 import com.hasmobi.lib.DApp;
 import com.hasmobi.lib.DException;
+import com.hasmobi.lib.DResources;
 import com.hasmobi.rambo.R;
 
 public class AppRating {
@@ -64,7 +63,7 @@ public class AppRating {
 		remindDialog.setContentView(R.layout.dialog_remind_to_rate);
 		TextView tvStartCount = (TextView) remindDialog
 				.findViewById(R.id.tvRemindStartCount);
-		tvStartCount.setText(ResManager.getString(c,
+		tvStartCount.setText(DResources.getString(c,
 				R.string.remind_rate_dialog_content));
 		Button bOpenMarket = (Button) remindDialog
 				.findViewById(R.id.bOpenMarket);
@@ -103,26 +102,4 @@ public class AppRating {
 		remindDialog.show();
 
 	}
-
-	private void goToGooglePlay() {
-		Uri uri = Uri.parse("market://details?id=" + c.getPackageName());
-		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-		try {
-			// If Google Play app is installed
-			c.startActivity(goToMarket);
-		} catch (Exception e) {
-			try {
-				// Alternatively, open it in the browser
-				c.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-						.parse("https://play.google.com/store/apps/details?id="
-								+ c.getPackageName())));
-			} catch (Exception ex) {
-				Debugger d = new Debugger(c);
-				d.canNotGoToGooglePlay();
-				// Can't even open regular URLs in browser
-				// log("Can't start browser");
-			}
-		}
-	}
-
 }

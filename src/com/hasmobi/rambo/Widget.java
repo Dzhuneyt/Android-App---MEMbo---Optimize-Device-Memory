@@ -11,7 +11,6 @@ import android.widget.RemoteViews;
 
 import com.hasmobi.lib.DDebug;
 import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
 
@@ -47,7 +46,7 @@ public class Widget extends AppWidgetProvider {
 
 			// Setup a PendingIntent that clears the memory when started
 			Intent intent = new Intent(context, AutoBoostBroadcast.class);
-			intent.setAction(AutoBoostBroadcast.ACTION_BOOST);
+			intent.setAction(AutoBoostBroadcast.ACTION_BOOST_ONETIME);
 			PendingIntent clearRamIntent = PendingIntent.getBroadcast(context,
 					0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

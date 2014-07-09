@@ -4,6 +4,7 @@ public abstract class Values {
 
 	// Used for logging
 	public static final String DEBUG_TAG = "RAM-BO";
+	public static final String ADMOB_AD_UNIT_ID = "a1507c306fdcc36";
 
 	// Name of the SharedPreferences file for the whitelisted apps
 	public static final String EXCLUDED_LIST_FILE = "excluded_list";
@@ -25,4 +26,12 @@ public abstract class Values {
 	public static final int AUTOBOOST_DELAY_SECONDS = 60 * 5;
 
 	public static final int PIE_UPDATE_INTERVAL = 1500; // milliseconds
+	
+	// Constants related to Analytics SDK custom events
+	public static final String ANALYTICS_CATEGORY_RAM = "Ram";
+	public static final String ANALYTICS_ACTION_OPTIMIZE = "Optimized";
+	
+	public static final String ANALYTICS_LABEL_CONTEXT = "Context";
+	public static final String ANALYTICS_LABEL_OPTIMIZED_APPS = "Closed apps";
+	public static final String ANALYTICS_CONTEXTS_FOOTER_BUTTON = "Footer button";
 }

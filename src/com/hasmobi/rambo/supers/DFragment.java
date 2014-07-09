@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.hasmobi.lib.DDebug;
-import com.hasmobi.rambo.utils.Debugger;
 import com.hasmobi.rambo.utils.RamManager;
 
 public class DFragment extends Fragment {

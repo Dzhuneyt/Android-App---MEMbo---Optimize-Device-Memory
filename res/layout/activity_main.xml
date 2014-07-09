@@ -17,13 +17,9 @@
 		android:id="@+id/fToolbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
-	<com.google.android.gms.ads.AdView
-		android:id="@+id/adView"
-		xmlns:ads="http://schemas.android.com/apk/res-auto"
+	<LinearLayout
+		android:orientation="vertical"
+		android:id="@+id/adHolder"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		ads:adSize="SMART_BANNER"
-		ads:adUnitId="a1507c306fdcc36"
-		android:background="@android:color/transparent"
-		android:visibility="gone" />
+		android:layout_height="wrap_content" />
 </LinearLayout>
