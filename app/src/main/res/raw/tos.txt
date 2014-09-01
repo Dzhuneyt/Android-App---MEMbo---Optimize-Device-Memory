@@ -1,0 +1,19 @@
+  <p>These are the Terms of Use for using this mobile app. By downloading, accessing and/or using this mobile application (the "Application") owned by hasMobi.com you signify that you have read, understand and agree to be bound by all of the terms and conditions as set forth in this Terms of Use Agreement ("Agreement").</p>
+  
+  <p>The following app is licensed, not sold to you.</p>
+  
+  <p><b>Age Restriction</b></p>
+  
+  <p>Only individuals thirteen (13) years of age or older may use the Application.  Users between the ages of thirteen (13) and eighteen (18) must review these Terms with a parent or legal guardian to ensure the parent or legal guardian acknowledge and agree to these Terms.  Should User’s parent or legal guardian not acknowledge and agree to these Terms, User must immediately uninstall this Application and discontinue its use.</p>
+  
+  <p><b>No Warranties</b></p>
+  
+  <p>The Application is provided "as is". The developer does not warrant that: (i) its Application will be constantly available, or available at all; (ii) that the information in this Application is complete, true, accurate, or (iii) your opt-out choices will be successfully executed in all cases. The developer does not warrant that the Application is free of defects or errors.</p>
+  
+  <p><b>Limitations of Liability and Indemnification</b></p>
+  
+  <p>THE DOWNLOADING AND/OR USE OF THE APPLICATION IS ENTIRELY AT YOUR OWN RISK AND IN NO EVENT SHALL THE DEVELOPER BE LIABLE (WHETHER UNDER THE LAW OF CONTRACTS, TORTS OR OTHERWISE) FOR ANY DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, EXEMPLARY, PUNITIVE OR ANY OTHER MONETARY OR OTHER DAMAGES, FEES, FINES, PENALTIES OR LIABILITIES (COLLECTIVELY “DAMAGES”) WHATSOEVER ARISING OUT OF OR RELATING TO THIS APPLICATION. YOUR SOLE AND EXCLUSIVE REMEDY FOR DISSATISFACTION WITH THE APPLICATION IS TO STOP USING THE APPLICATION. YOU AGREE TO DEFEND, INDEMNIFY AND HOLD THE DEVELOPER, AND ITS OFFICERS, DIRECTORS, EMPLOYEES, REPRESENTATIVES AND AGENTS HARMLESS FROM AND AGAINST ANY CLAIMS, ACTIONS, DEMANDS, LIABILITIES, JUDGMENTS, AND SETTLEMENTS, INCLUDING WITHOUT LIMITATION, REASONABLE LEGAL FEES RESULTING FROM OR ALLEGED TO RESULT FROM YOUR USE OF THIS APPLICATION.</p>
+  
+  <p><b>TERMINATION</b></p>
+  
+  <p>The developer may terminate use of the Application at any time by giving notice of termination to you. Upon any termination, (a) the rights and licenses granted to you herein shall terminate; (b) you must cease all use of the Software.</p>

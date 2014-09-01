@@ -1,0 +1,26 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:ads="http://schemas.android.com/apk/res-auto"
+	style="MainActivity"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/main_bg"
+	android:orientation="vertical"
+	tools:context=".MainActivity">
+	<FrameLayout
+		android:id="@+id/fMain"
+        tools:layout="@xml/fragment_main_new"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+	<FrameLayout
+		android:id="@+id/fToolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	<LinearLayout
+		android:orientation="vertical"
+		android:id="@+id/adHolder"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" />
+</LinearLayout>

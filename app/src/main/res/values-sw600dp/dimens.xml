@@ -1,0 +1,13 @@
+<resources>
+	<!-- Customize dimensions originally defined in res/values/dimens.xml (such 
+		as screen margins) for sw600dp devices (e.g. 7" tablets) here. -->
+	<dimen name="padding_medium">15dp</dimen>
+	<!-- Start activity -->
+	<dimen name="mainActionsLabel">25dp</dimen>
+	<dimen name="mainActionsSubLabel">22dp</dimen>
+	<dimen name="mainActionButtonTextSize">20sp</dimen>
+	<!-- Toolbar -->
+	<dimen name="toolbarLeftText">24sp</dimen>
+	<dimen name="toolbarRightText">18sp</dimen>
+	<dimen name="toolbarOptimizeButtonText">29sp</dimen>
+</resources>

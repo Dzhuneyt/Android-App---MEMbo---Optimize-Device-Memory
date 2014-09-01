@@ -1,0 +1,280 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<style
+		name="AppTheme"
+		parent="android:Theme.Light">
+		<item name="android:actionBarStyle">@style/MyActionBar</item>
+	</style>
+	<!-- -->
+	<!-- -->
+	<!-- ActionBar Styles follow -->
+	<!-- -->
+	<!-- -->
+	<!-- Custom ActionBar Style -->
+	<style
+		name="MyActionBar"
+		parent="android:style/Widget.Holo.Light.ActionBar">
+		<item name="android:background">@color/actionBarBg</item>
+		<item name="android:titleTextStyle">@style/actionBarTitleStyle</item>
+	</style>
+	<!-- Custom ActionBar Title Style -->
+	<style
+		name="actionBarTitleStyle"
+		parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<!-- General styles -->
+	<style name="bStandard">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:background">@color/light_blue_header</item>
+		<item name="android:layout_margin">5dp</item>
+		<item name="android:padding">15dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<!-- -->
+	<!-- -->
+	<!-- Activity and fragment specific styles follow -->
+	<!-- -->
+	<!-- -->
+	<style name="MainActivity">
+		<item name="android:background">@color/main_bg</item>
+	</style>
+	<!-- Header fragment -->
+	<style name="headerFragmentWrapper">
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:background">@color/white</item>
+	</style>
+	<style name="headerFragmentAppName">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">@color/light_blue_header</item>
+		<item name="android:textSize">@dimen/apptitle</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:paddingTop">@dimen/padding_large</item>
+		<item name="android:shadowColor">@color/solidBlack</item>
+		<item name="android:shadowDx">1</item>
+		<item name="android:shadowDy">1</item>
+		<item name="android:shadowRadius">2</item>
+	</style>
+	<!-- Pie fragment -->
+	<style name="pieWrapper">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:gravity">center</item>
+		<item name="android:orientation">vertical</item>
+	</style>
+	<!-- Main actions fragment -->
+	<style name="mainActionsFragmentWrapper">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:weightSum">100</item>
+		<item name="android:orientation">vertical</item>
+	</style>
+	<style name="mainActionsTop">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">0dp</item>
+		<item name="android:orientation">horizontal</item>
+		<item name="android:weightSum">100</item>
+		<item name="android:layout_weight">30</item>
+		<item name="android:background">@color/regularBlue</item>
+	</style>
+	<style name="mainActionsTopRight">
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">65</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center</item>
+		<item name="android:background">@color/transparentBlack</item>
+	</style>
+	<style name="mainActionsBottom">
+		<item name="android:gravity">center</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">0dp</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:layout_weight">70</item>
+	</style>
+	<style name="MainActionRow3Elems">
+		<item name="android:weightSum">3</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:orientation">horizontal</item>
+	</style>
+	<style name="MainActionWrapper">
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:layout_margin">10dp</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+	<style name="MainActionButton">
+		<item name="android:textSize">@dimen/mainActionDimen</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:ellipsize">end</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center</item>
+		<item name="android:padding">5dp</item>
+		<item name="android:lines">2</item>
+		<item name="android:layout_marginRight">@dimen/main_action_side_margin</item>
+		<item name="android:layout_marginLeft">@dimen/main_action_side_margin</item>
+		<item name="android:layout_marginTop">5dp</item>
+		<item name="android:layout_marginBottom">5dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:background">@drawable/old_unused_btn_blue</item>
+	</style>
+	<!-- ^ Button ^ -->
+	<style name="MainActionLabel">
+		<item name="android:layout_marginTop">5dp</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:paddingBottom">0dp</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textSize">@dimen/mainActionsLabel</item>
+	</style>
+	<style name="MainActionSubLabel">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingTop">2dp</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:textSize">@dimen/mainActionsSubLabel</item>
+		<item name="android:alpha">0.5</item>
+	</style>
+	<!-- ^ TextView ^ -->
+	<!-- Toolbar fragment -->
+	<style name="toolbarFragmentWrapper">
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:background">@color/regularBlue</item>
+	</style>
+	<style name="toolbarLeftTv">
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_weight">33</item>
+		<item name="android:layout_marginRight">5dp</item>
+		<item name="android:layout_marginLeft">5dp</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textSize">@dimen/toolbarLeftText</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<style name="toolbarRightTv">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textSize">@dimen/toolbarRightText</item>
+		<item name="android:maxLines">3</item>
+		<item name="android:ellipsize">none</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<style name="bOptimize">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginLeft">10dp</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textSize">@dimen/toolbarOptimizeButtonText</item>
+		<item name="android:background">@drawable/btn_optimize</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:paddingLeft">15dp</item>
+		<item name="android:paddingRight">15dp</item>
+		<item name="android:paddingTop">5dp</item>
+		<item name="android:paddingBottom">5dp</item>
+	</style>
+	<!-- Running processes fragment -->
+	<style name="RunningProcessesFragmentWrapper">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:background">@color/main_bg</item>
+	</style>
+	<style name="runningProcessesListView">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:gravity">center</item>
+		<item name="android:visibility">gone</item>
+		<item name="android:background">@color/main_bg</item>
+	</style>
+	<style name="runningProcessesPlaceholder">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:gravity">center</item>
+		<item name="android:background">@color/main_bg</item>
+		<item name="android:textSize">30sp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<style name="llSingleProcessInflatedView">
+		<item name="android:orientation">horizontal</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:background">@color/main_bg</item>
+		<item name="android:padding">10dp</item>
+	</style>
+	<style name="tvRunningProcessesProcessName">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/single_process_title</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:textColor">@color/regularBlue</item>
+	</style>
+	<style name="tvRunningProcessesProcessMemory">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:textSize">@dimen/single_process_memory</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+	</style>
+	<style name="bKillProcess">
+		<item name="android:layout_width">@dimen/runningAppKill</item>
+		<item name="android:layout_height">@dimen/runningAppKill</item>
+		<item name="android:padding">10dp</item>
+		<item name="android:layout_marginRight">5dp</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:background">@drawable/btn_kill</item>
+		<item name="android:textSize">@dimen/normal_text</item>
+		<item name="android:scaleType">fitCenter</item>
+	</style>
+	<!-- Whitelist Fragment -->
+	<style name="llSingleInstalledAppInflatedView">
+		<item name="android:orientation">vertical</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:background">@color/main_bg</item>
+		<item name="android:padding">10dp</item>
+	</style>
+	<style name="tvSingleInstalledAppName">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:layout_marginBottom">10dp</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/single_process_title</item>
+		<item name="android:gravity">center_vertical</item>
+		<item name="android:textColor">@color/regularBlue</item>
+	</style>
+	<style name="bWhitelistBlacklistBtn">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:padding">5dp</item>
+		<item name="android:gravity">center</item>
+		<item name="android:layout_gravity">center</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:text">@string/add_to_whitelist</item>
+		<item name="android:background">@color/regularBlue</item>
+	</style>
+	<!-- Widgets: -->
+	<style name="widget1x1button">
+		<item name="android:textSize">10sp</item>
+	</style>
+</resources>
