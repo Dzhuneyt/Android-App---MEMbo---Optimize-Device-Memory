@@ -193,7 +193,10 @@ public class MainActivity extends DFragmentActivity {
 		}
 
 		fl = (FrameLayout) findViewById(R.id.fToolbar);
+        fl.setVisibility(View.GONE);
 
+        /*
+        // For now hide the footer
 		if (fl != null)
 			fl.removeAllViews();
 
@@ -201,7 +204,7 @@ public class MainActivity extends DFragmentActivity {
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.fToolbar, new FragmentToolbar());
 			ft.commit();
-		}
+		}*/
 	}
 
 	/**

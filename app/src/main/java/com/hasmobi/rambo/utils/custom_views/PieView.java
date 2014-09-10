@@ -16,11 +16,11 @@ public class PieView extends View {
 
 	Paint brush, transparentPaint;
 
-	boolean drawShadow = false;
+	boolean drawShadow = true;
 
 	// Some styling
 	int bgColor = R.color.pieBg;
-	int overlaycolor = R.color.pieOverlay;
+	int overlayColor = R.color.pieOverlay;
 	int shadowOffset = 2;
 
 	public PieView(Context context) {
@@ -47,7 +47,7 @@ public class PieView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		if (freeRam == 0 || totalRam == 0)
+		if (totalRam == 0)
 			return;
 
 		brush.setTextSize(30);
@@ -61,7 +61,7 @@ public class PieView extends View {
 		mOvals.offset(shadowOffset, shadowOffset);
 		if (drawShadow) {
 			brush.setColor(getResources().getColor(R.color.solidBlack));
-			brush.setAlpha(130);
+			brush.setAlpha(85);
 			canvas.drawArc(mOvals, 0, 360, true, brush);
 		}
 		// Restore brush to its original settings
@@ -71,7 +71,7 @@ public class PieView extends View {
 
 		brush.setAntiAlias(true);
 		brush.setStyle(Paint.Style.FILL);
-		brush.setColor(getResources().getColor(overlaycolor));
+		brush.setColor(getResources().getColor(overlayColor));
 		brush.setStrokeWidth(0.00f);
 
 		// Fill the pie + draw the overlaying slice

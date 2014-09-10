@@ -36,7 +36,7 @@ public class FragmentRunningApps extends DFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.xml.fragment_running_processes, null);
+		return inflater.inflate(R.layout.fragment_running_processes, null);
 	}
 
 	@Override
@@ -54,20 +54,6 @@ public class FragmentRunningApps extends DFragment {
 			hideView(fragmentView.findViewById(R.id.lvRunningProcesses));
 			setupListView();
 		}
-
-		/*
-		 * 
-		 * try { // If the ListView was previously populated, restore it for now
-		 * final ListView lv = (ListView) getView().findViewById(
-		 * R.id.lvRunningProcesses); final TextView tvPlaceholder = (TextView)
-		 * getView().findViewById( R.id.tvRunningProcessesPlaceholder); if (lv
-		 * != null && tvPlaceholder != null) { if (lv.getAdapter() != null &&
-		 * lv.getAdapter().getCount() > 0) {
-		 * tvPlaceholder.setVisibility(View.GONE);
-		 * lv.setVisibility(View.VISIBLE); } } } catch (Exception e) {
-		 * 
-		 * }
-		 */
 	}
 
 	@Override

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:id="@+id/llFirst"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/pie"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:tag="pie" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tvHeader"
+                style="@style/statsBlockHeader"
+                android:text="RAM" />
+
+            <LinearLayout
+                android:id="@+id/holderLoading"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..." />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/holderContent"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/statsBlockLabel"
+                        android:text="Free:" />
+
+                    <TextView
+                        android:id="@+id/tvFree"
+                        style="@style/statsBlockValue"
+                        android:text="520MB" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/statsBlockLabel"
+                        android:text="Taken:" />
+
+                    <TextView
+                        android:id="@+id/tvTaken"
+                        style="@style/statsBlockValue"
+                        android:text="350MB" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                style="@style/bOptimize"
+                android:id="@+id/bDetails"
+                android:text="@string/details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

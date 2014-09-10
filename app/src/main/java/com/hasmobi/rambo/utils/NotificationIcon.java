@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DResources;
+import com.hasmobi.rambo.utils.custom_views.PieView;
 
 public class NotificationIcon extends BroadcastReceiver {
 
