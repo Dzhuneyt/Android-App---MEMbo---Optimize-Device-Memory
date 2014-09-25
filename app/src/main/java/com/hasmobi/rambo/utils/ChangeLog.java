@@ -15,11 +15,6 @@ package com.hasmobi.rambo.utils;
  * @see: http://code.google.com/p/android-change-log/
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +27,11 @@ import android.view.ContextThemeWrapper;
 import android.webkit.WebView;
 
 import com.hasmobi.rambo.R;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ChangeLog {
 

@@ -20,6 +20,20 @@
     </style>
   </head>
   <body>
+$ 1.3
+  % Version 1.3
+    _ Sept 25, 2014
+    ! UI changes + battery saver
+    	* Big UI and functionality refactoring
+    	* 3 pies on home screen: Memory, Battery and Disk usage
+    	* New Battery saver functionalities:
+    	    # WiFi sleeper
+    	    # Background sync sleeper
+        * Disk usage breakdown
+$ 1.2
+  % Version 1.2
+    _ Jun 6, 2014
+    	* Small code improvements
 $ 1.10
   % Version 1.10
   _ Dec 15, 2013

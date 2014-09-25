@@ -16,7 +16,7 @@ public class DHardware {
 		final Vibrator v = (Vibrator) c
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		if (v != null)
-			v.vibrate(100);
+			v.vibrate(duration);
 		return true;
 	}
 }

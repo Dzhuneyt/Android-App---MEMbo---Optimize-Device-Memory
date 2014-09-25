@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 	<!-- Cake Stand: https://kuler.adobe.com/#themeID/2076092 -->
 	<!-- NEWEST: https://kuler.adobe.com/Stream-IN-color-theme-2901832/ -->
 	<color name="lightGreen">#B2CFC0</color>

@@ -11,18 +11,23 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.hasmobi.rambo.R;
+import com.hasmobi.rambo.lib.DDebug;
+import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.supers.DFragment;
+import com.hasmobi.rambo.utils.Fonts;
 import com.hasmobi.rambo.utils.RamManager;
+import com.hasmobi.rambo.utils.TypefaceSpan;
 import com.hasmobi.rambo.utils.custom_views.StatsBlock;
 
 public class FragmentMainActionsNew extends DFragment {
@@ -31,6 +36,12 @@ public class FragmentMainActionsNew extends DFragment {
 
     private BroadcastReceiver batteryChangedBroadcastHandler;
     private RamChangeListener ramChangeListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        this.setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,27 +58,43 @@ public class FragmentMainActionsNew extends DFragment {
         statsBlockBattery = (StatsBlock) layout.findViewById(R.id.statsBlockBattery);
         statsBlockDisk = (StatsBlock) layout.findViewById(R.id.statsBlockDisk);
 
-        statsBlockDisk.setHeader("Space usage");
-        statsBlockBattery.setHeader("Battery usage");
-        statsBlockRam.setHeader("Memory usage");
+        statsBlockDisk.setHeader(DResources.getString(c, R.string.disk_usage));
+        statsBlockBattery.setHeader(DResources.getString(c, R.string.battery_usage));
+        statsBlockRam.setHeader(DResources.getString(c, R.string.memory_usage));
+
+        statsBlockDisk.setDetailsButtonLabel(DResources.getString(c, R.string.breakdown));
+        statsBlockBattery.setDetailsButtonLabel(DResources.getString(c, R.string.save_battery));
+        statsBlockRam.setDetailsButtonLabel(DResources.getString(c, R.string.running_processes));
 
         statsBlockRam.setDetailsButtonClickAction(new Runnable() {
             @Override
             public void run() {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-
-                FrameLayout fragmentHolder = (FrameLayout) getActivity().findViewById(R.id.fMain);
-                if (fragmentHolder != null)
-                    fragmentHolder.removeAllViews();
-
-                if (fm != null) {
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.fMain, new FragmentRunningApps());
-                    ft.addToBackStack(null);
-                    ft.commit();
-                }
+                goToFragment(new FragmentRunningApps(), true);
             }
         });
+
+        statsBlockDisk.setDetailsButtonClickAction(new Runnable() {
+            @Override
+            public void run() {
+                goToFragment(new FragmentDiskUsage(), true);
+            }
+        });
+        statsBlockBattery.setDetailsButtonClickAction(new Runnable() {
+            @Override
+            public void run() {
+                goToFragment(new FragmentBattery(), true);
+            }
+        });
+
+
+        if(getActivity().getActionBar()!=null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+            SpannableString s = new SpannableString(DResources.getString(c,
+                    R.string.app_name));
+            s.setSpan(new TypefaceSpan(getActivity(), Fonts.ACTIONBAR_TITLE), 0,
+                    s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getActivity().getActionBar().setTitle(s);
+        }
 
         return layout;
     }
@@ -237,5 +264,25 @@ public class FragmentMainActionsNew extends DFragment {
             String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
             return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        DDebug.log(getClass().getSimpleName(), "onCreateOptionsMenu()");
+
+        // Append the custom menu to the current menu items
+        menu.clear();
+        inflater.inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                // Return to parent (main) fragment
+                // (But this is the main fragment so do nothing)
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

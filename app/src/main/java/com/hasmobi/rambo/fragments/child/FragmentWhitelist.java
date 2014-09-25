@@ -1,8 +1,5 @@
 package com.hasmobi.rambo.fragments.child;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,8 +19,14 @@ import com.hasmobi.rambo.adapters.InstalledAppAdapter;
 import com.hasmobi.rambo.adapters.SingleProcess;
 import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.supers.DFragment;
-import com.hasmobi.rambo.utils.SingleInstalledApp;
+import com.hasmobi.rambo.utils.SingleInstalledApps;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @TODO
+ */
 public class FragmentWhitelist extends DFragment {
 	List<SingleProcess> listOfProcesses;
 
@@ -39,9 +42,7 @@ public class FragmentWhitelist extends DFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.xml.fragment_running_processes, null);
-
-		return v;
+		return inflater.inflate(R.layout.fragment_running_processes, null);
 	}
 
 	private void registerIntents() {
@@ -94,7 +95,7 @@ public class FragmentWhitelist extends DFragment {
 	 */
 	class listUpdater extends AsyncTask<Void, Void, Void> {
 
-		private List<SingleInstalledApp> listOfApps = new ArrayList<SingleInstalledApp>();
+		private List<SingleInstalledApps> listOfApps = new ArrayList<SingleInstalledApps>();
 
 		@Override
 		protected Void doInBackground(Void... v) {
@@ -116,7 +117,7 @@ public class FragmentWhitelist extends DFragment {
 					// boolean systemApp = (appInfo.flags &
 					// ApplicationInfo.FLAG_SYSTEM) != 0;
 					// if (!systemApp)
-					listOfApps.add(new SingleInstalledApp(appInfo));
+					listOfApps.add(new SingleInstalledApps(appInfo));
 
 					// Debugger.log(appInfo.packageName);
 					// Debugger.log(appInfo.loadLabel(pm) + "");

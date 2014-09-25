@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_update"
+        android:orderInCategory="100"
+        android:title="@string/update_app" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/action_feedback"
+        android:orderInCategory="100"
+        android:title="@string/feedback" />
+	<item
+		android:id="@+id/action_refresh"
+		android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_rotate"
+		android:title="@string/reload" />
+</menu>

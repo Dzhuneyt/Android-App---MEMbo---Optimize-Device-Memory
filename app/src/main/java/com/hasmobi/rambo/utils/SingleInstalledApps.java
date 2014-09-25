@@ -2,11 +2,11 @@ package com.hasmobi.rambo.utils;
 
 import android.content.pm.ApplicationInfo;
 
-public class SingleInstalledApp {
+public class SingleInstalledApps {
 
 	public ApplicationInfo ai = null;
 
-	public SingleInstalledApp(ApplicationInfo provided) {
+	public SingleInstalledApps(ApplicationInfo provided) {
 		this.ai = provided;
 	}
 }

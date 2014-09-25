@@ -35,6 +35,10 @@
 	<!-- Notification strings below -->
 	<string name="notification_text">Touch to optimize memory</string>
 	<string name="running_processes">Running Apps</string>
+    <string name="disk_usage">Disk usage</string>
+    <string name="battery_usage">Battery usage</string>
+    <string name="sd_card">SD Card</string>
+    <string name="internal_memory">Internal memory</string>
 	<!-- Settings Activity -->
 	<string name="notification_icon_title">Show in Notification Bar</string>
 	<string name="notification_icon_summary">"Keep RAMbo in the notification bar. You can tap it
@@ -113,4 +117,11 @@
 	<string name="tos_accept_button">I accept</string>
 	<string name="analytics_tos_agree">I agree to provide anonymous usage statistics</string>
     <string name="details">Details</string>
+    <!-- Battery usage fragment -->
+    <string name="reduce_to_15_seconds">Reduce to 15 seconds</string>
+
+    <string name="whitelisted">Whitelisted</string>
+    <string name="optimize">Optimize</string>
+    <string name="save_battery">Save battery</string>
+    <string name="breakdown">Breakdown</string>
 </resources>

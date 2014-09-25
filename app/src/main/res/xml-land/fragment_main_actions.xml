@@ -1,31 +1,29 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	style="@style/mainActionsFragmentWrapper">
-	<LinearLayout
-		android:id="@+id/llMainActionsTop"
-		style="@style/mainActionsTop">
-		<LinearLayout style="@style/mainActionsTopRight">
-			<TextView
-				android:id="@+id/tvMainActionsLabelTotalRam"
-				style="@style/MainActionLabel"
-				android:text="Memory available: 35% (341 out of 512MB)" />
-			<TextView
-				android:id="@+id/tvSubLabelMBs"
-				style="@style/MainActionSubLabel"
-				android:text="Memory available: 35% (341 out of 512MB)" />
-			<TextView
-				android:id="@+id/tvMainActionsLabelRunningApps"
-				style="@style/MainActionLabel"
-				android:text="23 apps running" />
-			<TextView
-				android:id="@+id/tvSublabelSystemapps"
-				android:layout_marginBottom="10dp"
-				style="@style/MainActionSubLabel" />
-		</LinearLayout>
-	</LinearLayout>
-	<LinearLayout
-		android:id="@+id/llMainActionsBottom"
-		style="@style/mainActionsBottom">
-	</LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    style="@style/mainActionsFragmentWrapper">
+    <LinearLayout
+        android:id="@+id/llMainActionsTop"
+        style="@style/mainActionsTop">
+        <LinearLayout style="@style/mainActionsTopRight">
+            <TextView
+                android:id="@+id/tvMainActionsLabelTotalRam"
+                style="@style/MainActionLabel"
+                android:text="Memory available: 35% (341 out of 512MB)" />
+            <TextView
+                android:id="@+id/tvSubLabelMBs"
+                style="@style/MainActionSubLabel"
+                android:text="Memory available: 35% (341 out of 512MB)" />
+            <TextView
+                android:id="@+id/tvMainActionsLabelRunningApps"
+                style="@style/MainActionLabel"
+                android:text="23 apps running" />
+            <TextView
+                android:id="@+id/tvSublabelSystemapps"
+                style="@style/MainActionSubLabel"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llMainActionsBottom"
+        style="@style/mainActionsBottom"></LinearLayout>
 </LinearLayout>

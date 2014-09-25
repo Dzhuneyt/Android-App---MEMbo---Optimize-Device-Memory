@@ -1,10 +1,5 @@
 package com.hasmobi.rambo.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -31,6 +26,11 @@ import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DApp;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class TermsOfUse {
 
 	public static final String PREF_NAME_ANALYTICS = "tos_analytics_accepted";
@@ -41,7 +41,7 @@ public class TermsOfUse {
 
 	Context context;
 
-	private String TOS_DIALOG_FRAGMENT_NAME = "fragment_tos_dialog";
+	private static String TOS_DIALOG_FRAGMENT_NAME = "fragment_tos_dialog";
 
 	public TermsOfUse(DFragmentActivity c) {
 		this.c = c;
@@ -67,12 +67,7 @@ public class TermsOfUse {
 			}
 
 			if (currentVerCode > 0) {
-				if (currentVerCode > lastAcceptedVersion) {
-					return false;
-				} else {
-					// Last accepted TOS app version matches the current version
-					return true;
-				}
+                return currentVerCode <= lastAcceptedVersion;
 			} else {
 				// We can't determinate the current app version. This will most
 				// likely persist, so don't force the user to accept the TOS on

@@ -1,9 +1,5 @@
 package com.hasmobi.rambo.adapters;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,12 +18,16 @@ import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DHardware;
 import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.lib.DView;
-import com.hasmobi.rambo.utils.SingleInstalledApp;
+import com.hasmobi.rambo.utils.SingleInstalledApps;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class InstalledAppAdapter extends ArrayAdapter<String> {
 
 	private final Activity context;
-	private final List<SingleInstalledApp> objects;
+	private final List<SingleInstalledApps> objects;
 
 	SharedPreferences excluded_list;
 
@@ -43,9 +43,9 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 		if (pm == null)
 			pm = context.getPackageManager();
 
-		Comparator<SingleInstalledApp> myComparator = new Comparator<SingleInstalledApp>() {
-			public int compare(SingleInstalledApp first,
-					SingleInstalledApp second) {
+		Comparator<SingleInstalledApps> myComparator = new Comparator<SingleInstalledApps>() {
+			public int compare(SingleInstalledApps first,
+					SingleInstalledApps second) {
 				String one = first.ai.loadLabel(pm).toString();
 				String two = second.ai.loadLabel(pm).toString();
 				return one.compareTo(two);
@@ -97,7 +97,7 @@ public class InstalledAppAdapter extends ArrayAdapter<String> {
 		PackageManager pm = context.getPackageManager();
 
 		// Get the process data
-		final SingleInstalledApp currentApp = objects.get(position);
+		final SingleInstalledApps currentApp = objects.get(position);
 
 		// Transfer the data to the view
 		v.name.setText(currentApp.ai.loadLabel(pm).toString()); // App name

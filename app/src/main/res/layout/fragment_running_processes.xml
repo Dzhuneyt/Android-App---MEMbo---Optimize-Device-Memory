@@ -1,13 +1,25 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	style="@style/RunningProcessesFragmentWrapper">
-	<ListView
-		android:id="@+id/lvRunningProcesses"
-		style="@style/runningProcessesListView">
-	</ListView>
-	<TextView
-		android:id="@+id/tvRunningProcessesPlaceholder"
-		style="@style/runningProcessesPlaceholder"
-		android:text="@string/loading" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/RunningProcessesFragmentWrapper">
+
+    <LinearLayout
+        android:id="@+id/llHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/lvRunningProcesses"
+            style="@style/centeredFullsizeHidden" />
+        <Button
+            android:id="@+id/bOptimize"
+            android:text="Optimize"
+            android:textColor="@color/mainTextColor"
+            android:background="@drawable/btn_optimize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvRunningProcessesPlaceholder"
+        style="@style/runningProcessesPlaceholder"
+        android:text="@string/loading" />
 </LinearLayout>

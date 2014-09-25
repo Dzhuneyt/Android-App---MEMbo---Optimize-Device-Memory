@@ -3,6 +3,7 @@
 		name="AppTheme"
 		parent="android:Theme.Light">
 		<item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:seekBarStyle">@style/SeekBarAppTheme</item>
 	</style>
 	<!-- -->
 	<!-- -->
@@ -192,31 +193,40 @@
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:orientation">vertical</item>
-		<item name="android:background">@color/main_bg</item>
+		<item name="android:background">@drawable/binding_light_texture</item>
 	</style>
-	<style name="runningProcessesListView">
+    <style name="centeredFullsize">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/binding_light_texture</item>
+    </style>
+	<style name="centeredFullsizeHidden">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:layout_gravity">center</item>
 		<item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
 		<item name="android:visibility">gone</item>
-		<item name="android:background">@color/main_bg</item>
+        <item name="android:divider">@color/light_blue_header</item>
+        <item name="android:dividerHeight">1px</item>
+		<item name="android:background">@drawable/binding_light_texture</item>
 	</style>
 	<style name="runningProcessesPlaceholder">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:layout_gravity">center</item>
 		<item name="android:gravity">center</item>
-		<item name="android:background">@color/main_bg</item>
+        android:background="@drawable/binding_light_texture"
 		<item name="android:textSize">30sp</item>
-		<item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:textColor">@color/regularBlue</item>
 	</style>
 	<style name="llSingleProcessInflatedView">
-		<item name="android:orientation">horizontal</item>
+		<item name="android:orientation">vertical</item>
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">match_parent</item>
-		<item name="android:background">@color/main_bg</item>
+		<item name="android:layout_height">wrap_content</item>
 		<item name="android:padding">10dp</item>
 	</style>
 	<style name="tvRunningProcessesProcessName">
@@ -225,7 +235,7 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:textSize">@dimen/single_process_title</item>
 		<item name="android:gravity">center_vertical</item>
-		<item name="android:textColor">@color/regularBlue</item>
+		<item name="android:textColor">@color/solidBlue</item>
 	</style>
 	<style name="tvRunningProcessesProcessMemory">
 		<item name="android:layout_width">wrap_content</item>
@@ -233,16 +243,13 @@
 		<item name="android:singleLine">true</item>
 		<item name="android:textSize">@dimen/single_process_memory</item>
 		<item name="android:gravity">center_vertical</item>
-		<item name="android:textColor">@color/mainTextColor</item>
+		<item name="android:textColor">@color/light_blue_header</item>
 	</style>
 	<style name="bKillProcess">
 		<item name="android:layout_width">@dimen/runningAppKill</item>
 		<item name="android:layout_height">@dimen/runningAppKill</item>
-		<item name="android:padding">10dp</item>
-		<item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginRight">10dp</item>
 		<item name="android:textColor">@color/mainTextColor</item>
-		<item name="android:background">@drawable/btn_kill</item>
-		<item name="android:textSize">@dimen/normal_text</item>
 		<item name="android:scaleType">fitCenter</item>
 	</style>
 	<!-- Whitelist Fragment -->
@@ -277,4 +284,8 @@
 	<style name="widget1x1button">
 		<item name="android:textSize">10sp</item>
 	</style>
+
+    <style name="llSingleProcessWhitelistButton">
+
+    </style>
 </resources>

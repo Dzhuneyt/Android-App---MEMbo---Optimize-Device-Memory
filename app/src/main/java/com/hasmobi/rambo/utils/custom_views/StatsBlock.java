@@ -3,21 +3,16 @@ package com.hasmobi.rambo.utils.custom_views;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hasmobi.rambo.R;
-import com.hasmobi.rambo.fragments.child.FragmentMainActionsNew;
 import com.hasmobi.rambo.lib.DDebug;
-import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.FontHelper;
 
 public class StatsBlock extends LinearLayout {
@@ -66,7 +61,7 @@ public class StatsBlock extends LinearLayout {
             bDetails.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(afterDetailsButtonClick!=null) {
+                    if (afterDetailsButtonClick != null) {
                         final Handler h = new Handler();
                         h.post(afterDetailsButtonClick);
                     }
@@ -86,6 +81,13 @@ public class StatsBlock extends LinearLayout {
             header.setText(s);
     }
 
+    public void setDetailsButtonLabel(String label) {
+        Button bDetails = (Button) findViewById(R.id.bDetails);
+        if (bDetails != null) {
+            bDetails.setText(label);
+        }
+    }
+
     /**
      * Set new values to the Pie (redraws it internally)
      *
@@ -94,7 +96,6 @@ public class StatsBlock extends LinearLayout {
      */
     public void setPieValues(long total, long available) {
         if (pie != null) {
-            DDebug.log(this.getClass().toString(), "Successfully set values to total: " + total + ", available: " + available);
             pie.setRam(total, available);
         } else {
             DDebug.log(this.getClass().toString(), "Pie not available yet. Unable to set pie values");
