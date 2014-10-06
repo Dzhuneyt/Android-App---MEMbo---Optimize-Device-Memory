@@ -51,7 +51,7 @@ public class TermsOfUse {
 	/**
 	 * Check if the TOS for the current version code of the app have been
 	 * accepted already
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean accepted() {
@@ -67,7 +67,7 @@ public class TermsOfUse {
 			}
 
 			if (currentVerCode > 0) {
-                return currentVerCode <= lastAcceptedVersion;
+				return currentVerCode <= lastAcceptedVersion;
 			} else {
 				// We can't determinate the current app version. This will most
 				// likely persist, so don't force the user to accept the TOS on
@@ -122,7 +122,7 @@ public class TermsOfUse {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+		                         Bundle savedInstanceState) {
 			final View v = inflater.inflate(R.layout.tos_content, null, false);
 
 			getDialog().setCanceledOnTouchOutside(false);
@@ -155,7 +155,7 @@ public class TermsOfUse {
 
 		/**
 		 * Read the raw txt file with the TOS as a String
-		 * 
+		 *
 		 * @return String
 		 */
 		private String getTosContent() {
@@ -185,50 +185,37 @@ public class TermsOfUse {
 
 		public void onClick(View clicked) {
 			switch (clicked.getId()) {
-			case R.id.bAcceptTos: // "TOS accepted" button clicked
+				case R.id.bAcceptTos: // "TOS accepted" button clicked
 
-				if (getView() == null)
-					return;
+					if (getView() == null)
+						return;
 
-				// See if the user agrees to share his
-				// anonymous usage statistic with us (Google
-				// Analytics) and save it in
-				// SharedPreferences
-				CheckBox cbAnalytics = (CheckBox) getView().findViewById(
-						R.id.cbAnalyticsAgree);
-				analyticsAccepted = cbAnalytics.isChecked();
+					// See if the user agrees to share his
+					// anonymous usage statistic with us (Google
+					// Analytics) and save it in
+					// SharedPreferences
+					final CheckBox cbAnalytics = (CheckBox) getView().findViewById(
+							R.id.cbAnalyticsAgree);
+					analyticsAccepted = cbAnalytics.isChecked();
 
-				if (cbAnalytics != null) {
-					getActivity().getSharedPreferences("settings", 0).edit()
+					getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
 							.putBoolean(PREF_NAME_ANALYTICS, analyticsAccepted)
-							.commit();
+							.apply();
+
+					final int currentAppVersionCode = DApp
+							.getCurrentAppVersionCode(getActivity());
+					markAccepted(currentAppVersionCode);
+
+					// Close the TOS dialog
+					dismiss();
 
 					if (analyticsAccepted) {
-						// Initialize Google Analytics tracking
-						// for the first time, now that the user
-						// agreed to participate
-						GoogleAnalytics analytics = GoogleAnalytics
-								.getInstance(getActivity());
-
-						if (Values.DEBUG_MODE)
-							analytics.setDryRun(true);
-
-						Tracker t = analytics.newTracker(R.xml.global_tracker);
-						t.setScreenName(getActivity().getClass()
-								.getSimpleName());
-
-						// Send a screen view.
-						t.send(new HitBuilders.AppViewBuilder().build());
+						// Recreate the activity so Google Analytics to
+						// reinitialize
+						getActivity().recreate();
 					}
-				}
 
-				final int currentAppVersionCode = DApp
-						.getCurrentAppVersionCode(getActivity());
-				markAccepted(currentAppVersionCode);
-
-				// Close the TOS dialog
-				dismiss();
-				break;
+					break;
 			}
 
 		}
@@ -236,7 +223,7 @@ public class TermsOfUse {
 		/**
 		 * Mark the TOS associated with the provided version code as accepted
 		 * (writes a flag in SharedPreferences)
-		 * 
+		 *
 		 * @param acceptAppVersion
 		 */
 		public void markAccepted(int acceptAppVersion) {

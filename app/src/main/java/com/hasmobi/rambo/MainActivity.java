@@ -50,20 +50,8 @@ public class MainActivity extends DFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getActionBar() != null) {
-
-            // Apply a custom TypeFace to the ActionBar title
-            try {
-                SpannableString s = new SpannableString(DResources.getString(c,
-                        R.string.app_name));
-                s.setSpan(new TypefaceSpan(this, "notosansregular.ttf"), 0,
-                        s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                getActionBar().setTitle(s);
-            } catch (Exception e) {
-                log("Can not apply typeface to ActionBar title");
-                log(e.getMessage());
-            }
-        }
+        setActionBarTitle(DResources.getString(c,
+                R.string.app_name), "notosansregular.ttf");
 
         // Start the Notification icon if enabled in Settings
         NotificationIcon.notify(c);
