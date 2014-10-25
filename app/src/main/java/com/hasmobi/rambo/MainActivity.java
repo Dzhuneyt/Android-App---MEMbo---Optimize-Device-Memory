@@ -56,7 +56,6 @@ public class MainActivity extends DFragmentActivity {
 		setActionBarTitle(DResources.getString(c,
 				R.string.app_name), "notosansregular.ttf");
 
-
 		showChangelog();
 
 		new TermsOfUse(this).showIfNeeded();

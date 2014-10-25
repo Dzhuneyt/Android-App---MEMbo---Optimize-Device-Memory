@@ -161,7 +161,18 @@ public class NotificationIconService extends Service {
 		} else {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(lastOptimizeTimestamp);
-			DateFormat formatter = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+
+			Calendar currentTime = Calendar.getInstance();
+
+			boolean optimizedToday = calendar.get(Calendar.YEAR) == currentTime.get(Calendar.YEAR) &&
+					calendar.get(Calendar.DAY_OF_YEAR) == currentTime.get(Calendar.DAY_OF_YEAR);
+
+			DateFormat formatter;
+			if(!optimizedToday){
+				formatter = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+			}else{
+				formatter = SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
+			}
 
 			String lastOptimizeLabel = String.format(getResources().getString(R.string.last_optimized_toolbar), formatter.format(calendar.getTime()));
 			remoteViews.setTextViewText(R.id.tvLastOptimizeTimestamp, lastOptimizeLabel);
