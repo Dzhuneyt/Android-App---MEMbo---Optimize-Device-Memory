@@ -1,7 +1,9 @@
 package com.hasmobi.rambo.supers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,11 +26,15 @@ public class DFragmentActivity extends FragmentActivity {
 	public Context c;
 
 	public Tracker t;
-	boolean analyticsEnabled = false;
+	public boolean analyticsEnabled = false;
 
     private void initAnalytics(){
         if(t==null){
+	        analyticsEnabled = c.getSharedPreferences("settings", 0)
+			        .getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
+
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+
             analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
 
             if (Values.DEBUG_MODE)
@@ -44,6 +50,12 @@ public class DFragmentActivity extends FragmentActivity {
 		c = getBaseContext();
 
 		DDebug.log(getClass().toString(), "onCreate()");
+
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		if (preferences.getBoolean("first_start", true)) {
+			appFirstStart();
+		}
 
         initAnalytics();
 	}
@@ -74,6 +86,16 @@ public class DFragmentActivity extends FragmentActivity {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Called on the app's very first start. Overriding classes should implement
+	 * this method (and remember to always call the super implementation)
+	 */
+	private void appFirstStart() {
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		preferences.edit().putBoolean("first_start", false).apply();
 	}
 
     protected void setActionBarTitle(String title, String fontFileName){

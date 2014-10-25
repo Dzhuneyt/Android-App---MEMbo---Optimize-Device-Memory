@@ -67,7 +67,7 @@
 	<string name="total_ram_label">"%dMB общо"</string>
 	<string name="free_ram_label">"%dMB свободна"</string>
 	<string name="free_ram_percent">"%d%% свободна"</string>
-	<string name="last_optimized_toolbar">"Оптимизация:\n%s"</string>
+	<string name="last_optimized_toolbar">"Оптимизация: %s"</string>
 	<string name="never">"никога"</string>
 	<string name="available_percent_ram_label">"%dMB свободна памет"</string>
 	<string name="manage_settings_label">"Управление"</string>

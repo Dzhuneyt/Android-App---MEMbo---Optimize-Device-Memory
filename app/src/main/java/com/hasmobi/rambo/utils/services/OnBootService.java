@@ -1,4 +1,4 @@
-package com.hasmobi.rambo.utils;
+package com.hasmobi.rambo.utils.services;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -26,6 +26,8 @@ public class OnBootService extends Service {
 		DDebug.log(getClass().getSimpleName(), "onStartCommand()");
 
 		startService(new Intent(this, ScreenOnBoost.class));
+
+		startService(new Intent(this, NotificationIconService.class));
 
 		return Service.START_NOT_STICKY;
 	}

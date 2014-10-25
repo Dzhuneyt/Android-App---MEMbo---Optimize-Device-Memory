@@ -11,10 +11,8 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.hasmobi.rambo.lib.DDebug;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.NotificationIcon;
-import com.hasmobi.rambo.utils.Prefs;
+import com.hasmobi.rambo.utils.services.NotificationIconService;
+import com.hasmobi.rambo.utils.services.ScreenOnBoost;
 
 public class ConfigActivity extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
@@ -80,31 +78,9 @@ public class ConfigActivity extends PreferenceActivity implements
 
 	public void onSharedPreferenceChanged(SharedPreferences sp, String s) {
 		if (s.equalsIgnoreCase("enable_autoboost")) {
-			Prefs p = new Prefs(c);
-			Intent i = new Intent(c, AutoBoostBroadcast.class);
-			if (p.isScreenOnAutoboostEnabled()) {
-				i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_ENABLED);
-			} else {
-				i.setAction(AutoBoostBroadcast.ACTION_SCREENON_AUTOBOOST_DISABLED);
-			}
-			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				pi.send();
-			} catch (CanceledException e) {
-				DDebug.log(getClass().toString(),
-                        "Can not start autobooster due to an exception.", e);
-			}
+			startService(new Intent(c, ScreenOnBoost.class));
 		} else if (s.equalsIgnoreCase("notification_icon")) {
-			Intent i = new Intent(c, NotificationIcon.class);
-			PendingIntent pi = PendingIntent.getBroadcast(c, 0, i,
-					PendingIntent.FLAG_CANCEL_CURRENT);
-			try {
-				pi.send();
-			} catch (CanceledException e) {
-				DDebug.log(getClass().toString(),
-						"Can not start notification due to an exception.", e);
-			}
+			startService(new Intent(c, NotificationIconService.class));
 		}
 	}
 

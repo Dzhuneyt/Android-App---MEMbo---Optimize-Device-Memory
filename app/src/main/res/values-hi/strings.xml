@@ -28,7 +28,8 @@
 	<string name="remind_rate_dialog_title">Rate This App</string>
 	<string name="remind_rate_dialog_content">Your support means a lot. It motivates us to
 		release cool new features and updates.\n\nIf you enjoy this app,
-		please rate it with 5 stars on Google Play. 	</string>
+		please rate it with 5 stars on Google Play. 
+	</string>
 	<string name="open_market">Open Google Play</string>
 	<string name="already_rated">Already rated. Never show again.</string>
 	<!-- Notification strings below -->
@@ -84,7 +85,6 @@
 	<string name="total_ram_label">%dMB total</string>
 	<string name="free_ram_label">%dMB free</string>
 	<string name="free_ram_percent">%d%% free</string>
-	<string name="last_optimized_toolbar">Last optimized:\n %s</string>
 	<string name="never">never</string>
 	<string name="available_percent_ram_label">%dMB free memory</string>
 	<string name="manage_settings_label">Manage</string>

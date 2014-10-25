@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">MEMbo</string>
+
+    <string name="facebook_app_id">502742283189394</string>
+
 	<string name="menu_settings">Settings</string>
 	<string name="instant_optimize">OPTIMIZE</string>
 	<string name="title_activity_settings">Settings</string>
@@ -41,8 +44,8 @@
     <string name="internal_memory">Internal memory</string>
 	<!-- Settings Activity -->
 	<string name="notification_icon_title">Show in Notification Bar</string>
-	<string name="notification_icon_summary">"Keep RAMbo in the notification bar. You can tap it
-		to quickly optimize your device." 
+	<string name="notification_icon_summary">Keep RAMbo in the notification bar. You can tap it
+		to quickly optimize your device.
 	</string>
 	<string name="vibrate_after_optimize_title">Vibration Notification</string>
 	<string name="vibrate_after_optimize_summary">Vibrate after memory optimization</string>
@@ -89,7 +92,7 @@
 	<string name="total_ram_label">%dMB total</string>
 	<string name="free_ram_label">%dMB free</string>
 	<string name="free_ram_percent">%d%% free</string>
-	<string name="last_optimized_toolbar">Last optimized:\n %s</string>
+	<string name="last_optimized_toolbar">Last optimized: %s</string>
 	<string name="never">never</string>
 	<string name="available_percent_ram_label">%dMB free memory</string>
 	<string name="manage_settings_label">Manage</string>
@@ -124,4 +127,6 @@
     <string name="optimize">Optimize</string>
     <string name="save_battery">Save battery</string>
     <string name="breakdown">Breakdown</string>
+
+    <string name="remind_rate_message">We\'ve put many hours into making great features for this app.\n\nWe would really appreciate if you take 30 seconds to rate it with 5 stars on Google Play.\n\nThanks!</string>
 </resources>

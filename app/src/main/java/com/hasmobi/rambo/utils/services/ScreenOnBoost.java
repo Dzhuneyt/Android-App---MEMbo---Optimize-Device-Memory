@@ -41,11 +41,11 @@ public class ScreenOnBoost extends Service {
 					// check if screen is on
 					PowerManager pm = (PowerManager) context
 							.getSystemService(Context.POWER_SERVICE);
-					Boolean screenOn = pm.isInteractive();
+					boolean screenOn = pm.isScreenOn();
+					// Boolean screenOn = pm.isInteractive();
 
 					if (screenOn && intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
-						RamManager rm = new RamManager(
-								getApplicationContext());
+						RamManager rm = new RamManager(getBaseContext());
 						rm.killBgProcesses(false);
 					}
 				}

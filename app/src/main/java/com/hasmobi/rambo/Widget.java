@@ -2,6 +2,7 @@ package com.hasmobi.rambo;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -17,6 +18,8 @@ import com.hasmobi.rambo.utils.RamManager;
 public class Widget extends AppWidgetProvider {
 
 	public static String ACTION_UPDATE_WIDGETS = "update_widgets";
+
+	public static String ACTION_BOOST_NOW = "kill_apps";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -45,8 +48,8 @@ public class Widget extends AppWidgetProvider {
 			views.setTextViewText(R.id.tvWidgetRam, ramValue);
 
 			// Setup a PendingIntent that clears the memory when started
-			Intent intent = new Intent(context, AutoBoostBroadcast.class);
-			intent.setAction(AutoBoostBroadcast.ACTION_BOOST_ONETIME);
+			Intent intent = new Intent(context, Widget.class);
+			intent.setAction(ACTION_BOOST_NOW);
 			PendingIntent clearRamIntent = PendingIntent.getBroadcast(context,
 					0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -117,6 +120,9 @@ public class Widget extends AppWidgetProvider {
 				intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
 
 				onUpdate(context, am, ids);
+			}else if(action.equals(ACTION_BOOST_NOW)){
+				RamManager rm = new RamManager(context);
+				rm.killBgProcesses(false);
 			}
 		}
 

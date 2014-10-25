@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <service
-            android:name="com.hasmobi.rambo.utils.OnBootService"
+            android:name=".utils.services.OnBootService"
             android:label="@string/app_name"/>
         <service
             android:name="com.hasmobi.rambo.utils.services.ScreenOnBoost"/>
@@ -34,6 +34,8 @@
         <service
             android:name="com.hasmobi.rambo.utils.services.BackgroundSyncSleep"
             android:label="BackgroundSyncSleep"/>
+        <service android:name=".utils.services.NotificationIconService"/>
+        <service android:name=".utils.services.ScreenOnAutoboostService"/>
 
         <activity
             android:name="com.hasmobi.rambo.MainActivity"
@@ -69,17 +71,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider"/>
         </receiver>
-        <receiver android:name="com.hasmobi.rambo.utils.AutoBoostBroadcast">
+        <receiver android:name=".utils.receivers.BootCompletedReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.hasmobi.rambo.utils.NotificationIcon"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="ram_manager_run"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
@@ -87,6 +80,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
 
         <!-- Used for Google Play Store Campaign Measurement-->;
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>

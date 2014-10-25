@@ -246,7 +246,6 @@ public class RamManager {
      */
     private void broadcast() {
         Intent i = new Intent(ACTION_RAM_MANAGER);
-        i.setAction(ACTION_RAM_MANAGER);
         context.sendBroadcast(i);
 
         DDebug.log(getClass().toString(), "Sending " + ACTION_RAM_MANAGER
