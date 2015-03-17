@@ -12,8 +12,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.hasmobi.rambo"
@@ -23,7 +23,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -35,8 +35,12 @@ android {
 
 dependencies {
     //compile files('libs/android-support-v13.jar')
-    compile 'com.android.support:appcompat-v7:20.+'
     //compile 'com.google.android.gms:play-services:+'
-    compile 'com.google.android.gms:play-services:5.0.89'
-    compile project(':facebook')
+    //compile 'com.google.android.gms:play-services:5.0.89'
+    //compile project(':facebook')
+
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile 'com.android.support:support-v4:21.0.3'
 }

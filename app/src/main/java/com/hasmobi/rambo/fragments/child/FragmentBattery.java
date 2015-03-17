@@ -17,8 +17,8 @@ import com.hasmobi.rambo.supers.DFragment;
 import com.hasmobi.rambo.utils.BatteryTipAdapter;
 import com.hasmobi.rambo.utils.SingleBatteryTip;
 import com.hasmobi.rambo.utils.SingleBatteryTipRegular;
-import com.hasmobi.rambo.utils.services.BackgroundSyncSleep;
-import com.hasmobi.rambo.utils.services.WiFiSleep;
+import com.hasmobi.rambo.utils.services.BackgroundSyncSleepBackgroundBooster;
+import com.hasmobi.rambo.utils.services.WiFiSleepBackgroundBooster;
 
 import java.util.ArrayList;
 
@@ -51,7 +51,7 @@ public class FragmentBattery extends DFragment {
             final SingleBatteryTipRegular tipWifiSleep = new SingleBatteryTipRegular(
                     "WiFi Sleep",
                     "Automatically disable WiFi after the screen is turned off. It will be re-enabled as soon as you turn on the screen.",
-                    WiFiSleep.SP_NAME
+                    WiFiSleepBackgroundBooster.SP_NAME
             );
 
             tipWifiSleep.control = getActivity().getLayoutInflater().inflate(R.layout.tip_scrubber, null, false);
@@ -71,7 +71,7 @@ public class FragmentBattery extends DFragment {
 
             all_tips.add(tipWifiSleep);
 
-            final SingleBatteryTipRegular tipSyncSleep = new SingleBatteryTipRegular("Background Sync Sleep", "Automatically disable background syncing after the screen is turned off. It will be re-enabled as soon as you turn on the screen.", BackgroundSyncSleep.SP_NAME);
+            final SingleBatteryTipRegular tipSyncSleep = new SingleBatteryTipRegular("Background Sync Sleep", "Automatically disable background syncing after the screen is turned off. It will be re-enabled as soon as you turn on the screen.", BackgroundSyncSleepBackgroundBooster.SP_NAME);
 
             tipSyncSleep.control = getActivity().getLayoutInflater().inflate(R.layout.tip_scrubber, null, false);
             sb = (SeekBar) tipSyncSleep.control.findViewById(R.id.sbScrubber);

@@ -18,185 +18,163 @@ import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DResources;
-import com.hasmobi.rambo.utils.Fonts;
+import com.hasmobi.rambo.utils.FontHelper;
 import com.hasmobi.rambo.utils.RamManager;
-import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.TypefaceSpan;
 import com.hasmobi.rambo.utils.Values;
 
 public class DFragment extends Fragment {
 
-    public boolean fragmentVisible = false;
+	public boolean fragmentVisible = false;
 
-    public Context c;
+	public Context c;
 
-    // private Tracker tracker;
+	// private Tracker tracker;
 
-    // Placeholder property ID.
-    // private static final String GA_PROPERTY_ID = "UA-1704294-170";
+	// Placeholder property ID.
+	// private static final String GA_PROPERTY_ID = "UA-1704294-170";
 
-    // Dispatch period in seconds.
-    // private static final int GA_DISPATCH_PERIOD = 5;
+	// Dispatch period in seconds.
+	// private static final int GA_DISPATCH_PERIOD = 5;
 
-    private BroadcastReceiver broadcast = null;
+	private BroadcastReceiver broadcast = null;
 
-    public Tracker localFragmentTracker = null;
+	public Tracker localFragmentTracker = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
 
-        c = getActivity().getBaseContext();
+		c = getActivity().getBaseContext();
 
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+	}
 
-        // All fragments should receive the global RamManager.ACTION_RAM_MANAGER
-        // broadcast since they will most certainly want to do something when
-        // the memory is optimized (e.g. update UI, refresh apps list, etc)
-        broadcast = new BroadcastReceiver() {
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-            @Override
-            public void onReceive(Context c, Intent i) {
-                handleBroadcast(c, i);
-            }
+		localFragmentTracker = ((DFragmentActivity) getActivity()).t;
 
-        };
+		if (localFragmentTracker != null && !Values.DEBUG_MODE) {
+			// Send to Analytics that the current fragment was viewed
+			DDebug.log(getClass().toString(),
+					"Notifying Analytics that the fragment "
+							+ getClass().toString() + " was viewed");
 
-        c.registerReceiver(broadcast, new IntentFilter(
-                RamManager.ACTION_RAM_MANAGER));
-    }
+			localFragmentTracker.setScreenName(getClass().getSimpleName());
+			localFragmentTracker.send(new HitBuilders.AppViewBuilder()
+					.build());
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+		}
+	}
 
-        localFragmentTracker = ((DFragmentActivity) getActivity()).t;
-        boolean analyticsEnabled = false;
+	@Override
+	public void onPause() {
+		fragmentVisible = false;
 
-        if (localFragmentTracker != null && !Values.DEBUG_MODE) {
-            try {
-                analyticsEnabled = c.getSharedPreferences("settings", 0)
-                        .getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
-            } catch (ClassCastException e) {
-            }
+		DDebug.log(getClass().toString(), "onPause()");
+		if (broadcast != null) {
+			c.unregisterReceiver(broadcast);
+			broadcast = null;
+		}
 
-            if (analyticsEnabled) {
-                // Send to Analytics that the current fragment was viewed
-                DDebug.log(getClass().toString(),
-                        "Notifying Analytics that the fragment "
-                                + getClass().toString() + " was viewed");
+		super.onPause();
+	}
 
-                localFragmentTracker.setScreenName(getClass().getSimpleName());
-                localFragmentTracker.send(new HitBuilders.AppViewBuilder()
-                        .build());
-            }
-        }
-    }
+	@Override
+	public void onResume() {
+		fragmentVisible = true;
 
-    @Override
-    public void onPause() {
-        fragmentVisible = false;
+		super.onResume();
 
-        DDebug.log(getClass().toString(), "onPause()");
-        if (broadcast != null)
-            c.unregisterReceiver(broadcast);
+		if (broadcast == null) {
+			broadcast = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context c, Intent i) {
+					handleBroadcast(c, i);
+				}
+			};
+		}
 
-        super.onPause();
-    }
+		c.registerReceiver(broadcast, new IntentFilter(
+				RamManager.ACTION_RAM_MANAGER));
 
-    @Override
-    public void onResume() {
-        fragmentVisible = true;
+		DDebug.log(getClass().toString(), "onResume()");
 
-        if (broadcast == null) {
-            broadcast = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context c, Intent i) {
-                    handleBroadcast(c, i);
-                }
-            };
-        }
+		// Log the fragment view event to Google Analytics
+		// this.tracker.set(Fields.SCREEN_NAME, getClass().getSimpleName());
+		// this.tracker.send(MapBuilder.createAppView().build());
+	}
 
-        c.registerReceiver(broadcast, new IntentFilter(
-                RamManager.ACTION_RAM_MANAGER));
+	public void handleBroadcast(Context c, Intent i) {
+		DDebug.log(getClass().toString(), "handleBroadcast(): " + i.getAction());
+	}
 
-        super.onResume();
+	public void hideView(View v) {
+		if (v != null)
+			v.setVisibility(View.GONE);
+	}
 
-        DDebug.log(getClass().toString(), "onResume()");
+	protected void showView(View v) {
+		if (v != null)
+			v.setVisibility(View.VISIBLE);
+	}
 
-        // Log the fragment view event to Google Analytics
-        // this.tracker.set(Fields.SCREEN_NAME, getClass().getSimpleName());
-        // this.tracker.send(MapBuilder.createAppView().build());
-    }
+	public void log(String s) {
+		DDebug.log(getClass().toString(), s);
+	}
 
-    public void handleBroadcast(Context c, Intent i) {
-        DDebug.log(getClass().toString(), "handleBroadcast(): " + i.getAction());
-    }
+	/**
+	 * Make the current fragment the one passed and optionally add it to backstack
+	 *
+	 * @param fragment
+	 * @param addToBackStack
+	 */
+	public void goToFragment(DFragment fragment, boolean addToBackStack) {
+		if (fragment == null) {
+			DDebug.log(getClass().toString(), "Can not go to fragment because it is null");
+			return;
+		}
 
-    public void hideView(View v) {
-        if (v != null)
-            v.setVisibility(View.GONE);
-    }
+		DDebug.log(getClass().toString(), "Requesting to go to fragment: " + fragment.getClass().toString());
 
-    protected void showView(View v) {
-        if (v != null)
-            v.setVisibility(View.VISIBLE);
-    }
+		FragmentManager fm = getActivity().getSupportFragmentManager();
 
-    public void log(String s) {
-        DDebug.log(getClass().toString(), s);
-    }
+		FrameLayout fragmentHolder = (FrameLayout) getActivity().findViewById(R.id.fMain);
+		if (fragmentHolder != null)
+			fragmentHolder.removeAllViews();
 
-    /**
-     * Make the current fragment the one passed and optionally add it to backstack
-     *
-     * @param fragment
-     * @param addToBackStack
-     */
-    public void goToFragment(DFragment fragment, boolean addToBackStack) {
-        if (fragment == null) {
-            DDebug.log(getClass().toString(), "Can not go to fragment because it is null");
-            return;
-        }
+		if (fm != null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			if (addToBackStack) {
+				DDebug.log(getClass().toString(), "Adding to back stack");
+				ft.addToBackStack(null);
+			}
+			Fragment existing = fm.findFragmentByTag("main");
+			if (existing != null) {
+				ft.remove(existing);
+			}
 
-        DDebug.log(getClass().toString(), "Requesting to go to fragment: " + fragment.getClass().toString());
+			ft.add(R.id.fMain, fragment, "main");
+			ft.commit();
+		} else {
+			DDebug.log(getClass().toString(), "Can not go to fragment " + fragment.getClass().toString() + ". Parent view not found");
+		}
+	}
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+	public void setActionBarTitle(int stringResId) {
+		if (getActivity().getActionBar() == null) {
+			DDebug.log(getClass().toString(), "Actionbar not present. Unable to set its title via setActionBarTitle()");
+			return;
+		}
 
-        FrameLayout fragmentHolder = (FrameLayout) getActivity().findViewById(R.id.fMain);
-        if (fragmentHolder != null)
-            fragmentHolder.removeAllViews();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (fm != null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            if (addToBackStack) {
-                DDebug.log(getClass().toString(), "Adding to back stack");
-                ft.addToBackStack(null);
-            }
-            Fragment existing = fm.findFragmentByTag("main");
-            if(existing!=null){
-                ft.remove(existing);
-            }
-
-            ft.add(R.id.fMain, fragment, "main");
-            ft.commit();
-        } else {
-            DDebug.log(getClass().toString(), "Can not go to fragment " + fragment.getClass().toString() + ". Parent view not found");
-        }
-    }
-
-    public void setActionBarTitle(int stringResId) {
-        if (getActivity().getActionBar() == null) {
-            DDebug.log(getClass().toString(), "Actionbar not present. Unable to set its title via setActionBarTitle()");
-            return;
-        }
-
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SpannableString s = new SpannableString(DResources.getString(c,
-                stringResId));
-        s.setSpan(new TypefaceSpan(getActivity(), Fonts.ACTIONBAR_TITLE), 0,
-                s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        getActivity().getActionBar().setTitle(s);
-    }
+		SpannableString s = new SpannableString(DResources.getString(c,
+				stringResId));
+		s.setSpan(new TypefaceSpan(getActivity(), FontHelper.ACTIONBAR_TITLE), 0,
+				s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		getActivity().getActionBar().setTitle(s);
+	}
 
 }

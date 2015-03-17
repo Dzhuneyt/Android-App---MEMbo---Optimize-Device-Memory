@@ -12,6 +12,10 @@ public class Prefs {
 		prefs = PreferenceManager.getDefaultSharedPreferences(c);
 	}
 
+	static public SharedPreferences getSettings(Context context) {
+		return context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+	}
+
 	public boolean save(String name, Object value) {
 		SharedPreferences.Editor e = prefs.edit();
 
@@ -52,6 +56,7 @@ public class Prefs {
 
 	/**
 	 * Check if the "screen on autoboost" is enabled
+	 *
 	 * @return
 	 */
 	public boolean isScreenOnAutoboostEnabled() {
@@ -60,6 +65,7 @@ public class Prefs {
 
 	/**
 	 * Check if the autostart of the app on device boot is enabled
+	 *
 	 * @return
 	 */
 	public boolean isAutostartEnabled() {
@@ -68,6 +74,7 @@ public class Prefs {
 
 	/**
 	 * Has the user checked to enable the apps- Notification icon?
+	 *
 	 * @return
 	 */
 	public boolean isNotificationIconEnabled() {
@@ -83,6 +90,7 @@ public class Prefs {
 
 	/**
 	 * Get a generic timestamp of when was the last optimization
+	 *
 	 * @return
 	 */
 	public long getLastOptimizeTimestamp() {
@@ -91,6 +99,7 @@ public class Prefs {
 
 	/**
 	 * Save a generic timestamp of when was the last optimization
+	 *
 	 * @param timestamp
 	 */
 	public void saveLastOptimizeTimestamp(long timestamp) {

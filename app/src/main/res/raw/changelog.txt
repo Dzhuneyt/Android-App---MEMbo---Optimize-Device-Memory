@@ -20,6 +20,12 @@
     </style>
   </head>
   <body>
+$ 1.4
+    % Version 1.4
+      _ Oct 26, 2014
+      ! Improved Notification area widget
+      	* Improved performance during boot
+      	* Simplified Settings screen
 $ 1.3
   % Version 1.3
     _ Sept 25, 2014

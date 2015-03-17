@@ -1,7 +1,5 @@
 package com.hasmobi.rambo;
 
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,7 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.facebook.AppEventsLogger;
+//import com.facebook.AppEventsLogger;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdRequest.Builder;
@@ -31,17 +29,9 @@ import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DException;
 import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.supers.DFragmentActivity;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
-import com.hasmobi.rambo.utils.ChangeLog;
 import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RemindToRateDialog;
-import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.Values;
-import com.hasmobi.rambo.utils.services.BackgroundSyncSleep;
-import com.hasmobi.rambo.utils.services.NotificationIconService;
-import com.hasmobi.rambo.utils.services.ScreenOnBoost;
-import com.hasmobi.rambo.utils.services.WiFiSleep;
 
 public class MainActivity extends DFragmentActivity {
 
@@ -57,33 +47,20 @@ public class MainActivity extends DFragmentActivity {
 				R.string.app_name), "notosansregular.ttf");
 
 		showChangelog();
-
-		new TermsOfUse(this).showIfNeeded();
-
 		loadAds();
 
 		// Fix for orientation change on some devices where Fragments defined in
 		// the XML layout do not inflate a view on orientation change, so we
 		// need to use some other layout like LinearLayout and replace it with
 		// the Fragment on Activity create
-		setupFragments();
+		initFragmentsWorkaround();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		// Start the services for "sleep" policies to save battery
-		// Note that even though the services are started every time
-		// they might immediately self-kill if the specific feature
-		// is not enabled by the user in the app UI
-		startService(new Intent(this, WiFiSleep.class));
-		startService(new Intent(this, BackgroundSyncSleep.class));
-
-		// Start the Notification icon if enabled in Settings
-		startService(new Intent(this, NotificationIconService.class));
-
-		startService(new Intent(this, ScreenOnBoost.class));
+		startService(new Intent(this, BackgroundServiceStarters.class));
 
 		if (adView != null) {
 			adView.resume();
@@ -91,7 +68,19 @@ public class MainActivity extends DFragmentActivity {
 		}
 
 		// Logs 'install' and 'app activate' App Events.
-		AppEventsLogger.activateApp(this);
+		//AppEventsLogger.activateApp(this);
+	}
+
+
+	@Override
+	protected void onPause() {
+		if (adView != null) {
+			adView.pause();
+		}
+		// Logs 'app deactivate' App Event.
+		//AppEventsLogger.deactivateApp(this);
+
+		super.onPause();
 	}
 
 	@Override
@@ -100,17 +89,6 @@ public class MainActivity extends DFragmentActivity {
 			adView.destroy();
 		}
 		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		if (adView != null) {
-			adView.pause();
-		}
-		// Logs 'app deactivate' App Event.
-		AppEventsLogger.deactivateApp(this);
-
-		super.onPause();
 	}
 
 	@Override
@@ -182,7 +160,7 @@ public class MainActivity extends DFragmentActivity {
 		// Display a warning notification if Google Play Services is not
 		// installed or out of date on the device
 		/* GooglePlayServicesUtil.showErrorNotification(
-                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this),
+		        GooglePlayServicesUtil.isGooglePlayServicesAvailable(this),
                 this);*/
 
 		// Look up the AdView as a resource and load a request.
@@ -216,7 +194,7 @@ public class MainActivity extends DFragmentActivity {
 			adView.setAdListener(new AdListener() {
 				@Override
 				public void onAdLoaded() {
-					//adHolder.setVisibility(View.VISIBLE);
+					adHolder.setVisibility(View.VISIBLE);
 				}
 			});
 
@@ -233,7 +211,7 @@ public class MainActivity extends DFragmentActivity {
 	 * devices declaring fragments using their fully qualified class name in XML
 	 * doesn't work
 	 */
-	private void setupFragments() {
+	private void initFragmentsWorkaround() {
 		FragmentManager fm = getSupportFragmentManager();
 
 		FrameLayout fl = (FrameLayout) findViewById(R.id.fMain);
@@ -249,35 +227,9 @@ public class MainActivity extends DFragmentActivity {
 			ft.add(R.id.fMain, new FragmentMainActionsNew(), "main");
 			ft.commit();
 		}
-
-		fl = (FrameLayout) findViewById(R.id.fToolbar);
-		fl.setVisibility(View.GONE);
-
-        /*
-        // For now hide the footer
-		if (fl != null)
-			fl.removeAllViews();
-
-		if (fm != null) {
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fToolbar, new FragmentToolbar());
-			ft.commit();
-		}*/
 	}
 
-	/**
-	 * Show the Change Log dialog with "Ok", "More..." buttons if needed (only
-	 * on first start per each app version code)
-	 */
 	private void showChangelog() {
-		try {
-			ChangeLog cl = new ChangeLog(this);
-			if (cl.firstRun())
-				cl.getLogDialog().show();
-		} catch (Exception e) {
-			DDebug.log(getClass().toString(),
-					"Can not display changelog dialog for some reason", e);
-		}
 	}
 
 	@Override
@@ -308,16 +260,12 @@ public class MainActivity extends DFragmentActivity {
 					DDebug.log(getClass().toString(), "Can not go to fragment home. Holder view not found");
 				}
 
-				if (fm != null) {
-					FragmentTransaction ft = fm.beginTransaction();
-					Fragment exists = fm.findFragmentByTag("main");
-					if (exists != null) {
-						ft.remove(exists);
-					}
-					ft.replace(R.id.fMain, new FragmentMainActionsNew(), "main").commit();
-				} else {
-					DDebug.log(getClass().toString(), "Can not go to home fragment. Parent view not found");
+				FragmentTransaction ft = fm.beginTransaction();
+				Fragment exists = fm.findFragmentByTag("main");
+				if (exists != null) {
+					ft.remove(exists);
 				}
+				ft.replace(R.id.fMain, new FragmentMainActionsNew(), "main").commit();
 				return true;
 			case R.id.action_feedback:
 				new FeedbackManager(c).sendNewFeedbackEmail();

@@ -1,7 +1,5 @@
 package com.hasmobi.rambo;
 
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +10,7 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.hasmobi.rambo.utils.services.NotificationIconService;
-import com.hasmobi.rambo.utils.services.ScreenOnBoost;
+import com.hasmobi.rambo.utils.services.ScreenOnBackgroundBooster;
 
 public class ConfigActivity extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
@@ -78,7 +76,7 @@ public class ConfigActivity extends PreferenceActivity implements
 
 	public void onSharedPreferenceChanged(SharedPreferences sp, String s) {
 		if (s.equalsIgnoreCase("enable_autoboost")) {
-			startService(new Intent(c, ScreenOnBoost.class));
+			startService(new Intent(c, ScreenOnBackgroundBooster.class));
 		} else if (s.equalsIgnoreCase("notification_icon")) {
 			startService(new Intent(c, NotificationIconService.class));
 		}

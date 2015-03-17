@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/pie"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:tag="pie"/>
+
+    <LinearLayout
+        android:id="@+id/llFirst"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvHeader"
+                style="@style/statsBlockHeader"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="RAM"/>
+
+            <LinearLayout
+                android:id="@+id/holderLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/holderContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/statsBlockLabel"
+                        android:text="@string/free"
+                        android:textColor="@color/light_blue_header"/>
+
+                    <TextView
+                        android:id="@+id/tvFree"
+                        style="@style/statsBlockValue"
+                        android:text="520MB"
+                        android:textColor="@color/light_blue_header"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/statsBlockLabel"
+                        android:text="@string/taken"
+                        android:textColor="@color/light_blue_header"/>
+
+                    <TextView
+                        android:id="@+id/tvTaken"
+                        style="@style/statsBlockValue"
+                        android:text="350MB"
+                        android:textColor="@color/light_blue_header"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bDetails"
+                style="@style/bOptimize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/details"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

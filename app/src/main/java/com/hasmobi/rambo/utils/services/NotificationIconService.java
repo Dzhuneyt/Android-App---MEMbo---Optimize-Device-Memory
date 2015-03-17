@@ -2,7 +2,6 @@ package com.hasmobi.rambo.utils.services;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -17,16 +16,13 @@ import android.widget.RemoteViews;
 import com.hasmobi.rambo.MainActivity;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DResources;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RamManager;
 import com.hasmobi.rambo.utils.Values;
-import com.hasmobi.rambo.utils.custom_views.PieView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class NotificationIconService extends Service {
 
@@ -59,7 +55,7 @@ public class NotificationIconService extends Service {
 							startNotificationNew();
 						} else if (intent.getAction().equals(ACTION_BOOST_NOW)) {
 							RamManager rm = new RamManager(context);
-							rm.killBgProcesses(false);
+							rm.killAll(false);
 							startNotificationNew();
 						}
 					}

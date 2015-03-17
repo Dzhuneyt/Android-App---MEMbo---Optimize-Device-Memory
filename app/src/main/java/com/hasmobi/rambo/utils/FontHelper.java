@@ -8,6 +8,9 @@ import android.widget.TextView;
 public class FontHelper {
 
     final public static String FONT_COMFORTAA = "comfortaa-regular.ttf";
+	final public static String FONT_NOTOSANS = "notosansregular.ttf";
+
+	static public final String ACTIONBAR_TITLE = FONT_NOTOSANS;
 
     public static void overrideFonts(final View rootView, Typeface typeface) {
         try {

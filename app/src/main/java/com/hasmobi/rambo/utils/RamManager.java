@@ -56,15 +56,18 @@ public class RamManager {
                 .getDefaultSharedPreferences(context);
 
         // Vibrate after killing?
-        if (prefs.getBoolean("vibrate_after_optimize", true)) {
-            DHardware.vibrate(context, 100);
-        }
+        DHardware.vibrate(context, 100);
 
         this.broadcast();
     }
 
+	/**
+	 * Kill all processes in a non-silent (vibrating) manner
+	 *
+	 * @return
+	 */
     public int killBgProcesses() {
-        return this.killBgProcesses(false);
+        return this.killAll(false);
     }
 
     /**
@@ -73,7 +76,7 @@ public class RamManager {
      * @param silent - Whether or not to display a Toast and vibrate after killing
      * @return
      */
-    public int killBgProcesses(boolean silent) {
+    public int killAll(boolean silent) {
 
         int killCount = 0;
 
@@ -102,7 +105,6 @@ public class RamManager {
                 processToKill.packageName = pid.processName;
 
                 processesToKillArr.add(processToKill);
-
             }
         }
 
@@ -153,9 +155,7 @@ public class RamManager {
 
         // Should the device vibrate after killing?
         final SharedPreferences p = prefs.instance();
-        if (p.getBoolean("vibrate_after_optimize", true)) {
-            DHardware.vibrate(context, 100);
-        }
+        DHardware.vibrate(context, 100);
 
         this.broadcast();
 

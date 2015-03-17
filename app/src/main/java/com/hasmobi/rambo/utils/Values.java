@@ -4,7 +4,7 @@ public abstract class Values {
 
 	// Used for logging
 	public static final String DEBUG_TAG = "RAM-BO";
-	public static final String ADMOB_AD_UNIT_ID = "a1507c306fdcc36";
+	public static final String ADMOB_AD_UNIT_ID = "ca-app-pub-8117600123219453/3057600204";
 
 	// Name of the SharedPreferences file for the whitelisted apps
 	public static final String EXCLUDED_LIST_FILE = "excluded_list";
@@ -17,7 +17,7 @@ public abstract class Values {
 
 	public static final int notificationID = 10001;
 
-	public static final Boolean DEBUG_MODE = false;
+	public static final Boolean DEBUG_MODE = true;
 
 	public static final String FEEDBACK_EMAIL = "feedback@hasmobi.com";
 

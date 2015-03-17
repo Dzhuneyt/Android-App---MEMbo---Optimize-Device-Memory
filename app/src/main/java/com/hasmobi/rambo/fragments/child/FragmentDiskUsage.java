@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.supers.DFragment;
-import com.hasmobi.rambo.utils.Fonts;
+import com.hasmobi.rambo.utils.FontHelper;
 import com.hasmobi.rambo.utils.TypefaceSpan;
 import com.hasmobi.rambo.utils.custom_views.StatsBlock;
 
@@ -31,7 +31,7 @@ public class FragmentDiskUsage extends DFragment {
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
             SpannableString s = new SpannableString(DResources.getString(c,
                     R.string.disk_usage));
-            s.setSpan(new TypefaceSpan(getActivity(), Fonts.ACTIONBAR_TITLE), 0,
+            s.setSpan(new TypefaceSpan(getActivity(), FontHelper.ACTIONBAR_TITLE), 0,
                     s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             getActivity().getActionBar().setTitle(s);
         }

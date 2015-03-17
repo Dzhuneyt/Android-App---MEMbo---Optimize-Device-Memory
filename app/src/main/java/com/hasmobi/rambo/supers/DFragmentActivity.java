@@ -11,12 +11,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DDebug;
-import com.hasmobi.rambo.lib.DResources;
+import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.TypefaceSpan;
 import com.hasmobi.rambo.utils.Values;
@@ -28,21 +27,21 @@ public class DFragmentActivity extends FragmentActivity {
 	public Tracker t;
 	public boolean analyticsEnabled = false;
 
-    private void initAnalytics(){
-        if(t==null){
-	        analyticsEnabled = c.getSharedPreferences("settings", 0)
-			        .getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
+	private void initAnalytics() {
+		if (t == null) {
+			analyticsEnabled = c.getSharedPreferences("settings", 0)
+					.getBoolean(TermsOfUse.PREF_NAME_ANALYTICS, false);
 
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 
-            analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
+			// analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
 
-            if (Values.DEBUG_MODE)
-                analytics.setDryRun(true);
+			if (Values.DEBUG_MODE)
+				analytics.setDryRun(true);
 
-            this.t = analytics.newTracker(R.xml.global_tracker);
-        }
-    }
+			this.t = analytics.newTracker(R.xml.global_tracker);
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle b) {
@@ -51,13 +50,13 @@ public class DFragmentActivity extends FragmentActivity {
 
 		DDebug.log(getClass().toString(), "onCreate()");
 
-		SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences preferences = Prefs.getSettings(getBaseContext());
 		if (preferences.getBoolean("first_start", true)) {
 			appFirstStart();
+			preferences.edit().putBoolean("first_start", false).apply();
 		}
 
-        initAnalytics();
+		initAnalytics();
 	}
 
 
@@ -65,7 +64,7 @@ public class DFragmentActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 
-        initAnalytics();
+		initAnalytics();
 	}
 
 	public boolean hideView(int res) {
@@ -93,26 +92,23 @@ public class DFragmentActivity extends FragmentActivity {
 	 * this method (and remember to always call the super implementation)
 	 */
 	private void appFirstStart() {
-		SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		preferences.edit().putBoolean("first_start", false).apply();
 	}
 
-    protected void setActionBarTitle(String title, String fontFileName){
-        if (getActionBar() != null) {
+	protected void setActionBarTitle(String title, String fontFileName) {
+		if (getActionBar() != null) {
 
-            // Apply a custom TypeFace to the ActionBar title
-            try {
-                SpannableString s = new SpannableString(title);
-                s.setSpan(new TypefaceSpan(this, fontFileName), 0,
-                        s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                getActionBar().setTitle(s);
-            } catch (Exception e) {
-                log("Can not apply typeface to ActionBar title");
-                log(e.getMessage());
-            }
-        }
-    }
+			// Apply a custom TypeFace to the ActionBar title
+			try {
+				SpannableString s = new SpannableString(title);
+				s.setSpan(new TypefaceSpan(getBaseContext(), fontFileName), 0,
+						s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				getActionBar().setTitle(s);
+			} catch (Exception e) {
+				log("Can not apply typeface to ActionBar title");
+				log(e.getMessage());
+			}
+		}
+	}
 
 	public void log(String message) {
 		if (message.length() > 0)

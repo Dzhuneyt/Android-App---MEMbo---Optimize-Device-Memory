@@ -129,4 +129,10 @@
     <string name="breakdown">Breakdown</string>
 
     <string name="remind_rate_message">We\'ve put many hours into making great features for this app.\n\nWe would really appreciate if you take 30 seconds to rate it with 5 stars on Google Play.\n\nThanks!</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

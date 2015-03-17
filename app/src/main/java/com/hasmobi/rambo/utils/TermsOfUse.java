@@ -1,6 +1,7 @@
 package com.hasmobi.rambo.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
@@ -19,9 +20,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.rambo.R;
 import com.hasmobi.rambo.lib.DApp;
 import com.hasmobi.rambo.supers.DFragmentActivity;
@@ -35,7 +33,7 @@ public class TermsOfUse {
 
 	public static final String PREF_NAME_ANALYTICS = "tos_analytics_accepted";
 
-	static String PREF_NAME = "last_tos_accept_version_code";
+	public static String PREF_NAME = "last_tos_accept_version_code";
 
 	DFragmentActivity c;
 
@@ -80,10 +78,15 @@ public class TermsOfUse {
 
 	/**
 	 * Show the TOS dialog if not shown and accepted already
+	 *
+	 * @return
 	 */
-	public void showIfNeeded() {
-		if (!this.accepted())
+	public boolean showIfNeeded() {
+		if (!this.accepted()) {
 			this.show();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -91,7 +94,7 @@ public class TermsOfUse {
 	 * the UI thread is not blocked)
 	 */
 	public void show() {
-		DialogFragment d = new TosDialogFragment();
+		final DialogFragment d = new TosDialogFragment();
 
 		FragmentManager fm = c.getSupportFragmentManager();
 
@@ -106,14 +109,22 @@ public class TermsOfUse {
 
 			// Create and show the TOS dialog.
 			d.show(ft, TOS_DIALOG_FRAGMENT_NAME);
+			d.onDismiss(new DialogInterface() {
+				@Override
+				public void cancel() {
+					d.getActivity().recreate();
+				}
+
+				@Override
+				public void dismiss() {
+					d.getActivity().recreate();
+				}
+			});
 		}
 	}
 
 	static public class TosDialogFragment extends DialogFragment implements
 			OnClickListener {
-		// Becomes true when the TOS dialog is accepted with a
-		// checked "I accept to provide anonymous usage statistics"
-		boolean analyticsAccepted = false;
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -160,7 +171,7 @@ public class TermsOfUse {
 		 */
 		private String getTosContent() {
 			// read tos.txt raw file
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			try {
 				InputStream ins = getActivity().getResources().openRawResource(
 						R.raw.tos);
@@ -173,9 +184,7 @@ public class TermsOfUse {
 					sb.append(line + "\n");
 				}
 				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (NotFoundException e) {
+			} catch (IOException | NotFoundException e) {
 				e.printStackTrace();
 			}
 
@@ -190,17 +199,9 @@ public class TermsOfUse {
 					if (getView() == null)
 						return;
 
-					// See if the user agrees to share his
-					// anonymous usage statistic with us (Google
-					// Analytics) and save it in
-					// SharedPreferences
-					final CheckBox cbAnalytics = (CheckBox) getView().findViewById(
-							R.id.cbAnalyticsAgree);
-					analyticsAccepted = cbAnalytics.isChecked();
-
 					getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
-							.putBoolean(PREF_NAME_ANALYTICS, analyticsAccepted)
-							.apply();
+							.putBoolean(PREF_NAME_ANALYTICS, true)
+						.apply();
 
 					final int currentAppVersionCode = DApp
 							.getCurrentAppVersionCode(getActivity());
@@ -209,11 +210,7 @@ public class TermsOfUse {
 					// Close the TOS dialog
 					dismiss();
 
-					if (analyticsAccepted) {
-						// Recreate the activity so Google Analytics to
-						// reinitialize
-						getActivity().recreate();
-					}
+					getActivity().recreate();
 
 					break;
 			}
