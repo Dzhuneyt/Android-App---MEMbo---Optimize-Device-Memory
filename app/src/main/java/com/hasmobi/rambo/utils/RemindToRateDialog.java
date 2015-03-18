@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.facebook.widget.LikeView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.hasmobi.rambo.R;
@@ -65,6 +67,13 @@ public class RemindToRateDialog extends DialogFragment {
 				openGooglePlay();
 			}
 		});
+
+		RelativeLayout likeViewHolder = (RelativeLayout) v.findViewById(R.id.likeViewHolder);
+		LikeView likeView = new LikeView(getActivity());
+		likeView.setHorizontalAlignment(LikeView.HorizontalAlignment.LEFT);
+
+		likeView.setObjectId("http://www.facebook.com/memboapp");
+		likeViewHolder.addView(likeView);
 
 		return v;
 	}

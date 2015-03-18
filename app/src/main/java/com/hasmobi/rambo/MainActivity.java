@@ -15,6 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 //import com.facebook.AppEventsLogger;
+import com.facebook.AppEventsLogger;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdRequest.Builder;
@@ -38,6 +42,8 @@ public class MainActivity extends DFragmentActivity {
 
 	private InterstitialAd onBackPressedInterestial = null;
 	private AdView adView;
+
+	UiLifecycleHelper uiHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public class MainActivity extends DFragmentActivity {
 		}
 
 		// Logs 'install' and 'app activate' App Events.
-		//AppEventsLogger.activateApp(this);
+		AppEventsLogger.activateApp(this);
 	}
 
 
@@ -78,8 +84,16 @@ public class MainActivity extends DFragmentActivity {
 		if (adView != null) {
 			adView.pause();
 		}
+
 		// Logs 'app deactivate' App Event.
-		//AppEventsLogger.deactivateApp(this);
+		AppEventsLogger.deactivateApp(this);
+
+		uiHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
+			@Override
+			public void call(Session session, SessionState sessionState, Exception e) {
+
+			}
+		});
 
 		super.onPause();
 	}
@@ -90,6 +104,12 @@ public class MainActivity extends DFragmentActivity {
 			adView.destroy();
 		}
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		uiHelper.onActivityResult(requestCode, resultCode, data, null);
 	}
 
 	@Override
