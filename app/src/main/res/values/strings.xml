@@ -128,7 +128,7 @@
     <string name="save_battery">Save battery</string>
     <string name="breakdown">Breakdown</string>
 
-    <string name="remind_rate_message">We\'ve put many hours into making great features for this app.\n\nWe would really appreciate if you take 30 seconds to rate it with 5 stars on Google Play.\n\nThanks!</string>
+    <string name="remind_rate_message">Are you enjoying MEMbo?\n\nIf yes, please leave a 5 star rating on Google Play so others can find out about it as well. Thanks!</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>

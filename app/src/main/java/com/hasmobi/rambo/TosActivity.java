@@ -66,18 +66,5 @@ public class TosActivity extends Activity {
 				}
 			}
 		}).run();
-
-		Button bAccept = (Button) findViewById(R.id.bAcceptTos);
-		bAccept.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final int currentAppVersionCode = DApp
-						.getCurrentAppVersionCode(getBaseContext());
-				new Prefs(getBaseContext()).save(TermsOfUse.PREF_NAME, currentAppVersionCode);
-
-				startActivity(new Intent(getBaseContext(), MainActivity.class));
-				finish();
-			}
-		});
 	}
 }

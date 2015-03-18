@@ -98,8 +98,7 @@ public class SplashActivity extends FragmentActivity {
 			tvTOSLink.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					TermsOfUse.TosDialogFragment fragment = new TermsOfUse.TosDialogFragment();
-					fragment.show(getActivity().getSupportFragmentManager(), "tos");
+					TermsOfUse.showDialog(getActivity().getSupportFragmentManager());
 				}
 			});
 

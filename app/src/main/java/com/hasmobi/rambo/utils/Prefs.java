@@ -64,15 +64,6 @@ public class Prefs {
 	}
 
 	/**
-	 * Check if the autostart of the app on device boot is enabled
-	 *
-	 * @return
-	 */
-	public boolean isAutostartEnabled() {
-		return prefs.getBoolean("start_on_boot", true);
-	}
-
-	/**
 	 * Has the user checked to enable the apps- Notification icon?
 	 *
 	 * @return

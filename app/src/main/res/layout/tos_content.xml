@@ -37,12 +37,12 @@
         android:padding="20dp">
 
         <Button
-            android:id="@+id/bAcceptTos"
+            android:id="@+id/bClose"
             style="@style/bStandard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Accept"/>
+            android:text="Close"/>
     </LinearLayout>
 </LinearLayout>

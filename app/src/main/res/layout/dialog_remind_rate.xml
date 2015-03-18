@@ -8,6 +8,7 @@
               android:padding="20dp">
 
     <TextView
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -15,6 +16,7 @@
         android:text="@string/remind_rate_message"/>
 
     <LinearLayout
+        android:id="@+id/llStarsHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -45,9 +47,12 @@
             android:src="@drawable/ic_action_not_important"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bOpenGooglePlay"
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/ivGooglePlay"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/open_market"/>
+        android:src="@drawable/google_play"/>
+
 </LinearLayout>

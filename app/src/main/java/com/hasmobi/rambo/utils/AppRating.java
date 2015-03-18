@@ -12,6 +12,9 @@ import com.hasmobi.rambo.lib.DApp;
 import com.hasmobi.rambo.lib.DException;
 import com.hasmobi.rambo.lib.DResources;
 
+/**
+ * @deprecated
+ */
 public class AppRating {
 
 	private Context c;
@@ -44,8 +47,6 @@ public class AppRating {
 
 	/**
 	 * Log the new app start count for the next start
-	 * 
-	 * @param int currentAppStartCount
 	 */
 	private void appStartCountIncrease(int currentAppStartCount) {
 		Prefs p = new Prefs(c);

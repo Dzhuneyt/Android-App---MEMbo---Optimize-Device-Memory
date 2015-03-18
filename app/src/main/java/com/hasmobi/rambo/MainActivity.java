@@ -23,13 +23,14 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.hasmobi.rambo.fragments.child.FragmentMainActionsNew;
+import com.hasmobi.rambo.fragments.child.FragmentMainActions;
 import com.hasmobi.rambo.lib.DApp;
 import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DException;
 import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.supers.DFragmentActivity;
 import com.hasmobi.rambo.utils.FeedbackManager;
+import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RemindToRateDialog;
 import com.hasmobi.rambo.utils.Values;
 
@@ -98,9 +99,6 @@ public class MainActivity extends DFragmentActivity {
 		FragmentManager fm = getSupportFragmentManager();
 
 		if (fm != null) {
-
-			Log.d(getClass().toString(), "Entries in backstack count: " + fm.getBackStackEntryCount());
-
 			// Only show interestial if we are indeed exiting the app
 			// Not going back from one fragment to another
 			if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -108,31 +106,11 @@ public class MainActivity extends DFragmentActivity {
 				// Nothing to go back to. It is now time to exit the app
 				// but first do something below
 
+
+				int appStartCount = new Prefs(getBaseContext()).getAppStartCount();
 				// Remind to rate dialog. Hidden for next 30 days
 				// if the user taps the button to rate (opens Google Play)
-				RemindToRateDialog d = new RemindToRateDialog() {
-					@Override
-					public void onDismiss(DialogInterface dialog) {
-						if (rateButtonClicked) {
-							// Track in Google Analytics that
-							// the user clicked on the button
-							// to go to Google Play (to rate the app)
-							if (analyticsEnabled) {
-								Tracker t = ((DFragmentActivity) getActivity()).t;
-								if (t != null) {
-									// Build and send an Event.
-									t.send(new HitBuilders.EventBuilder()
-											.setCategory("Remind To Rate Dialog")
-											.setAction("Opened Google Play")
-											.build());
-								}
-							}
-						}
-						super.onDismiss(dialog);
-					}
-				};
-
-				boolean rateDialogShown = d.showIfNeeded(getBaseContext(), getSupportFragmentManager());
+				boolean rateDialogShown = new RemindToRateDialog().showIfNeeded(getBaseContext(), getSupportFragmentManager());
 
 				if (rateDialogShown) {
 					// Prevent default action
@@ -170,7 +148,8 @@ public class MainActivity extends DFragmentActivity {
 		final Builder adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 				.addTestDevice("A8CBBC91149E6975F4D95A9B210F5BDC")
-				.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
+				.addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+				.addTestDevice("D435840318E638CF9D6BE58F259FB544");
 
 		AdRequest ar = adRequest.build();
 
@@ -224,7 +203,7 @@ public class MainActivity extends DFragmentActivity {
 			if (existing != null) {
 				ft.remove(existing);
 			}
-			ft.add(R.id.fMain, new FragmentMainActionsNew(), "main");
+			ft.replace(R.id.fMain, new FragmentMainActions(), "main");
 			ft.commit();
 		}
 	}
@@ -265,7 +244,7 @@ public class MainActivity extends DFragmentActivity {
 				if (exists != null) {
 					ft.remove(exists);
 				}
-				ft.replace(R.id.fMain, new FragmentMainActionsNew(), "main").commit();
+				ft.replace(R.id.fMain, new FragmentMainActions(), "main").commit();
 				return true;
 			case R.id.action_feedback:
 				new FeedbackManager(c).sendNewFeedbackEmail();

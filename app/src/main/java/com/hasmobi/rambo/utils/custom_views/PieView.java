@@ -12,7 +12,7 @@ import com.hasmobi.rambo.R;
 public class PieView extends View {
 	RectF mOvals = null;
 
-	long freeRam = 0, totalRam = 0;
+	long freeRam = 512, totalRam = 1024;
 
 	Paint brush, transparentPaint;
 

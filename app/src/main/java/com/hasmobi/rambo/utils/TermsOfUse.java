@@ -3,6 +3,7 @@ package com.hasmobi.rambo.utils;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,15 +37,12 @@ public class TermsOfUse {
 
 	public static String PREF_NAME = "last_tos_accept_version_code";
 
-	DFragmentActivity c;
-
 	Context context;
 
 	private static String TOS_DIALOG_FRAGMENT_NAME = "fragment_tos_dialog";
 
-	public TermsOfUse(DFragmentActivity c) {
-		this.c = c;
-		this.context = c.getBaseContext();
+	public TermsOfUse(Context c) {
+		this.context = c;
 	}
 
 	/**
@@ -53,13 +52,13 @@ public class TermsOfUse {
 	 * @return
 	 */
 	public boolean accepted() {
-		SharedPreferences p = Prefs.instance(c);
+		SharedPreferences p = Prefs.instance(context);
 		int lastAcceptedVersion = p.getInt(PREF_NAME, 0);
 		if (lastAcceptedVersion > 0) {
 			int currentVerCode = 0;
 			try {
-				currentVerCode = c.getPackageManager().getPackageInfo(
-						c.getPackageName(), 0).versionCode;
+				currentVerCode = context.getPackageManager().getPackageInfo(
+						context.getPackageName(), 0).versionCode;
 			} catch (NameNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -77,58 +76,34 @@ public class TermsOfUse {
 	}
 
 	/**
-	 * Show the TOS dialog if not shown and accepted already
-	 *
-	 * @return
-	 */
-	public boolean showIfNeeded() {
-		if (!this.accepted()) {
-			this.show();
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Shows the TOS dialog (using an AsyncTask while loading the TOS content so
 	 * the UI thread is not blocked)
 	 */
-	public void show() {
+	public static void showDialog(FragmentManager fm) {
 		final DialogFragment d = new TosDialogFragment();
-
-		FragmentManager fm = c.getSupportFragmentManager();
 
 		if (fm != null) {
 			FragmentTransaction ft = fm.beginTransaction();
 			Fragment prev = fm.findFragmentByTag(TOS_DIALOG_FRAGMENT_NAME);
 
 			if (prev != null) {
+				Log.d("rambo", "2");
 				ft.remove(prev);
 			}
 			ft.addToBackStack(null);
 
 			// Create and show the TOS dialog.
 			d.show(ft, TOS_DIALOG_FRAGMENT_NAME);
-			d.onDismiss(new DialogInterface() {
-				@Override
-				public void cancel() {
-					d.getActivity().recreate();
-				}
-
-				@Override
-				public void dismiss() {
-					d.getActivity().recreate();
-				}
-			});
 		}
 	}
 
-	static public class TosDialogFragment extends DialogFragment implements
-			OnClickListener {
+	static public class TosDialogFragment extends DialogFragment {
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
+
+			setStyle(0, DialogFragment.STYLE_NO_TITLE);
 		}
 
 		@Override
@@ -136,30 +111,28 @@ public class TermsOfUse {
 		                         Bundle savedInstanceState) {
 			final View v = inflater.inflate(R.layout.tos_content, null, false);
 
-			getDialog().setCanceledOnTouchOutside(false);
-			this.setCancelable(false);
-
 			getDialog().setTitle("Terms of Use");
 
-			new Thread(new Runnable() {
-				public void run() {
-					String rawTosContent = getTosContent();
-					if (rawTosContent.length() > 0) {
-						final Spanned tosContent = Html.fromHtml(rawTosContent);
-						getActivity().runOnUiThread(new Runnable() {
-							public void run() {
-								final TextView tvTosHolder = (TextView) v
-										.findViewById(R.id.tvTosHolder);
-								tvTosHolder.setText(tosContent);
-							}
-						});
-					}
-				}
-			}).start();
+			final TextView tvTosHolder = (TextView) v
+					.findViewById(R.id.tvTosHolder);
 
-			Button bAccept = (Button) v.findViewById(R.id.bAcceptTos);
-			if (bAccept != null)
-				bAccept.setOnClickListener(this);
+			String rawTosContent = getTosContent();
+			if (rawTosContent.length() > 0) {
+				final Spanned tosContent = Html.fromHtml(rawTosContent);
+				getActivity().runOnUiThread(new Runnable() {
+					public void run() {
+						tvTosHolder.setText(tosContent);
+					}
+				});
+			}
+
+			Button bClose = (Button) v.findViewById(R.id.bClose);
+			bClose.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dismiss();
+				}
+			});
 
 			return v;
 		}
@@ -189,31 +162,6 @@ public class TermsOfUse {
 			}
 
 			return sb.toString();
-
-		}
-
-		public void onClick(View clicked) {
-			switch (clicked.getId()) {
-				case R.id.bAcceptTos: // "TOS accepted" button clicked
-
-					if (getView() == null)
-						return;
-
-					getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
-							.putBoolean(PREF_NAME_ANALYTICS, true)
-						.apply();
-
-					final int currentAppVersionCode = DApp
-							.getCurrentAppVersionCode(getActivity());
-					markAccepted(currentAppVersionCode);
-
-					// Close the TOS dialog
-					dismiss();
-
-					getActivity().recreate();
-
-					break;
-			}
 
 		}
 
