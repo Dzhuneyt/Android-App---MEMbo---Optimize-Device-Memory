@@ -135,4 +135,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="active_apps">Active apps</string>
+    <string name="used_ram">Used RAM</string>
+    <string name="free_ram">Available RAM</string>
 </resources>

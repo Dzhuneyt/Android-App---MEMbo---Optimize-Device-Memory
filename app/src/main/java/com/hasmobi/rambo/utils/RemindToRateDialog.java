@@ -69,7 +69,7 @@ public class RemindToRateDialog extends DialogFragment {
 		});
 
 		RelativeLayout likeViewHolder = (RelativeLayout) v.findViewById(R.id.likeViewHolder);
-		LikeView likeView = new LikeView(getActivity());
+		LikeView likeView = new LikeView(getActivity().getBaseContext());
 		likeView.setHorizontalAlignment(LikeView.HorizontalAlignment.LEFT);
 
 		likeView.setObjectId("http://www.facebook.com/memboapp");
