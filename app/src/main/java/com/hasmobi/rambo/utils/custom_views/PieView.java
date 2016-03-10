@@ -3,6 +3,8 @@ package com.hasmobi.rambo.utils.custom_views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,9 +16,9 @@ public class PieView extends View {
 
 	long freeRam = 512, totalRam = 1024;
 
-	Paint brush, transparentPaint;
+	private Paint brush, transparentPaint;
 
-	boolean drawShadow = true;
+	private boolean drawShadow = true;
 
 	// Some styling
 	int bgColor = R.color.pieBg;

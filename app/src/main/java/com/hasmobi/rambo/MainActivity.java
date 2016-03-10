@@ -1,6 +1,5 @@
 package com.hasmobi.rambo;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,9 +24,7 @@ import com.google.android.gms.ads.AdRequest.Builder;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.hasmobi.rambo.fragments.child.FragmentMainActions;
+import com.hasmobi.rambo.fragments.child.FragmentMain;
 import com.hasmobi.rambo.lib.DApp;
 import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DException;
@@ -223,7 +220,11 @@ public class MainActivity extends DFragmentActivity {
 			if (existing != null) {
 				ft.remove(existing);
 			}
-			ft.replace(R.id.fMain, new FragmentMainActions(), "main");
+
+			// https://play.google.com/store/apps/details?id=com.cleanmaster.mguard
+			// https://play.google.com/store/apps/details?id=com.star.booster
+
+			ft.replace(R.id.fMain, new FragmentMain(), "main");
 			ft.commit();
 		}
 	}
@@ -264,7 +265,7 @@ public class MainActivity extends DFragmentActivity {
 				if (exists != null) {
 					ft.remove(exists);
 				}
-				ft.replace(R.id.fMain, new FragmentMainActions(), "main").commit();
+				ft.replace(R.id.fMain, new FragmentMain(), "main").commit();
 				return true;
 			case R.id.action_feedback:
 				new FeedbackManager(c).sendNewFeedbackEmail();

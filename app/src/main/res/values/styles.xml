@@ -325,11 +325,11 @@
 
     <style name="block_header">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="block_value">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">42sp</item>
+        <item name="android:textSize">32sp</item>
     </style>
 </resources>
