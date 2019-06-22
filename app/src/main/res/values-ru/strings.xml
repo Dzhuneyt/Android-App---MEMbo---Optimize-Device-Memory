@@ -20,11 +20,6 @@
     <string name="no_running_processes">"Не удается получить запущенных процессах. Попробуйте обновить."</string>
     <string name="close">"ЗАКРЫТЬ"</string>
 
-    <plurals name="ram_update_intervals">
-        <item quantity="one">"Обновления каждый второй"</item>
-        <item quantity="other">"Обновления каждые %d секунд"</item>
-    </plurals>
-
     <!-- Remind to rate dialog follows -->
     <string name="remind_rate_dialog_title">"Оценить приложение"</string>
     <string name="remind_rate_dialog_content">"Ваше поддержка очень много значит. Это побуждает нас к выпуску новые функции и обновления. \n\nЕсли Вам нравится это приложение, пожалуйста, оцените его с 5 звезд на Google Play.
