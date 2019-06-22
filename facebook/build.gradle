@@ -1,18 +1,22 @@
 buildscript {
         repositories {
             mavenCentral()
+            maven {
+                url 'https://maven.google.com/'
+                name 'Google'
+            }
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:0.12.+'
+            classpath 'com.android.tools.build:gradle:3.4.1'
         }
     }
 
 apply plugin: 'com.android.library'
 
 dependencies {
-    compile 'com.android.support:support-v4:20.+'
-    compile files('libs/bolts-android-1.1.2.jar')
-
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('libs/bolts-android-1.1.2.jar')
 }
 
 
@@ -20,8 +24,7 @@ dependencies {
   android {
 
     compileSdkVersion 19
-    buildToolsVersion '20.0.0'
-    defaultConfig {
+      defaultConfig {
         minSdkVersion 10
         targetSdkVersion 19
     }

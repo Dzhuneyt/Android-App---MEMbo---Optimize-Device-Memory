@@ -5,25 +5,27 @@ buildscript {
         mavenCentral()
     }
 }
-apply plugin: 'com.android.application'
 
 repositories {
+    google()
     mavenCentral()
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 29
+//    buildToolsVersion "29.0.0"
 
     defaultConfig {
         applicationId "com.hasmobi.rambo"
-        minSdkVersion 11
-        targetSdkVersion 20
+        minSdkVersion 14
+        targetSdkVersion 29
+        multiDexEnabled true
+
     }
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -34,9 +36,10 @@ android {
 }
 
 dependencies {
-    //compile files('libs/android-support-v13.jar')
-    compile 'com.android.support:appcompat-v7:20.+'
-    //compile 'com.google.android.gms:play-services:+'
-    compile 'com.google.android.gms:play-services:5.0.89'
-    compile project(':facebook')
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation project(':facebook')
+
 }

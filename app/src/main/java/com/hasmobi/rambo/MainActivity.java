@@ -1,14 +1,12 @@
 package com.hasmobi.rambo;
 
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,10 +29,8 @@ import com.hasmobi.rambo.lib.DDebug;
 import com.hasmobi.rambo.lib.DException;
 import com.hasmobi.rambo.lib.DResources;
 import com.hasmobi.rambo.supers.DFragmentActivity;
-import com.hasmobi.rambo.utils.AutoBoostBroadcast;
 import com.hasmobi.rambo.utils.ChangeLog;
 import com.hasmobi.rambo.utils.FeedbackManager;
-import com.hasmobi.rambo.utils.Prefs;
 import com.hasmobi.rambo.utils.RemindToRateDialog;
 import com.hasmobi.rambo.utils.TermsOfUse;
 import com.hasmobi.rambo.utils.Values;
