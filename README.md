@@ -1,3 +1,5 @@
+![MEMbo](https://i.imgur.com/ndMqiQM.png) 
+
 # MEMbo - Memory optimization for Android
 
 MEMbo is a memory optimization app, designed to make it easy for advanced users to control the RAM usage of their device, by monitoring and killing unnecessary background processes.
